@@ -1,3 +1,31 @@
-[gd_scene format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=5 format=3 uid="uid://bcwkumgg4hhny"]
+
+[ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
+[ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
+[ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
+font_size = 25
+font_color = Color(0.215686, 0.321569, 1, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_bmtli")
+
+[node name="Sunflower" type="Node2D" parent="."]
+visible = false
+script = ExtResource("2_5e7ut")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sunflower"]
+modulate = Color(1, 1, 1, 0.141176)
+texture = ExtResource("3_tqvwn")
+centered = false
+
+[node name="Label" type="Label" parent="Sunflower"]
+offset_right = 128.0
+offset_bottom = 129.0
+text = "AwAwAw"
+label_settings = SubResource("LabelSettings_u6mx4")
+horizontal_alignment = 1
+vertical_alignment = 1

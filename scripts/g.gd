@@ -13,6 +13,10 @@ var genotypes = [["yy", "yY", "Yy", "YY"],
 				 ["tt", "tT", "Tt", "TT"],
 				 ["rr", "rR", "Rr", "RR"]]
 
+class Event:
+	var affected_map: int
+	var affected_trait: int
+
 func _ready():
 	# Initialize breed_lookup
 	for i in 4:
@@ -20,9 +24,22 @@ func _ready():
 		for j in 4:
 			breed_lookup[i].append(monohybrid_cross(i, j))
 	
-	# Initialize
-	
-	#print(range(10).map(func(_n): return roundi(rng.randfn(2, 1))))
+	# Initialize neighbors_lookup
+	for i in 16:
+		neighbors_lookup.append([])
+		var cur_x = i % 4
+		var cur_y = i / 4
+		
+		for dir_x in [-1, 0, 1]:
+			for dir_y in [-1, 0, 1]:
+				var new_x = cur_x + dir_x
+				var new_y = cur_y + dir_y
+				
+				if not (dir_x == 0 and dir_y == 0) and \
+					   (new_x >= 0 and new_x < 4) and \
+					   (new_y >= 0 and new_y < 4):
+					neighbors_lookup[i].append(new_x + 4 * new_y)
+				
 
 
 func _process(delta):
@@ -49,3 +66,8 @@ func get_genome_text(genes: Array):
 		res += genotypes[i][genes[i]]
 	
 	return res
+
+func random_item(array: Array):
+	return array[rng.randi_range(0, len(array) - 1)]
+
+

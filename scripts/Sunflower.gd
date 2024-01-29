@@ -4,8 +4,8 @@ class_name Sunflower extends Node2D
 @export var pos: int
 
 func _ready():
-	position.x = g.SQUARE_SIZE * (pos % 4)
-	position.y = g.SQUARE_SIZE * (pos / 4)
+	position.x = g.SQUARE_SIZE * g.to_2d_x(pos)
+	position.y = g.SQUARE_SIZE * g.to_2d_y(pos)
 	
 	$Label.text = g.get_genome_text(genes)
 

@@ -4,6 +4,7 @@ extends Node2D
 
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
+var preview_map = 0b01
 
 func _ready():
 	# Initialization
@@ -12,10 +13,8 @@ func _ready():
 		sunflowers.append(sunflower)
 		add_child.call_deferred(sunflower)
 	
-	
 	for i in len(sunflowers) / 2:
 		breeding_orders.append([i, i + (len(sunflowers) / 2)])
-		
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,17 +25,22 @@ func _process(delta):
 func _unhandled_input(event):
 	if Input.is_action_just_released("next"):
 		next_generation()
+		apply_events()
 		
 		for i in len(sunflowers) / 2:
 			breeding_orders.append([i, i + (len(sunflowers) / 2)])
 
-func _draw():
+func _draw():	
 	for order in breeding_orders:
 		var center_1 = sunflowers[order[0]].position + Vector2(64, 64)
 		var center_2 = sunflowers[order[1]].position + Vector2(64, 64)
 		
 		draw_line(center_1, center_2, Color.GREEN, 1.0)
 		draw_circle(center_2, 5, Color.GREEN)
+	
+	for i in 16:
+		if (preview_map >> i) & 1 == 1:
+			draw_rect(Rect2(g.to_2d_x(i) * 128, g.to_2d_y(i) * 128, 128, 128), Color(0, 0, 1, 0.2))
 
 func new_sunflower(pos, genes):
 	var sunflower = sunflower_class.duplicate()
@@ -66,7 +70,6 @@ func next_generation():
 		
 		var rand_num = g.rng.randfn(1.2, 0.3) if (order[0] == order[1]) else \
 					   g.rng.randfn(2.2, 0.3)
-					
 		var num_of_seed = clampi(roundi(rand_num), 1, 3)
 		
 		for n in num_of_seed:
@@ -90,6 +93,7 @@ func next_generation():
 		add_child.call_deferred(seed)
 	
 	breeding_orders.clear()
+	preview_map = seed_map
 
 func find_free_tile(pos, map):
 	if (map >> pos) & 1 == 0:
@@ -103,3 +107,34 @@ func find_free_tile(pos, map):
 			return neighbor
 	
 	return find_free_tile(neighbors[0], map)
+
+func apply_events():
+	#await get_tree().create_timer(1).timeout
+	
+	for event in g.events:
+		if not (event.name == "Storm"):
+			continue
+		
+		var perished_sunflowers = []
+		
+		for sunflower in sunflowers:
+			var is_dominant = sunflower.genes[event.affected_trait] > 0
+			var survival_chance = event.survival_chances[int(is_dominant)]
+			
+			preview_map = 1 << sunflower.pos
+			
+			if g.rng.randf() > survival_chance:
+				perished_sunflowers.append(sunflower)
+		
+		#await get_tree().create_timer(0.1).timeout
+		
+		for sunflower in perished_sunflowers:
+			sunflowers.pop_at(find_index(sunflower))
+			sunflower.queue_free()
+
+func find_index(inp: Sunflower):
+	for i in len(sunflowers):
+		if sunflowers[i].pos == inp.pos:
+			return i
+	
+	return -1

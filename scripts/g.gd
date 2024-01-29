@@ -4,7 +4,7 @@ var SQUARE_SIZE = 128
 var START_POS = [5, 6, 9, 10]
 var START_GENES = [2, 2, 2]
 
-var rng = RandomNumberGenerator.new()
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var breed_lookup = []
 var neighbors_lookup = []
 
@@ -25,6 +25,11 @@ class Event:
 		affected_trait = inp_trait
 		survival_chances = inp_chances
 
+class Storm:
+	extends Event
+	var eye_pos: int
+	var dir: int
+
 func _ready():
 	# Initialize breed_lookup
 	for i in 4:
@@ -35,8 +40,8 @@ func _ready():
 	# Initialize neighbors_lookup
 	for i in 16:
 		neighbors_lookup.append([])
-		var cur_x = i % 4
-		var cur_y = i / 4
+		var cur_x = to_2d_x(i)
+		var cur_y = to_2d_y(i)
 		
 		for dir_x in [-1, 0, 1]:
 			for dir_y in [-1, 0, 1]:
@@ -46,10 +51,12 @@ func _ready():
 				if not (dir_x == 0 and dir_y == 0) and \
 					   (new_x >= 0 and new_x < 4) and \
 					   (new_y >= 0 and new_y < 4):
-					neighbors_lookup[i].append(new_x + 4 * new_y)
+					neighbors_lookup[i].append(to_1d(new_x, new_y))
 	
 	# Initializing events
-	for i in 6:
+	events.append(Storm.new())
+	
+	for i in range(1, 6):
 		events.append(Event.new())
 		
 	events[0].initialize("Storm", 1, [0.9, 0.7])
@@ -62,6 +69,15 @@ func _ready():
 func _process(delta):
 	pass
 
+
+func to_1d(x: int, y: int):
+	return x + 4 * y
+	
+func to_2d_x(n: int):
+	return n % 4
+	
+func to_2d_y(n: int):
+	return n / 4
 
 func monohybrid_cross(gene_1: int, gene_2: int):
 	var res = []

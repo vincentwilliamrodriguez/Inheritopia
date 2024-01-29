@@ -6,6 +6,7 @@ var START_GENES = [2, 2, 2]
 
 var rng = RandomNumberGenerator.new()
 var breed_lookup = []
+var neighbors_lookup = []
 
 var traits = ['y', 't', 'r']
 var genotypes = [["yy", "yY", "Yy", "YY"],
@@ -13,11 +14,13 @@ var genotypes = [["yy", "yY", "Yy", "YY"],
 				 ["rr", "rR", "Rr", "RR"]]
 
 func _ready():
-	# Initializing breed_lookup
+	# Initialize breed_lookup
 	for i in 4:
 		breed_lookup.append([])
 		for j in 4:
 			breed_lookup[i].append(monohybrid_cross(i, j))
+	
+	# Initialize
 	
 	#print(range(10).map(func(_n): return roundi(rng.randfn(2, 1))))
 

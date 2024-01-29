@@ -1,5 +1,3 @@
 res://scenes/game.tscn
-res://scripts/g.gd
-res://scripts/game.gd
-res://scripts/Sunflower.gd
 res://scripts/Game.gd
+res://scripts/g.gd

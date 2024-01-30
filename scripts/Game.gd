@@ -5,6 +5,7 @@ extends Node2D
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
 var preview_map = 0b01
+var generation_num = 1
 
 func _ready():
 	# Initialization
@@ -24,11 +25,10 @@ func _process(delta):
 
 func _unhandled_input(event):
 	if Input.is_action_just_released("next"):
-		next_generation()
-		apply_events()
+		transition_phase()
+		event_phase()
 		
-		for i in len(sunflowers) / 2:
-			breeding_orders.append([i, i + (len(sunflowers) / 2)])
+		
 
 func _draw():	
 	for order in breeding_orders:
@@ -60,7 +60,7 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 	
 	return genes_seed
 
-func next_generation():
+func transition_phase():
 	var seeds: Array[Sunflower]
 	var seed_map = 0x0
 	
@@ -68,8 +68,12 @@ func next_generation():
 		var parent_1 = sunflowers[order[0]]
 		var parent_2 = sunflowers[order[1]]
 		
-		var rand_num = g.rng.randfn(1.2, 0.3) if (order[0] == order[1]) else \
-					   g.rng.randfn(2.2, 0.3)
+		var bonus = 1.0 if g.is_event_active("Fertility") else \
+					0.2 if (parent_1.genes[0] > 0) else \
+					0.0
+					
+		var rand_num = g.rng.randfn(1.2 + bonus, 0.3) if (order[0] == order[1]) else \
+					   g.rng.randfn(2.2 + bonus, 0.3)
 		var num_of_seed = clampi(roundi(rand_num), 1, 3)
 		
 		for n in num_of_seed:
@@ -93,7 +97,7 @@ func next_generation():
 		add_child.call_deferred(seed)
 	
 	breeding_orders.clear()
-	preview_map = seed_map
+	generation_num += 1
 
 func find_free_tile(pos, map):
 	if (map >> pos) & 1 == 0:
@@ -108,29 +112,74 @@ func find_free_tile(pos, map):
 	
 	return find_free_tile(neighbors[0], map)
 
-func apply_events():
-	#await get_tree().create_timer(1).timeout
+func event_phase():
+	for event_name in g.events:
+		var event = g.events[event_name]
+		
+		if event.active_num > 0:
+			# Applying events
+			var perished_sunflowers = []
+			preview_map = 0
+			
+			for sunflower in sunflowers:
+				var is_dominant = sunflower.genes[event.affected_trait] > 0
+				var survival_chance = event.survival_chances[int(is_dominant)]
+				
+				if g.rng.randf() > survival_chance:
+					perished_sunflowers.append(sunflower)
+					preview_map |= 1 << sunflower.pos
+			
+			#await get_tree().create_timer(0.5).timeout
+			
+			for sunflower in perished_sunflowers:
+				sunflowers.pop_at(find_index(sunflower))
+				sunflower.queue_free()
+		
+			# Updating existing events
+			event.active_num += 1
+			
+			# Removing events
+			var remove_event = false
+			match event_name:
+				"Storm", "Drought":
+					remove_event = (event.active_num > 6)
+				"Fertility":
+					remove_event = (event.active_num > 1)
+				"Pest Invasion":
+					remove_event = (event.affected_map == 0)
+				"Night":
+					remove_event = (((generation_num - 1) / 5) % 2) == 0
+			
+			if remove_event:
+				event.active_num = 0
+		
+		# Spawning new events
+		else:
+			var add_event = false
+			
+			match event_name:
+				"Waterlogging":
+					add_event = g.is_event_active("Storm")
+				"Night":
+					add_event = (((generation_num - 1) / 5) % 2) == 1
+				_:
+					var exclusive = (event_name == "Storm" and g.is_event_active("Drought")) or \
+									(event_name == "Drought" and g.is_event_active("Storm"))
+					var rand = g.rng.randf()
+					add_event = (rand < event.spawn_chance) and not exclusive
+			
+			if add_event:
+				event.active_num = 1
+				
 	
-	for event in g.events:
-		if not (event.name == "Storm"):
-			continue
-		
-		var perished_sunflowers = []
-		
-		for sunflower in sunflowers:
-			var is_dominant = sunflower.genes[event.affected_trait] > 0
-			var survival_chance = event.survival_chances[int(is_dominant)]
-			
-			preview_map = 1 << sunflower.pos
-			
-			if g.rng.randf() > survival_chance:
-				perished_sunflowers.append(sunflower)
-		
-		#await get_tree().create_timer(0.1).timeout
-		
-		for sunflower in perished_sunflowers:
-			sunflowers.pop_at(find_index(sunflower))
-			sunflower.queue_free()
+	for i in len(sunflowers) / 2:
+		breeding_orders.append([i, i + (len(sunflowers) / 2)])
+	
+	var current_events = []
+	for event_name in g.events:
+		if g.is_event_active(event_name):
+			current_events.append(event_name)
+	print("Awaw %s %s" % [generation_num, current_events])
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):

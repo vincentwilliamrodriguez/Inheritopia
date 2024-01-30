@@ -4,7 +4,7 @@ extends Node2D
 
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
-var preview_map = 0b01
+var preview_map = 0b0
 var generation_num = 1
 
 func _ready():
@@ -113,21 +113,28 @@ func find_free_tile(pos, map):
 	return find_free_tile(neighbors[0], map)
 
 func event_phase():
+	preview_map = 0
+	
 	for event_name in g.events:
 		var event = g.events[event_name]
 		
 		if event.active_num > 0:
 			# Applying events
+			var is_position_based = (event_name in ["Storm", "Waterlogging", "Pest Invasion"])
 			var perished_sunflowers = []
-			preview_map = 0
 			
 			for sunflower in sunflowers:
+				var is_plant_affected = ((event.affected_map >> sunflower.pos) & 1) == 1
+				
+				if is_position_based and is_plant_affected:
+					print("Awaw %s" % sunflower.pos)
+					continue
+				
 				var is_dominant = sunflower.genes[event.affected_trait] > 0
 				var survival_chance = event.survival_chances[int(is_dominant)]
 				
 				if g.rng.randf() > survival_chance:
 					perished_sunflowers.append(sunflower)
-					preview_map |= 1 << sunflower.pos
 			
 			#await get_tree().create_timer(0.5).timeout
 			
@@ -136,16 +143,29 @@ func event_phase():
 				sunflower.queue_free()
 		
 			# Updating existing events
+			
+			match event_name:
+				"Storm":
+					event.move_storm()
+					event.update_map()
+						
+				"Waterlogging":
+					pass
+				"Pest Invasion":
+					pass
+				
 			event.active_num += 1
 			
 			# Removing events
 			var remove_event = false
 			match event_name:
-				"Storm", "Drought":
+				"Storm":
+					remove_event = not g.is_inbound(event.eye_pos.x, event.eye_pos.y)
+				"Drought":
 					remove_event = (event.active_num > 6)
 				"Fertility":
 					remove_event = (event.active_num > 1)
-				"Pest Invasion":
+				"Waterlogging", "Pest Invasion":
 					remove_event = (event.affected_map == 0)
 				"Night":
 					remove_event = (((generation_num - 1) / 5) % 2) == 0
@@ -159,7 +179,7 @@ func event_phase():
 			
 			match event_name:
 				"Waterlogging":
-					add_event = g.is_event_active("Storm")
+					add_event = event.affected_map != 0
 				"Night":
 					add_event = (((generation_num - 1) / 5) % 2) == 1
 				_:
@@ -171,6 +191,11 @@ func event_phase():
 			if add_event:
 				event.active_num = 1
 				
+				match event_name:
+					"Storm":
+						event.spawn_storm()
+						event.update_map()
+				
 	
 	for i in len(sunflowers) / 2:
 		breeding_orders.append([i, i + (len(sunflowers) / 2)])
@@ -180,6 +205,7 @@ func event_phase():
 		if g.is_event_active(event_name):
 			current_events.append(event_name)
 	print("Awaw %s %s" % [generation_num, current_events])
+	preview_map = g.events["Storm"].affected_map
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):

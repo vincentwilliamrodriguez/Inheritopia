@@ -20,6 +20,14 @@ var events = {
 	"Night": 			Event.new(1, [0.60, 0.90], 0.00),
 	"Fertility": 		Event.new(0, [1.00, 1.00], 0.05)
 }
+var events_preview_color = {
+	"Storm": 			Color("White", 0.2),
+	"Waterlogging": 	Color("Blue", 0.2),
+	"Drought": 			Color("Orange", 0.05),
+	"Pest Invasion": 	Color("Red", 0.2),
+	"Night": 			Color("Black", 0.1),
+	"Fertility": 		Color("Yellow", 0.1)
+}
 
 class Event:
 	var affected_map: int

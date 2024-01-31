@@ -5,7 +5,6 @@ extends Node2D
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
 var preview_map = 0b0
-var preview_map_2 = 0b0
 var generation_num = 1
 
 func _ready():
@@ -29,8 +28,6 @@ func _unhandled_input(event):
 		transition_phase()
 		event_phase()
 		
-		
-
 func _draw():	
 	for order in breeding_orders:
 		var center_1 = sunflowers[order[0]].position + Vector2(64, 64)
@@ -39,11 +36,17 @@ func _draw():
 		draw_line(center_1, center_2, Color.GREEN, 1.0)
 		draw_circle(center_2, 5, Color.GREEN)
 	
-	for i in 16:
-		if (preview_map >> i) & 1 == 1:
-			draw_rect(Rect2(g.to_2d_x(i) * 128, g.to_2d_y(i) * 128, 128, 128), Color(0, 0, 1, 0.2))
-		if (preview_map_2 >> i) & 1 == 1:
-			draw_rect(Rect2(g.to_2d_x(i) * 128, g.to_2d_y(i) * 128, 128, 128), Color(1, 0, 0, 0.2))
+	for event_name in g.events:
+		var event_color = g.events_preview_color[event_name]
+		
+		if event_name in ["Storm", "Waterlogging", "Pest Invasion"]:
+			var event_map = g.events[event_name].affected_map
+			
+			for i in 16:
+				if g.is_true_in_map(event_map, i):
+					draw_rect(Rect2(g.to_2d_x(i) * 128, g.to_2d_y(i) * 128, 128, 128), event_color)
+		elif g.is_event_active(event_name):
+			draw_rect(Rect2(0, 0, 128 * 4, 128 * 4), event_color)
 
 func new_sunflower(pos, genes):
 	var sunflower = sunflower_class.duplicate()
@@ -103,14 +106,14 @@ func transition_phase():
 	generation_num += 1
 
 func find_free_tile(pos, map):
-	if (map >> pos) & 1 == 0:
+	if not g.is_true_in_map(map, pos):
 		return pos
 	
 	var neighbors = g.neighbors_lookup[pos].duplicate()
 	neighbors.shuffle()
 	
 	for neighbor in neighbors:
-		if (map >> neighbor) & 1 == 0:
+		if not g.is_true_in_map(map, neighbor):
 			return neighbor
 	
 	return find_free_tile(neighbors[0], map)
@@ -127,7 +130,7 @@ func event_phase():
 			var perished_sunflowers = []
 			
 			for sunflower in sunflowers:
-				var is_plant_affected = ((event.affected_map >> sunflower.pos) & 1) == 1
+				var is_plant_affected = g.is_true_in_map(event.affected_map, sunflower.pos)
 				
 				if is_position_based and not is_plant_affected:
 					continue
@@ -216,8 +219,6 @@ func event_phase():
 			current_events.append(event_name)
 	
 	print("Awaw %s %s" % [generation_num, current_events])
-	preview_map = g.events["Storm"].affected_map
-	preview_map_2 = g.events["Waterlogging"].affected_map
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):

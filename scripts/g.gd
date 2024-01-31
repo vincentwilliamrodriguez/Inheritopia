@@ -1,8 +1,8 @@
 extends Node
 
-var SQUARE_SIZE = 128
-var START_POS = [5, 6, 9, 10]
-var START_GENES = [2, 2, 2]
+const SQUARE_SIZE = 128
+const START_POS = [5, 6, 9, 10]
+const START_GENES = [2, 2, 2]
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var breed_lookup = []
@@ -12,6 +12,14 @@ var traits = ['y', 't', 'r']
 var genotypes = [["yy", "yY", "Yy", "YY"],
 				 ["tt", "tT", "Tt", "TT"],
 				 ["rr", "rR", "Rr", "RR"]]
+var events = {
+	"Storm": 			Storm.new(1, [0.90, 0.70], 1.00),
+	"Waterlogging": 	Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
+	"Drought": 			Event.new(2, [0.50, 0.90], 0.00),
+	"Pest Invasion": 	Pest.new(0, [0.40, 0.40], 0.15, 2),
+	"Night": 			Event.new(1, [0.60, 0.90], 0.00),
+	"Fertility": 		Event.new(0, [1.00, 1.00], 0.05)
+}
 
 class Event:
 	var affected_map: int
@@ -20,11 +28,25 @@ class Event:
 	var survival_chances: Array
 	var active_num: int
 	var past_affected_map: Array
+	var tile_lasts_for: int
 	
-	func _init(inp_trait, inp_survival, inp_spawn):
+	func _init(inp_trait, inp_survival, inp_spawn, inp_tile = 0):
 		affected_trait = inp_trait
 		survival_chances = inp_survival
 		spawn_chance = inp_spawn
+		tile_lasts_for = inp_tile
+	
+	func update_map():
+		if len(past_affected_map) > tile_lasts_for:
+			var longest_affected = affected_map
+			var recent_map =  past_affected_map.slice(-tile_lasts_for, len(past_affected_map))
+			
+			for map in recent_map:
+				longest_affected &= map
+			
+			affected_map ^= longest_affected	# removing longest affected tiles from the map
+		
+		past_affected_map.append(affected_map)
 
 class Storm:
 	extends Event
@@ -59,15 +81,24 @@ class Storm:
 			for neighbpr in g.neighbors_lookup[eye_pos_1d]:
 				affected_map |= (1 << neighbpr)
 	
+class Waterlogging:
+	extends Event
+	const FLOOD_CHANCE = 0.20
+	
+	func update_map():
+		var storm_map = g.events["Storm"].affected_map
+		
+		for i in 16:
+			if (((storm_map >> i) & 1) == 1) and (g.rng.randf() < FLOOD_CHANCE):
+				affected_map |= (1 << i)
+		
+		super()
 
-var events = {
-	"Storm": 			Storm.new(1, [0.90, 0.70], 1.00),
-	"Waterlogging": 	Event.new(2, [0.70, 0.50], 0.00),
-	"Drought": 			Event.new(2, [0.50, 0.90], 0.00),
-	"Pest Invasion": 	Event.new(0, [0.40, 0.40], 0.15),
-	"Night": 			Event.new(1, [0.60, 0.90], 0.00),
-	"Fertility": 		Event.new(0, [1.00, 1.00], 0.05)
-}
+class Pest:
+	extends Event
+	
+	func update_map():
+		super()
 
 func _ready():
 	# Initialize breed_lookup
@@ -90,7 +121,6 @@ func _ready():
 				if not (dir_x == 0 and dir_y == 0) and \
 					   is_inbound(new_x, new_y):
 					neighbors_lookup[i].append(to_1d(new_x, new_y))
-	
 
 func _process(delta):
 	pass

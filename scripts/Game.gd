@@ -5,6 +5,7 @@ extends Node2D
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
 var preview_map = 0b0
+var preview_map_2 = 0b0
 var generation_num = 1
 
 func _ready():
@@ -41,6 +42,8 @@ func _draw():
 	for i in 16:
 		if (preview_map >> i) & 1 == 1:
 			draw_rect(Rect2(g.to_2d_x(i) * 128, g.to_2d_y(i) * 128, 128, 128), Color(0, 0, 1, 0.2))
+		if (preview_map_2 >> i) & 1 == 1:
+			draw_rect(Rect2(g.to_2d_x(i) * 128, g.to_2d_y(i) * 128, 128, 128), Color(1, 0, 0, 0.2))
 
 func new_sunflower(pos, genes):
 	var sunflower = sunflower_class.duplicate()
@@ -127,7 +130,6 @@ func event_phase():
 				var is_plant_affected = ((event.affected_map >> sunflower.pos) & 1) == 1
 				
 				if is_position_based and is_plant_affected:
-					print("Awaw %s" % sunflower.pos)
 					continue
 				
 				var is_dominant = sunflower.genes[event.affected_trait] > 0
@@ -146,13 +148,12 @@ func event_phase():
 			
 			match event_name:
 				"Storm":
+					g.events["Waterlogging"].update_map()
 					event.move_storm()
 					event.update_map()
 						
-				"Waterlogging":
-					pass
 				"Pest Invasion":
-					pass
+					event.update_map()
 				
 			event.active_num += 1
 			
@@ -179,7 +180,7 @@ func event_phase():
 			
 			match event_name:
 				"Waterlogging":
-					add_event = event.affected_map != 0
+					add_event = g.is_event_active("Storm")
 				"Night":
 					add_event = (((generation_num - 1) / 5) % 2) == 1
 				_:
@@ -204,8 +205,10 @@ func event_phase():
 	for event_name in g.events:
 		if g.is_event_active(event_name):
 			current_events.append(event_name)
+	
 	print("Awaw %s %s" % [generation_num, current_events])
 	preview_map = g.events["Storm"].affected_map
+	preview_map_2 = g.events["Waterlogging"].affected_map
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):

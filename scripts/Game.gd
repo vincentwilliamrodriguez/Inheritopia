@@ -120,16 +120,16 @@ func event_phase():
 	
 	for event_name in g.events:
 		var event = g.events[event_name]
+		var is_position_based = (event_name in ["Storm", "Waterlogging", "Pest Invasion"])
 		
 		if event.active_num > 0:
 			# Applying events
-			var is_position_based = (event_name in ["Storm", "Waterlogging", "Pest Invasion"])
 			var perished_sunflowers = []
 			
 			for sunflower in sunflowers:
 				var is_plant_affected = ((event.affected_map >> sunflower.pos) & 1) == 1
 				
-				if is_position_based and is_plant_affected:
+				if is_position_based and not is_plant_affected:
 					continue
 				
 				var is_dominant = sunflower.genes[event.affected_trait] > 0
@@ -148,12 +148,17 @@ func event_phase():
 			
 			match event_name:
 				"Storm":
-					g.events["Waterlogging"].update_map()
+					g.events["Waterlogging"].spawn_waterlogged()
 					event.move_storm()
 					event.update_map()
 						
 				"Pest Invasion":
-					event.update_map()
+					var white_sunflowers = 0b0
+					for sunflower in sunflowers:
+						if (sunflower.genes[0] == 0):	# if flower color is white
+							white_sunflowers |= (1 << sunflower.pos)
+							
+					event.update_map(white_sunflowers)
 				
 			event.active_num += 1
 			
@@ -195,8 +200,12 @@ func event_phase():
 				match event_name:
 					"Storm":
 						event.spawn_storm()
-						event.update_map()
-				
+					"Pest Invasion":
+						event.spawn_pest()
+		
+		# Reverting tiles affected too long to normal
+		if is_position_based:
+			event.remove_longest_affected()
 	
 	for i in len(sunflowers) / 2:
 		breeding_orders.append([i, i + (len(sunflowers) / 2)])

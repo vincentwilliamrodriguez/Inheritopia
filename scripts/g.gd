@@ -13,9 +13,9 @@ var genotypes = [["yy", "yY", "Yy", "YY"],
 				 ["tt", "tT", "Tt", "TT"],
 				 ["rr", "rR", "Rr", "RR"]]
 var events = {
-	"Storm": 			Storm.new(1, [0.90, 0.70], 1.00),
+	"Storm": 			Storm.new(1, [0.90, 0.70], 0.20, 4),
 	"Waterlogging": 	Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
-	"Drought": 			Event.new(2, [0.50, 0.90], 0.00),
+	"Drought": 			Event.new(2, [0.50, 0.90], 0.25),
 	"Pest Invasion": 	Pest.new(0, [0.40, 0.40], 0.15, 2),
 	"Night": 			Event.new(1, [0.60, 0.90], 0.00),
 	"Fertility": 		Event.new(0, [1.00, 1.00], 0.05)
@@ -35,18 +35,19 @@ class Event:
 		survival_chances = inp_survival
 		spawn_chance = inp_spawn
 		tile_lasts_for = inp_tile
-	
-	func update_map():
-		if len(past_affected_map) > tile_lasts_for:
-			var longest_affected = affected_map
-			var recent_map =  past_affected_map.slice(-tile_lasts_for, len(past_affected_map))
-			
-			for map in recent_map:
-				longest_affected &= map
-			
-			affected_map ^= longest_affected	# removing longest affected tiles from the map
 		
-		past_affected_map.append(affected_map)
+		for i in tile_lasts_for:
+			past_affected_map.append(0b0)
+	
+	func remove_longest_affected():
+		var longest_affected = affected_map
+		
+		for map in past_affected_map:
+			longest_affected &= map
+		
+		affected_map ^= longest_affected	# removing longest affected tiles from the map
+		past_affected_map.pop_front()
+		past_affected_map.push_back(affected_map)
 
 class Storm:
 	extends Event
@@ -67,6 +68,8 @@ class Storm:
 			Vector2(1, -1):		eye_pos = Vector2(0, 3)
 			Vector2(1, 0):		eye_pos = Vector2(0, 1)
 			Vector2(1, 1):		eye_pos = Vector2(0, 0)
+			
+		update_map()
 		
 	func move_storm():
 		eye_pos += dir
@@ -85,20 +88,35 @@ class Waterlogging:
 	extends Event
 	const FLOOD_CHANCE = 0.20
 	
-	func update_map():
+	func spawn_waterlogged():
 		var storm_map = g.events["Storm"].affected_map
 		
 		for i in 16:
-			if (((storm_map >> i) & 1) == 1) and (g.rng.randf() < FLOOD_CHANCE):
+			if g.is_true_in_map(storm_map, i) and (g.rng.randf() < FLOOD_CHANCE):
 				affected_map |= (1 << i)
-		
-		super()
 
 class Pest:
 	extends Event
+	const PEST_CHANCE = 0.10
+	const PEST_CHANCE_WHITE = 0.02
 	
-	func update_map():
-		super()
+	func spawn_pest():
+		var pest_pos = g.random_item([0, 3, 12, 15])
+		affected_map |= (1 << pest_pos)
+	
+	func update_map(white_sunflowers):
+		var new_affected_map = affected_map
+		
+		for i in 16:
+			if g.is_true_in_map(affected_map, i):
+				for neighbor in g.neighbors_lookup[i]:
+					var spread_chance = PEST_CHANCE_WHITE if g.is_true_in_map(white_sunflowers, i) else \
+										PEST_CHANCE
+										
+					if (g.rng.randf() < spread_chance):
+						new_affected_map |= (1 << neighbor)
+		
+		affected_map = new_affected_map
 
 func _ready():
 	# Initialize breed_lookup
@@ -140,6 +158,9 @@ func to_2d_y(n: int):
 func is_inbound(x: int, y: int):
 	return (x >= 0 and x < 4) and \
 		   (y >= 0 and y < 4)
+
+func is_true_in_map(map: int, i: int):
+	return (((map >> i) & 1) == 1)
 
 func monohybrid_cross(gene_1: int, gene_2: int):
 	var res = []

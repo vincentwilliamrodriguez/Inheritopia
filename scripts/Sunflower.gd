@@ -2,6 +2,7 @@ class_name Sunflower extends Node2D
 
 @export var genes: Array = g.START_GENES
 @export var pos: int
+@export var is_parent: bool = false
 
 func _ready():
 	position.x = g.SQUARE_SIZE * g.to_2d_x(pos)

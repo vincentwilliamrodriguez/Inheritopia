@@ -6,6 +6,7 @@ var sunflowers: Array[Sunflower]
 var breeding_orders = []
 var preview_map = 0b0
 var generation_num = 1
+var selected_parents = [null, null]
 
 func _ready():
 	# Initialization
@@ -13,10 +14,6 @@ func _ready():
 		var sunflower = new_sunflower(i, g.START_GENES)
 		sunflowers.append(sunflower)
 		add_child.call_deferred(sunflower)
-	
-	for i in len(sunflowers) / 2:
-		breeding_orders.append([i, i + (len(sunflowers) / 2)])
-	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -27,11 +24,24 @@ func _unhandled_input(event):
 	if Input.is_action_just_released("next"):
 		transition_phase()
 		event_phase()
+	
+	if event is InputEventMouseButton and event.is_pressed():
+		var clicked_pos = get_viewport().get_mouse_position() / 128
+		
+		if not g.is_inbound(clicked_pos.x, clicked_pos.y):
+			return
+		
+		var selected_parent = find_by_pos(g.to_1d_vector(clicked_pos))
+		
+		if selected_parent and not selected_parent.is_parent:
+			when_parent_selected(selected_parent)
+		else:
+			reset_selected_parents()
 		
 func _draw():	
 	for order in breeding_orders:
-		var center_1 = sunflowers[order[0]].position + Vector2(64, 64)
-		var center_2 = sunflowers[order[1]].position + Vector2(64, 64)
+		var center_1 = order[0].position + Vector2(64, 64)
+		var center_2 = order[1].position + Vector2(64, 64)
 		
 		draw_line(center_1, center_2, Color.GREEN, 1.0)
 		draw_circle(center_2, 5, Color.GREEN)
@@ -45,6 +55,7 @@ func _draw():
 			for i in 16:
 				if g.is_true_in_map(event_map, i):
 					draw_rect(Rect2(g.to_2d_x(i) * 128, g.to_2d_y(i) * 128, 128, 128), event_color)
+		
 		elif g.is_event_active(event_name):
 			draw_rect(Rect2(0, 0, 128 * 4, 128 * 4), event_color)
 
@@ -66,13 +77,35 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 	
 	return genes_seed
 
+func when_parent_selected(parent: Sunflower):
+	if not selected_parents[0]:
+		selected_parents[0] = parent
+		parent.modulate = Color("Yellow")
+		
+	else:
+		selected_parents[1] = parent
+		
+		for sunflower in selected_parents:
+			sunflower.is_parent = true
+			sunflower.modulate = Color("Green")
+		
+		breeding_orders.append(selected_parents)
+		reset_selected_parents()
+
+func reset_selected_parents():
+	for sunflower in selected_parents:
+		if sunflower and not sunflower.is_parent:
+			sunflower.modulate = Color("White")
+		
+	selected_parents = [null, null]
+
 func transition_phase():
 	var seeds: Array[Sunflower]
 	var seed_map = 0x0
 	
 	for order in breeding_orders:
-		var parent_1 = sunflowers[order[0]]
-		var parent_2 = sunflowers[order[1]]
+		var parent_1 = order[0]
+		var parent_2 = order[1]
 		
 		var bonus = 1.0 if g.is_event_active("Fertility") else \
 					0.2 if (parent_1.genes[0] > 0) else \
@@ -205,13 +238,14 @@ func event_phase():
 						event.spawn_storm()
 					"Pest Invasion":
 						event.spawn_pest()
+					"Drought":
+						g.events["Waterlogging"].affected_map = 0b0  # drought removes waterlogging
+						g.events["Waterlogging"].active_num = 0
 		
 		# Reverting tiles affected too long to normal
 		if is_position_based:
 			event.remove_longest_affected()
 	
-	for i in len(sunflowers) / 2:
-		breeding_orders.append([i, i + (len(sunflowers) / 2)])
 	
 	var current_events = []
 	for event_name in g.events:
@@ -226,3 +260,10 @@ func find_index(inp: Sunflower):
 			return i
 	
 	return -1
+
+func find_by_pos(pos: int):
+	for sunflower in sunflowers:
+		if sunflower.pos == pos:
+			return sunflower
+	
+	return null

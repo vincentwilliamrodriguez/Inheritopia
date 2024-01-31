@@ -15,9 +15,9 @@ var genotypes = [["yy", "yY", "Yy", "YY"],
 var events = {
 	"Storm": 			Storm.new(1, [0.90, 0.70], 0.20, 4),
 	"Waterlogging": 	Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
-	"Drought": 			Event.new(2, [0.50, 0.90], 0.25),
+	"Drought": 			Event.new(2, [0.80, 0.95], 0.25),
 	"Pest Invasion": 	Pest.new(0, [0.40, 0.40], 0.15, 2),
-	"Night": 			Event.new(1, [0.60, 0.90], 0.00),
+	"Night": 			Event.new(1, [0.85, 0.95], 0.00),
 	"Fertility": 		Event.new(0, [1.00, 1.00], 0.05)
 }
 var events_preview_color = {
@@ -59,23 +59,23 @@ class Event:
 
 class Storm:
 	extends Event
-	var eye_pos: Vector2
-	var dir: Vector2
+	var eye_pos: Vector2i
+	var dir: Vector2i
 	
 	func spawn_storm():
-		dir = Vector2(g.rng.randi_range(-1, 1), g.rng.randi_range(-1, 1))
-		if dir == Vector2(0, 0):
-			dir = Vector2(1, 0)
+		dir = Vector2i(g.rng.randi_range(-1, 1), g.rng.randi_range(-1, 1))
+		if dir == Vector2i(0, 0):
+			dir = Vector2i(1, 0)
 		
 		match dir:
-			Vector2(-1, -1):	eye_pos = Vector2(3, 3)
-			Vector2(-1, 0):		eye_pos = Vector2(3, 1)
-			Vector2(-1, 1):		eye_pos = Vector2(3, 0)
-			Vector2(0, -1):		eye_pos = Vector2(2, 3)
-			Vector2(0, 1):		eye_pos = Vector2(1, 0)
-			Vector2(1, -1):		eye_pos = Vector2(0, 3)
-			Vector2(1, 0):		eye_pos = Vector2(0, 1)
-			Vector2(1, 1):		eye_pos = Vector2(0, 0)
+			Vector2i(-1, -1):	eye_pos = Vector2i(3, 3)
+			Vector2i(-1, 0):		eye_pos = Vector2i(3, 1)
+			Vector2i(-1, 1):		eye_pos = Vector2i(3, 0)
+			Vector2i(0, -1):		eye_pos = Vector2i(2, 3)
+			Vector2i(0, 1):		eye_pos = Vector2i(1, 0)
+			Vector2i(1, -1):		eye_pos = Vector2i(0, 3)
+			Vector2i(1, 0):		eye_pos = Vector2i(0, 1)
+			Vector2i(1, 1):		eye_pos = Vector2i(0, 0)
 			
 		update_map()
 		
@@ -154,7 +154,7 @@ func _process(delta):
 func to_1d(x: int, y: int):
 	return x + 4 * y
 
-func to_1d_vector(vector: Vector2):
+func to_1d_vector(vector: Vector2i):
 	return int(vector.x + 4 * vector.y)
 
 func to_2d_x(n: int):

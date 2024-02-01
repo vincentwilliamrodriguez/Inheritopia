@@ -1,12 +1,23 @@
 extends Node2D
 
 @onready var sunflower_class = $Sunflower
+@onready var counters = $Panel/Label
 
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
-var preview_map = 0b0
+var preview_map = 0
 var generation_num = 1
+var phase_num = 1
+var score = 0
 var selected_parents = [null, null]
+var events = {
+	"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
+	"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
+	"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
+	"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
+	"Night": 			g.Event.new(1, [0.85, 0.95], 0.00),
+	"Fertility": 		g.Event.new(0, [1.00, 1.00], 0.05)
+}
 
 func _ready():
 	# Initialization
@@ -15,49 +26,58 @@ func _ready():
 		sunflowers.append(sunflower)
 		add_child.call_deferred(sunflower)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	queue_redraw()
-	pass
-
-func _unhandled_input(event):
-	if Input.is_action_just_released("next"):
-		transition_phase()
-		event_phase()
+	# Updates counters
+	var phase_name = g.PHASES[phase_num]
+	counters.text = "Generation %s\n%s\nScore: %s" % [generation_num, phase_name, score]
 	
-	if event is InputEventMouseButton and event.is_pressed():
-		var clicked_pos = get_viewport().get_mouse_position() / 128
+	queue_redraw()
+
+func _input(event):
+	# Breeding Phase control
+	if phase_num == 1:
+		# Next generation
+		if Input.is_action_just_released("next"):		
+			transition_phase()
 		
-		if not g.is_inbound(clicked_pos.x, clicked_pos.y):
-			return
-		
-		var selected_parent = find_by_pos(g.to_1d_vector(clicked_pos))
-		
-		if selected_parent and not selected_parent.is_parent:
-			when_parent_selected(selected_parent)
-		else:
-			reset_selected_parents()
+		# Selecting breeding parents
+		if event is InputEventMouseButton and event.is_pressed():
+			var clicked_pos = get_viewport().get_mouse_position() / g.SQUARE_SIZE
+			
+			if not g.is_inbound(clicked_pos.x, clicked_pos.y):
+				return
+			
+			var selected_parent = find_by_pos(g.to_1d_vector(clicked_pos))
+			
+			if selected_parent and not selected_parent.is_parent:
+				when_parent_selected(selected_parent)
+			else:
+				reset_selected_parents()
 		
 func _draw():	
 	for order in breeding_orders:
-		var center_1 = order[0].position + Vector2(64, 64)
-		var center_2 = order[1].position + Vector2(64, 64)
+		var center_1 = order[0].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
+		var center_2 = order[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
 		
-		draw_line(center_1, center_2, Color.GREEN, 1.0)
-		draw_circle(center_2, 5, Color.GREEN)
+		draw_line(center_1, center_2, Color.GREEN, 2.0)
+		draw_circle(center_2, 10, Color.GREEN)
 	
-	for event_name in g.events:
+	for event_name in events:
 		var event_color = g.events_preview_color[event_name]
 		
 		if event_name in ["Storm", "Waterlogging", "Pest Invasion"]:
-			var event_map = g.events[event_name].affected_map
+			var event_map = events[event_name].affected_map
 			
 			for i in 16:
 				if g.is_true_in_map(event_map, i):
-					draw_rect(Rect2(g.to_2d_x(i) * 128, g.to_2d_y(i) * 128, 128, 128), event_color)
+					draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), event_color)
 		
-		elif g.is_event_active(event_name):
-			draw_rect(Rect2(0, 0, 128 * 4, 128 * 4), event_color)
+		elif is_event_active(event_name):
+			draw_rect(Rect2(0, 0, g.SQUARE_SIZE * 4, g.SQUARE_SIZE * 4), event_color)
+	
+	for i in 16:
+		if g.is_true_in_map(preview_map, i):
+			draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), Color("Red", 0.3))
 
 func new_sunflower(pos, genes):
 	var sunflower = sunflower_class.duplicate()
@@ -100,6 +120,8 @@ func reset_selected_parents():
 	selected_parents = [null, null]
 
 func transition_phase():
+	phase_num = 2
+	
 	var seeds: Array[Sunflower]
 	var seed_map = 0x0
 	
@@ -107,7 +129,7 @@ func transition_phase():
 		var parent_1 = order[0]
 		var parent_2 = order[1]
 		
-		var bonus = 1.0 if g.is_event_active("Fertility") else \
+		var bonus = 2.0 if is_event_active("Fertility") else \
 					0.2 if (parent_1.genes[0] > 0) else \
 					0.0
 					
@@ -137,6 +159,8 @@ func transition_phase():
 	
 	breeding_orders.clear()
 	generation_num += 1
+	
+	event_phase()
 
 func find_free_tile(pos, map):
 	if not g.is_true_in_map(map, pos):
@@ -152,11 +176,12 @@ func find_free_tile(pos, map):
 	return find_free_tile(neighbors[0], map)
 
 func event_phase():
-	preview_map = 0
+	phase_num = 0
 	
-	for event_name in g.events:
-		var event = g.events[event_name]
+	for event_name in events:
+		var event = events[event_name]
 		var is_position_based = (event_name in ["Storm", "Waterlogging", "Pest Invasion"])
+		preview_map = 0
 		
 		if event.active_num > 0:
 			# Applying events
@@ -173,8 +198,9 @@ func event_phase():
 				
 				if g.rng.randf() > survival_chance:
 					perished_sunflowers.append(sunflower)
+					preview_map = (1 << sunflower.pos)
 			
-			#await get_tree().create_timer(0.5).timeout
+			await get_tree().create_timer(0.5).timeout
 			
 			for sunflower in perished_sunflowers:
 				sunflowers.pop_at(find_index(sunflower))
@@ -184,7 +210,7 @@ func event_phase():
 			
 			match event_name:
 				"Storm":
-					g.events["Waterlogging"].spawn_waterlogged()
+					events["Waterlogging"].spawn_waterlogged(event)
 					event.move_storm()
 					event.update_map()
 						
@@ -221,12 +247,12 @@ func event_phase():
 			
 			match event_name:
 				"Waterlogging":
-					add_event = g.is_event_active("Storm")
+					add_event = is_event_active("Storm")
 				"Night":
 					add_event = (((generation_num - 1) / 5) % 2) == 1
 				_:
-					var exclusive = (event_name == "Storm" and g.is_event_active("Drought")) or \
-									(event_name == "Drought" and g.is_event_active("Storm"))
+					var exclusive = (event_name == "Storm" and is_event_active("Drought")) or \
+									(event_name == "Drought" and is_event_active("Storm"))
 					var rand = g.rng.randf()
 					add_event = (rand < event.spawn_chance) and not exclusive
 			
@@ -239,8 +265,8 @@ func event_phase():
 					"Pest Invasion":
 						event.spawn_pest()
 					"Drought":
-						g.events["Waterlogging"].affected_map = 0b0  # drought removes waterlogging
-						g.events["Waterlogging"].active_num = 0
+						events["Waterlogging"].affected_map = 0b0  # drought removes waterlogging
+						events["Waterlogging"].active_num = 0
 		
 		# Reverting tiles affected too long to normal
 		if is_position_based:
@@ -248,11 +274,32 @@ func event_phase():
 	
 	
 	var current_events = []
-	for event_name in g.events:
-		if g.is_event_active(event_name):
+	for event_name in events:
+		if is_event_active(event_name):
 			current_events.append(event_name)
 	
 	print("Awaw %s %s" % [generation_num, current_events])
+	compute_trait_scores()
+	check_game_over()
+	breeding_phase()
+
+func breeding_phase():
+	phase_num = 1
+
+func compute_trait_scores():
+	for sunflower in sunflowers:
+		for gene in sunflower.genes:
+			if (gene > 0):
+				score += 5	# For dominant traits
+			else:
+				score += 8	# For recessive traits
+
+func check_game_over():
+	if len(sunflowers) == 0:
+		print("Awaw over!")
+		
+		# To-do: game over pop-up
+		get_tree().reload_current_scene()
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):
@@ -267,3 +314,6 @@ func find_by_pos(pos: int):
 			return sunflower
 	
 	return null
+
+func is_event_active(event_name: String):
+	return events[event_name].active_num > 0

@@ -1,8 +1,9 @@
 extends Node
 
-const SQUARE_SIZE = 128
+const SQUARE_SIZE = 256
 const START_POS = [5, 6, 9, 10]
 const START_GENES = [2, 2, 2]
+const PHASES = ["Event Phase", "Breeding Phase", "Transition Phase"]
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var breed_lookup = []
@@ -12,14 +13,6 @@ var traits = ['y', 't', 'r']
 var genotypes = [["yy", "yY", "Yy", "YY"],
 				 ["tt", "tT", "Tt", "TT"],
 				 ["rr", "rR", "Rr", "RR"]]
-var events = {
-	"Storm": 			Storm.new(1, [0.90, 0.70], 0.20, 4),
-	"Waterlogging": 	Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
-	"Drought": 			Event.new(2, [0.80, 0.95], 0.25),
-	"Pest Invasion": 	Pest.new(0, [0.40, 0.40], 0.15, 2),
-	"Night": 			Event.new(1, [0.85, 0.95], 0.00),
-	"Fertility": 		Event.new(0, [1.00, 1.00], 0.05)
-}
 var events_preview_color = {
 	"Storm": 			Color("White", 0.2),
 	"Waterlogging": 	Color("Blue", 0.2),
@@ -46,6 +39,7 @@ class Event:
 		
 		for i in tile_lasts_for:
 			past_affected_map.append(0b0)
+	
 	
 	func remove_longest_affected():
 		var longest_affected = affected_map
@@ -96,8 +90,8 @@ class Waterlogging:
 	extends Event
 	const FLOOD_CHANCE = 0.20
 	
-	func spawn_waterlogged():
-		var storm_map = g.events["Storm"].affected_map
+	func spawn_waterlogged(storm: Storm):
+		var storm_map = storm.affected_map
 		
 		for i in 16:
 			if g.is_true_in_map(storm_map, i) and (g.rng.randf() < FLOOD_CHANCE):
@@ -194,6 +188,5 @@ func get_genome_text(genes: Array):
 func random_item(array: Array):
 	return array[rng.randi_range(0, len(array) - 1)]
 
-func is_event_active(event_name: String):
-	return g.events[event_name].active_num > 0
+
 

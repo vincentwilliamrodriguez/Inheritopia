@@ -36,6 +36,10 @@ project/assembly_name="Inheritopia"
 
 folder_colors={
 "res://images/": "blue",
+"res://images/bee/": "yellow",
+"res://images/dirt/": "orange",
+"res://images/icons/": "teal",
+"res://images/sunflower/": "yellow",
 "res://scenes/": "green",
 "res://scripts/": "yellow"
 }

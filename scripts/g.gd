@@ -1,6 +1,6 @@
 extends Node
 
-const SQUARE_SIZE = 256
+const SQUARE_SIZE = 200
 const START_POS = [5, 6, 9, 10]
 const START_GENES = [2, 2, 2]
 const PHASES = ["Event Phase", "Breeding Phase", "Transition Phase"]
@@ -20,6 +20,14 @@ var events_preview_color = {
 	"Pest Invasion": 	Color("Red", 0.2),
 	"Night": 			Color("Black", 0.1),
 	"Fertility": 		Color("Yellow", 0.1)
+}
+var events_overlay = {
+	"Storm": 			true,
+	"Waterlogging": 	false,
+	"Drought": 			false,
+	"Pest Invasion": 	true,
+	"Night": 			true,
+	"Fertility": 		true
 }
 
 class Event:

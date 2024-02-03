@@ -1,11 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=19 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
 [ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
+[ext_resource type="Texture2D" uid="uid://45fbnxxqdelb" path="res://images/dirt/dirt_1.png" id="4_bcfba"]
+[ext_resource type="Texture2D" uid="uid://3v4rfcdcwq3s" path="res://images/dirt/dirt_2.png" id="5_fgwel"]
+[ext_resource type="Texture2D" uid="uid://6mr4p7ynu3cr" path="res://images/dirt/drought_1.png" id="6_cg2xk"]
+[ext_resource type="Texture2D" uid="uid://qhr2g881xixa" path="res://images/dirt/drought_2.png" id="7_2xrdv"]
+[ext_resource type="Texture2D" uid="uid://sgjact2vc816" path="res://images/dirt/waterlogged_1.png" id="8_dfhwu"]
+[ext_resource type="Texture2D" uid="uid://bo0tml5kn3ks0" path="res://images/dirt/waterlogged_2.png" id="9_du1dr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
-font_size = 50
+font_size = 36
 font_color = Color(0.215686, 0.321569, 1, 1)
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
@@ -13,22 +19,68 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_sloeo"]
 font_size = 36
 
-[node name="Game" type="Node2D"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bhr2m"]
+texture = ExtResource("4_bcfba")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g0lph"]
+texture = ExtResource("5_fgwel")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gra50"]
+texture = ExtResource("6_cg2xk")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5l4p3"]
+texture = ExtResource("7_2xrdv")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cx02h"]
+texture = ExtResource("8_dfhwu")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8mfvb"]
+texture = ExtResource("9_du1dr")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_o2tj1"]
+tile_size = Vector2i(200, 200)
+sources/0 = SubResource("TileSetAtlasSource_bhr2m")
+sources/1 = SubResource("TileSetAtlasSource_g0lph")
+sources/2 = SubResource("TileSetAtlasSource_gra50")
+sources/3 = SubResource("TileSetAtlasSource_5l4p3")
+sources/4 = SubResource("TileSetAtlasSource_cx02h")
+sources/5 = SubResource("TileSetAtlasSource_8mfvb")
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_bmtli")
 
 [node name="Sunflower" type="Node2D" parent="."]
-visible = false
+z_index = -1
 script = ExtResource("2_5e7ut")
 
 [node name="Sprite2D" type="Sprite2D" parent="Sunflower"]
 modulate = Color(1, 1, 1, 0.141176)
-scale = Vector2(2, 2)
+scale = Vector2(1.563, 1.563)
 texture = ExtResource("3_tqvwn")
 centered = false
 
 [node name="Label" type="Label" parent="Sunflower"]
-offset_right = 256.0
-offset_bottom = 256.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
 text = "AwAwAw"
 label_settings = SubResource("LabelSettings_u6mx4")
 horizontal_alignment = 1
@@ -36,6 +88,7 @@ vertical_alignment = 1
 
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -59,3 +112,10 @@ Awaw Phase
 Score: 999"
 label_settings = SubResource("LabelSettings_sloeo")
 horizontal_alignment = 1
+
+[node name="Tiles" type="TileMap" parent="."]
+unique_name_in_owner = true
+tile_set = SubResource("TileSet_o2tj1")
+format = 2
+layer_0/name = "ground"
+layer_0/z_index = -1

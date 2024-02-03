@@ -1,7 +1,9 @@
-extends Node2D
+extends Control
 
 @onready var sunflower_class = $Sunflower
 @onready var counters = $Panel/Label
+@onready var tiles = %Tiles
+
 
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
@@ -10,6 +12,7 @@ var generation_num = 1
 var phase_num = 1
 var score = 0
 var selected_parents = [null, null]
+var soil_values = []
 var events = {
 	"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
 	"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
@@ -20,7 +23,14 @@ var events = {
 }
 
 func _ready():
-	# Initialization
+	# Initialization of tiles
+	for i in 16:
+		var coords = Vector2i(g.to_2d_x(i), g.to_2d_y(i))
+		var value = randi_range(0, 1)
+		tiles.set_cell(0, coords, value, Vector2i(0, 0))
+		soil_values.append(value)
+	
+	# Initialization of sunflowers
 	for i in g.START_POS:
 		var sunflower = new_sunflower(i, g.START_GENES)
 		sunflowers.append(sunflower)
@@ -63,6 +73,9 @@ func _draw():
 		draw_circle(center_2, 10, Color.GREEN)
 	
 	for event_name in events:
+		if not g.events_overlay[event_name]:
+			continue
+		
 		var event_color = g.events_preview_color[event_name]
 		
 		if event_name in ["Storm", "Waterlogging", "Pest Invasion"]:
@@ -279,6 +292,7 @@ func event_phase():
 			current_events.append(event_name)
 	
 	print("Awaw %s %s" % [generation_num, current_events])
+	update_tiles()
 	compute_trait_scores()
 	check_game_over()
 	breeding_phase()
@@ -300,6 +314,19 @@ func check_game_over():
 		
 		# To-do: game over pop-up
 		get_tree().reload_current_scene()
+
+func update_tiles():
+	for i in 16:
+		var coords = Vector2i(g.to_2d_x(i), g.to_2d_y(i))
+		
+		if events["Drought"].active_num > 0:
+			tiles.set_cell(0, coords, 2, Vector2i(0, 0))
+		
+		elif g.is_true_in_map(events["Waterlogging"].affected_map, i):
+			tiles.set_cell(0, coords, randi_range(4, 5), Vector2i(0, 0))
+		
+		else:
+			tiles.set_cell(0, coords, soil_values[i], Vector2i(0, 0))
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):

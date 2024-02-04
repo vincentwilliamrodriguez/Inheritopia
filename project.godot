@@ -35,12 +35,17 @@ project/assembly_name="Inheritopia"
 [file_customization]
 
 folder_colors={
+"res://fonts/": "pink",
 "res://images/": "blue",
 "res://images/sunflower/": "yellow",
 "res://scenes/": "green",
 "res://scripts/": "yellow",
 "res://themes/": "purple"
 }
+
+[gui]
+
+theme/custom_font="res://fonts/Exo-VariableFont_wght.ttf"
 
 [input]
 

@@ -1,0 +1,9 @@
+[gd_resource type="FontVariation" load_steps=2 format=3 uid="uid://dm0il003r5dhb"]
+
+[ext_resource type="FontFile" uid="uid://dnekuxniggtvh" path="res://fonts/Exo-VariableFont_wght.ttf" id="1_ihxqv"]
+
+[resource]
+base_font = ExtResource("1_ihxqv")
+variation_opentype = {
+2003265652: 500
+}

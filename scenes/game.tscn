@@ -1,17 +1,26 @@
-[gd_scene load_steps=23 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=32 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
+[ext_resource type="Texture2D" uid="uid://dxhvly0a14y0c" path="res://images/background/wood.png" id="3_0mqbn"]
 [ext_resource type="Texture2D" uid="uid://c08pva05aoqfc" path="res://images/sky/day.png" id="3_1268t"]
 [ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
+[ext_resource type="Texture2D" uid="uid://cc43p8f5recor" path="res://images/icons/home.png" id="4_6kj66"]
 [ext_resource type="Texture2D" uid="uid://45fbnxxqdelb" path="res://images/dirt/dirt_1.png" id="4_bcfba"]
+[ext_resource type="Texture2D" uid="uid://ch83jfs02gx4d" path="res://images/icons/setting.png" id="5_enpai"]
 [ext_resource type="Texture2D" uid="uid://3v4rfcdcwq3s" path="res://images/dirt/dirt_2.png" id="5_fgwel"]
+[ext_resource type="Texture2D" uid="uid://ceb7q7q6iqqux" path="res://images/icons/restart.png" id="6_1bm8n"]
 [ext_resource type="Texture2D" uid="uid://6mr4p7ynu3cr" path="res://images/dirt/drought_1.png" id="6_cg2xk"]
 [ext_resource type="Texture2D" uid="uid://qhr2g881xixa" path="res://images/dirt/drought_2.png" id="7_2xrdv"]
+[ext_resource type="Texture2D" uid="uid://dn2fgcisnb7d1" path="res://images/icons/undo.png" id="7_apkyq"]
 [ext_resource type="Texture2D" uid="uid://sgjact2vc816" path="res://images/dirt/waterlogged_1.png" id="8_dfhwu"]
+[ext_resource type="Texture2D" uid="uid://bpb3vyyb4l0j5" path="res://images/nine_patch_rect/white.png" id="8_r0diy"]
 [ext_resource type="Texture2D" uid="uid://bo0tml5kn3ks0" path="res://images/dirt/waterlogged_2.png" id="9_du1dr"]
+[ext_resource type="LabelSettings" uid="uid://cnaya5cupl4tk" path="res://themes/default_label.tres" id="10_vtjxm"]
+[ext_resource type="Texture2D" uid="uid://8nlmqc1u7o4l" path="res://images/nine_patch_rect/template.png" id="11_64jia"]
 [ext_resource type="Texture2D" uid="uid://dekrfcp64evr5" path="res://images/misc/wooden_sign.png" id="11_yinur"]
+[ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="12_n1y4b"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qphp"]
 bg_color = Color(0.239216, 0.603922, 0.258824, 1)
@@ -57,7 +66,7 @@ sources/5 = SubResource("TileSetAtlasSource_8mfvb")
 
 [sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
 font_size = 36
-font_color = Color(0.215686, 0.321569, 1, 1)
+font_color = Color(0.603922, 1, 0.796078, 1)
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
 
@@ -93,7 +102,217 @@ offset_right = 510.0
 grow_vertical = 2
 theme = ExtResource("2_t6ejp")
 
+[node name="Background" type="TextureRect" parent="LeftUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_0mqbn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="HBoxContainer" parent="LeftUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("2_t6ejp")
+alignment = 1
+
+[node name="HomeBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/HomeBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_6kj66")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="SettingBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/SettingBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_enpai")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="RestartBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/RestartBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_1bm8n")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="UndoBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/UndoBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_apkyq")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TraitsPanel" type="MarginContainer" parent="LeftUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_t6ejp")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 40
+
+[node name="SunflowerPreview" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Card" type="NinePatchRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/SunflowerPreview"]
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("8_r0diy")
+patch_margin_left = 30
+patch_margin_top = 30
+patch_margin_right = 30
+patch_margin_bottom = 30
+
+[node name="Sample" type="Sprite2D" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/SunflowerPreview/Card"]
+position = Vector2(25, 25)
+scale = Vector2(1.563, 1.563)
+texture = ExtResource("3_tqvwn")
+centered = false
+
+[node name="Name" type="Label" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/SunflowerPreview"]
+layout_mode = 2
+theme = ExtResource("2_t6ejp")
+text = "Yy tt RR"
+label_settings = ExtResource("10_vtjxm")
+horizontal_alignment = 1
+
+[node name="TraitsInfo" type="NinePatchRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer"]
+self_modulate = Color(0.901961, 0.901961, 0.901961, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("11_64jia")
+region_rect = Rect2(268, 532, 128, 128)
+patch_margin_left = 40
+patch_margin_top = 40
+patch_margin_right = 40
+patch_margin_bottom = 40
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer"]
+layout_mode = 2
+
+[node name="0" type="RichTextLabel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_t6ejp")
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+bbcode_enabled = true
+text = "[table=3]
+[cell]Yy  [/cell]
+[cell][img=50]uid://ukskqu2cdxa6[/img][/cell]
+[cell]  Yellow[/cell] 
+[/table]"
+fit_content = true
+
+[node name="Separator1" type="ColorRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+color = Color(0.172549, 0.407843, 0.509804, 0.607843)
+
+[node name="Separator2" type="ColorRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+color = Color(0.172549, 0.407843, 0.509804, 0.607843)
+
 [node name="CenterUI" type="Panel" parent="."]
+z_index = -1
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -126,6 +345,7 @@ anchor_bottom = 1.0
 offset_top = -900.0
 grow_horizontal = 2
 grow_vertical = 0
+theme = ExtResource("2_t6ejp")
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
@@ -153,7 +373,7 @@ visible = false
 script = ExtResource("2_5e7ut")
 
 [node name="Sprite2D" type="Sprite2D" parent="CenterUI/Garden/SunflowersPanel/Sunflower"]
-modulate = Color(1, 1, 1, 0.141176)
+modulate = Color(1, 1, 1, 0.439216)
 scale = Vector2(1.563, 1.563)
 texture = ExtResource("3_tqvwn")
 centered = false
@@ -166,6 +386,7 @@ offset_right = 200.0
 offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("2_t6ejp")
 text = "AwAwAw"
 label_settings = SubResource("LabelSettings_u6mx4")
 horizontal_alignment = 1
@@ -206,11 +427,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+theme = ExtResource("2_t6ejp")
 text = "Generation 99 
 Awaw Phase
 Score: 999"
 label_settings = SubResource("LabelSettings_sloeo")
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="RightUI" type="Panel" parent="."]
 layout_mode = 1
@@ -222,5 +445,14 @@ offset_left = -510.0
 grow_horizontal = 0
 grow_vertical = 2
 theme = ExtResource("2_t6ejp")
+
+[node name="Background" type="TextureRect" parent="RightUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_0mqbn")
 
 [connection signal="draw" from="CenterUI/Garden/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]

@@ -2,4 +2,6 @@ res://scenes/game.tscn
 res://scripts/Game.gd
 res://themes/default_theme.tres
 res://themes/controls_bg.tres
-res://scripts/g.gd
+res://themes/button.tres
+res://themes/default_font.tres
+res://themes/default_label.tres

@@ -1,9 +1,14 @@
 extends Control
 
-@onready var sunflower_class = $Sunflower
-@onready var counters = $Panel/Label
+@onready var sunflowers_panel = %SunflowersPanel
+@onready var sunflower_template = %Sunflower
+@onready var sky = %Sky
+@onready var sign = %Sign
+@onready var counters = %Counters
 @onready var tiles = %Tiles
-
+@onready var overlay = %Overlay
+@onready var sky_images = [preload("res://images/sky/day.png"),
+						   preload("res://images/sky/night.png")]
 
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
@@ -23,10 +28,12 @@ var events = {
 }
 
 func _ready():
+	sign.pivot_offset.x = sign.size.x / 2
+	
 	# Initialization of tiles
 	for i in 16:
 		var coords = Vector2i(g.to_2d_x(i), g.to_2d_y(i))
-		var value = randi_range(0, 1)
+		var value = g.rng.randi_range(0, 1)
 		tiles.set_cell(0, coords, value, Vector2i(0, 0))
 		soil_values.append(value)
 	
@@ -34,44 +41,49 @@ func _ready():
 	for i in g.START_POS:
 		var sunflower = new_sunflower(i, g.START_GENES)
 		sunflowers.append(sunflower)
-		add_child.call_deferred(sunflower)
+		sunflowers_panel.add_child.call_deferred(sunflower)
 
 func _process(delta):
 	# Updates counters
 	var phase_name = g.PHASES[phase_num]
 	counters.text = "Generation %s\n%s\nScore: %s" % [generation_num, phase_name, score]
 	
-	queue_redraw()
+	overlay.queue_redraw()
 
 func _input(event):
 	# Breeding Phase control
 	if phase_num == 1:
 		# Next generation
-		if Input.is_action_just_released("next"):		
+		if Input.is_action_just_released("next"):
 			transition_phase()
 		
 		# Selecting breeding parents
 		if event is InputEventMouseButton and event.is_pressed():
-			var clicked_pos = get_viewport().get_mouse_position() / g.SQUARE_SIZE
+			var global_pos = get_viewport().get_mouse_position()
+			var local_pos = tiles.to_local(global_pos)
+			var map_pos = tiles.local_to_map(local_pos)
 			
-			if not g.is_inbound(clicked_pos.x, clicked_pos.y):
+			if not g.is_inbound(map_pos.x, map_pos.y):
 				return
 			
-			var selected_parent = find_by_pos(g.to_1d_vector(clicked_pos))
+			var selected_parent = find_by_pos(g.to_1d_vector(map_pos))
 			
 			if selected_parent and not selected_parent.is_parent:
 				when_parent_selected(selected_parent)
 			else:
 				reset_selected_parents()
 		
-func _draw():	
-	for order in breeding_orders:
-		var center_1 = order[0].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
-		var center_2 = order[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
-		
-		draw_line(center_1, center_2, Color.GREEN, 2.0)
-		draw_circle(center_2, 10, Color.GREEN)
+func _on_overlay_draw():
+	# For breeding phase overlay
+	if (phase_num == 1):
+		for order in breeding_orders:
+			var center_1 = order[0].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
+			var center_2 = order[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
+			
+			overlay.draw_line(center_1, center_2, Color.GREEN, 2.0)
+			overlay.draw_circle(center_2, 10, Color.GREEN)
 	
+	# For event overlay
 	for event_name in events:
 		if not g.events_overlay[event_name]:
 			continue
@@ -83,17 +95,21 @@ func _draw():
 			
 			for i in 16:
 				if g.is_true_in_map(event_map, i):
-					draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), event_color)
+					overlay.draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), event_color)
 		
 		elif is_event_active(event_name):
-			draw_rect(Rect2(0, 0, g.SQUARE_SIZE * 4, g.SQUARE_SIZE * 4), event_color)
+			if event_name == "Night":
+				overlay.draw_rect(Rect2(-50, -50, g.SQUARE_SIZE * 4 + 100, g.SQUARE_SIZE * 4 + 100), event_color)
+			else:
+				overlay.draw_rect(Rect2(0, 0, g.SQUARE_SIZE * 4, g.SQUARE_SIZE * 4), event_color)
 	
+	# For custom overlay
 	for i in 16:
 		if g.is_true_in_map(preview_map, i):
-			draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), Color("Red", 0.3))
+			overlay.draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), Color("Red", 0.3))
 
 func new_sunflower(pos, genes):
-	var sunflower = sunflower_class.duplicate()
+	var sunflower = sunflower_template.duplicate()
 	sunflower.visible = true
 	sunflower.genes = genes
 	sunflower.pos = pos
@@ -163,12 +179,16 @@ func transition_phase():
 	
 	for sunflower in sunflowers:
 		sunflower.queue_free()
+		
+	await get_tree().create_timer(0.5).timeout
 	
 	sunflowers.clear()
 	sunflowers.append_array(seeds)
 	
 	for seed in seeds:
-		add_child.call_deferred(seed)
+		sunflowers_panel.add_child.call_deferred(seed)
+	
+	await get_tree().create_timer(0.5).timeout
 	
 	breeding_orders.clear()
 	generation_num += 1
@@ -292,7 +312,7 @@ func event_phase():
 			current_events.append(event_name)
 	
 	print("Awaw %s %s" % [generation_num, current_events])
-	update_tiles()
+	update_event_textures()
 	compute_trait_scores()
 	check_game_over()
 	breeding_phase()
@@ -315,18 +335,22 @@ func check_game_over():
 		# To-do: game over pop-up
 		get_tree().reload_current_scene()
 
-func update_tiles():
+func update_event_textures():
+	# For tiles
 	for i in 16:
 		var coords = Vector2i(g.to_2d_x(i), g.to_2d_y(i))
 		
-		if events["Drought"].active_num > 0:
+		if is_event_active("Drought"):
 			tiles.set_cell(0, coords, 2, Vector2i(0, 0))
 		
 		elif g.is_true_in_map(events["Waterlogging"].affected_map, i):
-			tiles.set_cell(0, coords, randi_range(4, 5), Vector2i(0, 0))
+			tiles.set_cell(0, coords, soil_values[i] + 4, Vector2i(0, 0))
 		
 		else:
 			tiles.set_cell(0, coords, soil_values[i], Vector2i(0, 0))
+	
+	# For the sky
+	sky.texture = sky_images[int(is_event_active("Night"))]
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):
@@ -344,3 +368,5 @@ func find_by_pos(pos: int):
 
 func is_event_active(event_name: String):
 	return events[event_name].active_num > 0
+
+

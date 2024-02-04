@@ -18,7 +18,7 @@ var events_preview_color = {
 	"Waterlogging": 	Color("Blue", 0.2),
 	"Drought": 			Color("Orange", 0.05),
 	"Pest Invasion": 	Color("Red", 0.2),
-	"Night": 			Color("Black", 0.1),
+	"Night": 			Color("Black", 0.3),
 	"Fertility": 		Color("Yellow", 0.1)
 }
 var events_overlay = {
@@ -71,11 +71,11 @@ class Storm:
 		
 		match dir:
 			Vector2i(-1, -1):	eye_pos = Vector2i(3, 3)
-			Vector2i(-1, 0):		eye_pos = Vector2i(3, 1)
-			Vector2i(-1, 1):		eye_pos = Vector2i(3, 0)
-			Vector2i(0, -1):		eye_pos = Vector2i(2, 3)
+			Vector2i(-1, 0):	eye_pos = Vector2i(3, 1)
+			Vector2i(-1, 1):	eye_pos = Vector2i(3, 0)
+			Vector2i(0, -1):	eye_pos = Vector2i(2, 3)
 			Vector2i(0, 1):		eye_pos = Vector2i(1, 0)
-			Vector2i(1, -1):		eye_pos = Vector2i(0, 3)
+			Vector2i(1, -1):	eye_pos = Vector2i(0, 3)
 			Vector2i(1, 0):		eye_pos = Vector2i(0, 1)
 			Vector2i(1, 1):		eye_pos = Vector2i(0, 0)
 			

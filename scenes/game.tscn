@@ -1,7 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=23 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
+[ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
+[ext_resource type="Texture2D" uid="uid://c08pva05aoqfc" path="res://images/sky/day.png" id="3_1268t"]
 [ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
 [ext_resource type="Texture2D" uid="uid://45fbnxxqdelb" path="res://images/dirt/dirt_1.png" id="4_bcfba"]
 [ext_resource type="Texture2D" uid="uid://3v4rfcdcwq3s" path="res://images/dirt/dirt_2.png" id="5_fgwel"]
@@ -9,15 +11,10 @@
 [ext_resource type="Texture2D" uid="uid://qhr2g881xixa" path="res://images/dirt/drought_2.png" id="7_2xrdv"]
 [ext_resource type="Texture2D" uid="uid://sgjact2vc816" path="res://images/dirt/waterlogged_1.png" id="8_dfhwu"]
 [ext_resource type="Texture2D" uid="uid://bo0tml5kn3ks0" path="res://images/dirt/waterlogged_2.png" id="9_du1dr"]
+[ext_resource type="Texture2D" uid="uid://dekrfcp64evr5" path="res://images/misc/wooden_sign.png" id="11_yinur"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
-font_size = 36
-font_color = Color(0.215686, 0.321569, 1, 1)
-outline_size = 3
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_sloeo"]
-font_size = 36
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qphp"]
+bg_color = Color(0.239216, 0.603922, 0.258824, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bhr2m"]
 texture = ExtResource("4_bcfba")
@@ -58,33 +55,24 @@ sources/3 = SubResource("TileSetAtlasSource_5l4p3")
 sources/4 = SubResource("TileSetAtlasSource_cx02h")
 sources/5 = SubResource("TileSetAtlasSource_8mfvb")
 
+[sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
+font_size = 36
+font_color = Color(0.215686, 0.321569, 1, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_sloeo"]
+font_size = 32
+font_color = Color(0, 0, 0, 1)
+
 [node name="Game" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-script = ExtResource("1_bmtli")
-
-[node name="Sunflower" type="Node2D" parent="."]
-z_index = -1
-script = ExtResource("2_5e7ut")
-
-[node name="Sprite2D" type="Sprite2D" parent="Sunflower"]
-modulate = Color(1, 1, 1, 0.141176)
-scale = Vector2(1.563, 1.563)
-texture = ExtResource("3_tqvwn")
-centered = false
-
-[node name="Label" type="Label" parent="Sunflower"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 200.0
-offset_bottom = 200.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "AwAwAw"
-label_settings = SubResource("LabelSettings_u6mx4")
-horizontal_alignment = 1
-vertical_alignment = 1
+script = ExtResource("1_bmtli")
 
 [node name="Panel" type="Panel" parent="."]
 self_modulate = Color(1, 1, 1, 0)
@@ -97,14 +85,125 @@ offset_bottom = 1080.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Panel"]
+[node name="LeftUI" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 510.0
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+
+[node name="CenterUI" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_right = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+theme_override_styles/panel = SubResource("StyleBoxFlat_7qphp")
+
+[node name="Sky" type="TextureRect" parent="CenterUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
 anchor_right = 1.0
-offset_left = -248.0
-offset_bottom = 156.0
-grow_horizontal = 0
+offset_bottom = 180.0
+grow_horizontal = 2
+texture = ExtResource("3_1268t")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Garden" type="MarginContainer" parent="CenterUI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -900.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="TilesPanel" type="PanelContainer" parent="CenterUI/Garden"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="Tiles" type="TileMap" parent="CenterUI/Garden/TilesPanel"]
+unique_name_in_owner = true
+tile_set = SubResource("TileSet_o2tj1")
+format = 2
+layer_0/name = "ground"
+layer_0/tile_data = PackedInt32Array(65536, 0, 0, 0, 0, 0, 131072, 0, 0, 196608, 0, 0, 1, 0, 0, 65537, 0, 0, 131073, 0, 0, 196609, 0, 0, 2, 0, 0, 65538, 0, 0, 131074, 0, 0, 196610, 0, 0, 3, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0)
+
+[node name="SunflowersPanel" type="PanelContainer" parent="CenterUI/Garden"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="Sunflower" type="Node2D" parent="CenterUI/Garden/SunflowersPanel"]
+unique_name_in_owner = true
+visible = false
+script = ExtResource("2_5e7ut")
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterUI/Garden/SunflowersPanel/Sunflower"]
+modulate = Color(1, 1, 1, 0.141176)
+scale = Vector2(1.563, 1.563)
+texture = ExtResource("3_tqvwn")
+centered = false
+
+[node name="Label" type="Label" parent="CenterUI/Garden/SunflowersPanel/Sunflower"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "AwAwAw"
+label_settings = SubResource("LabelSettings_u6mx4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OverlayLayer" type="CanvasLayer" parent="CenterUI/Garden"]
+
+[node name="Overlay" type="Node2D" parent="CenterUI/Garden/OverlayLayer"]
+unique_name_in_owner = true
+position = Vector2(560, 230)
+
+[node name="SignLayer" type="CanvasLayer" parent="CenterUI"]
+
+[node name="Sign" type="TextureRect" parent="CenterUI/SignLayer"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -161.5
+offset_top = -8.0
+offset_right = 161.5
+offset_bottom = 258.0
+grow_horizontal = 2
+pivot_offset = Vector2(161.5, 0)
+texture = ExtResource("11_yinur")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Counters" type="Label" parent="CenterUI/SignLayer/Sign"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 81.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 text = "Generation 99 
@@ -113,9 +212,15 @@ Score: 999"
 label_settings = SubResource("LabelSettings_sloeo")
 horizontal_alignment = 1
 
-[node name="Tiles" type="TileMap" parent="."]
-unique_name_in_owner = true
-tile_set = SubResource("TileSet_o2tj1")
-format = 2
-layer_0/name = "ground"
-layer_0/z_index = -1
+[node name="RightUI" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -510.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+
+[connection signal="draw" from="CenterUI/Garden/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]

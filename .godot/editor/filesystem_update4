@@ -1,4 +1,5 @@
 res://scenes/game.tscn
 res://scripts/Game.gd
+res://themes/default_theme.tres
+res://themes/controls_bg.tres
 res://scripts/g.gd
-res://scripts/Overlay.gd

@@ -44,5 +44,5 @@ MarginContainer/constants/margin_right = 50
 MarginContainer/constants/margin_top = 50
 Panel/styles/panel = ExtResource("1_hydms")
 RichTextLabel/colors/font_outline_color = Color(0, 0, 0, 1)
-RichTextLabel/constants/outline_size = 7
-RichTextLabel/font_sizes/normal_font_size = 40
+RichTextLabel/constants/outline_size = 10
+RichTextLabel/font_sizes/normal_font_size = 42

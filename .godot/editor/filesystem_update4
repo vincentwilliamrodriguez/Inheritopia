@@ -1,7 +1,8 @@
 res://scenes/game.tscn
 res://scripts/Game.gd
-res://themes/default_theme.tres
+res://themes/default_font.tres
 res://themes/controls_bg.tres
 res://themes/button.tres
-res://themes/default_font.tres
+res://themes/default_theme.tres
 res://themes/default_label.tres
+res://themes/strength.tres

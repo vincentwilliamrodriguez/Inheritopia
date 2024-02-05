@@ -7,6 +7,7 @@ extends Control
 @onready var counters = %Counters
 @onready var tiles = %Tiles
 @onready var overlay = %Overlay
+@onready var traits_panel = %TraitsPanel
 @onready var sky_images = [preload("res://images/sky/day.png"),
 						   preload("res://images/sky/night.png")]
 
@@ -16,6 +17,7 @@ var preview_map = 0
 var generation_num = 1
 var phase_num = 1
 var score = 0
+var hovered_sunflower = null
 var selected_parents = [null, null]
 var soil_values = []
 var events = {
@@ -59,20 +61,49 @@ func _input(event):
 		
 		# Selecting breeding parents
 		if event is InputEventMouseButton and event.is_pressed():
-			var global_pos = get_viewport().get_mouse_position()
-			var local_pos = tiles.to_local(global_pos)
-			var map_pos = tiles.local_to_map(local_pos)
-			
-			if not g.is_inbound(map_pos.x, map_pos.y):
-				return
-			
-			var selected_parent = find_by_pos(g.to_1d_vector(map_pos))
+			var selected_parent = get_sunflower_by_mouse()
 			
 			if selected_parent and not selected_parent.is_parent:
 				when_parent_selected(selected_parent)
 			else:
 				reset_selected_parents()
+	
+	# Trait info
+	if event is InputEventMouseMotion:
+		var sunflower = get_sunflower_by_mouse()
+		# only change when a sunflower is hovered at, and when no hovered sunflower or when different sunflower is hovered
+		if sunflower and \
+			(not hovered_sunflower or \
+			 not hovered_sunflower.pos == sunflower.pos):
+				hovered_sunflower = sunflower
+				update_traits_info()
+
+
+func when_parent_selected(parent: Sunflower):
+	if not selected_parents[0]:
+		selected_parents[0] = parent
+		parent.modulate = Color("Yellow")
 		
+	else:
+		selected_parents[1] = parent
+		
+		for sunflower in selected_parents:
+			sunflower.is_parent = true
+			sunflower.modulate = Color("Green")
+		
+		breeding_orders.append(selected_parents)
+		reset_selected_parents()
+
+func reset_selected_parents():
+	for sunflower in selected_parents:
+		if sunflower and not sunflower.is_parent:
+			sunflower.modulate = Color("White")
+		
+	selected_parents = [null, null]
+
+func update_traits_info():
+	pass
+
 func _on_overlay_draw():
 	# For breeding phase overlay
 	if (phase_num == 1):
@@ -126,27 +157,6 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 	
 	return genes_seed
 
-func when_parent_selected(parent: Sunflower):
-	if not selected_parents[0]:
-		selected_parents[0] = parent
-		parent.modulate = Color("Yellow")
-		
-	else:
-		selected_parents[1] = parent
-		
-		for sunflower in selected_parents:
-			sunflower.is_parent = true
-			sunflower.modulate = Color("Green")
-		
-		breeding_orders.append(selected_parents)
-		reset_selected_parents()
-
-func reset_selected_parents():
-	for sunflower in selected_parents:
-		if sunflower and not sunflower.is_parent:
-			sunflower.modulate = Color("White")
-		
-	selected_parents = [null, null]
 
 func transition_phase():
 	phase_num = 2
@@ -369,4 +379,12 @@ func find_by_pos(pos: int):
 func is_event_active(event_name: String):
 	return events[event_name].active_num > 0
 
-
+func get_sunflower_by_mouse():
+	var global_pos = get_viewport().get_mouse_position()
+	var local_pos = tiles.to_local(global_pos)
+	var map_pos = tiles.local_to_map(local_pos)
+	
+	if not g.is_inbound(map_pos.x, map_pos.y):
+		return null
+	
+	return find_by_pos(g.to_1d_vector(map_pos))

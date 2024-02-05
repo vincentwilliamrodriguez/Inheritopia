@@ -10,9 +10,21 @@ var breed_lookup = []
 var neighbors_lookup = []
 
 var traits = ['y', 't', 'r']
-var genotypes = [["yy", "yY", "Yy", "YY"],
-				 ["tt", "tT", "Tt", "TT"],
-				 ["rr", "rR", "Rr", "RR"]]
+var genotypes = [
+	["yy", "yY", "Yy", "YY"],
+	["tt", "tT", "Tt", "TT"],
+	["rr", "rR", "Rr", "RR"]
+]
+var phenotypes = [
+	["White", "Yellow"],
+	["Short", "Tall"],
+	["Shallow-rooted", "Deep-rooted"]
+]
+var phenotype_colors = [
+	["#575100", "#8B8000"],
+	["#006100", "#009100"],
+	["#734c00", "#a16b00"]
+]
 var events_preview_color = {
 	"Storm": 			Color("White", 0.2),
 	"Waterlogging": 	Color("Blue", 0.2),
@@ -29,6 +41,13 @@ var events_overlay = {
 	"Night": 			true,
 	"Fertility": 		true
 }
+
+var sw_tooltips = [
+	["%s seed production", "%s resistant to pests"],
+	["%s likely to survive nights", "%s resistant to storms"],
+	["%s likely to survive droughts", "%s resistant to waterlogging"]
+]
+
 
 class Event:
 	var affected_map: int

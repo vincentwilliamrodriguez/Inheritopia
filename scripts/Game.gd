@@ -10,6 +10,10 @@ extends Control
 @onready var traits_panel = %TraitsPanel
 @onready var sky_images = [preload("res://images/sky/day.png"),
 						   preload("res://images/sky/night.png")]
+@onready var sw_resources = [preload("res://themes/weakness.tres"),
+  							 preload("res://themes/strength.tres")]
+@onready var sw_signs = [preload("res://images/icons/sw_minus.png"),
+  						 preload("res://images/icons/sw_plus.png")]
 
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
@@ -17,7 +21,7 @@ var preview_map = 0
 var generation_num = 1
 var phase_num = 1
 var score = 0
-var hovered_sunflower = null
+var hovered_sunflower: Sunflower = null
 var selected_parents = [null, null]
 var soil_values = []
 var events = {
@@ -31,6 +35,7 @@ var events = {
 
 func _ready():
 	sign.pivot_offset.x = sign.size.x / 2
+	update_traits_panel()
 	
 	# Initialization of tiles
 	for i in 16:
@@ -76,7 +81,7 @@ func _input(event):
 			(not hovered_sunflower or \
 			 not hovered_sunflower.pos == sunflower.pos):
 				hovered_sunflower = sunflower
-				update_traits_info()
+				update_traits_panel()
 
 
 func when_parent_selected(parent: Sunflower):
@@ -101,8 +106,51 @@ func reset_selected_parents():
 		
 	selected_parents = [null, null]
 
-func update_traits_info():
-	pass
+func update_traits_panel():
+	var preview_panel = traits_panel.get_node("%SunflowerPreview")
+	var traits_info = traits_panel.get_node("%TraitsInfo")
+	
+	if hovered_sunflower:
+		preview_panel.get_node("Name").modulate.a = 1
+		traits_info.get_node("MarginContainer").modulate.a = 1
+		var genes = hovered_sunflower.genes
+		
+		# Preview Panel
+		var preview = hovered_sunflower.duplicate(true)
+		preview.position = Vector2(25, 25)
+		preview.modulate = Color("White")
+		preview_panel.get_node("Card").get_child(0).queue_free()
+		preview_panel.get_node("Card").add_child.call_deferred(preview)
+		preview_panel.get_node("Name").text = g.get_genome_text(genes)
+		
+		# Traits info
+		for trait_num in 3:
+			var base = traits_info.get_node("MarginContainer/VBoxContainer/%s" % trait_num)
+			var pheno_num = int(genes[trait_num] > 0)
+			
+			var genotype_label = base.get_node("Info/Genotype")
+			var genotype = g.genotypes[trait_num][genes[trait_num]]
+			var phenotype_color = g.phenotype_colors[trait_num][pheno_num]
+			genotype_label.text = "[outline_color=%s]%s[/outline_color]" % [phenotype_color, genotype]
+			
+			var phenotype_label = base.get_node("Info/Phenotype")
+			var phenotype = g.phenotypes[trait_num][pheno_num]
+			var font_size = 36 if (phenotype != "Shallow-rooted") else 32
+			phenotype_label.text = "[font_size=%s][outline_size=8] %s[/outline_size][/font_size]" % [font_size, phenotype]
+			
+			for sw_num in 2:
+				var sw: Control = base.get_node("sw/%s" % sw_num)
+				
+				var sw_sign: TextureRect = sw.get_node("Sign")
+				var strength_num = int(sw_num == (1 - pheno_num))
+				var more_or_less = "More" if strength_num == 1 else "Less"
+				sw.add_theme_stylebox_override("panel", sw_resources[strength_num])
+				sw_sign.texture = sw_signs[strength_num]
+				sw.tooltip_text = g.sw_tooltips[trait_num][sw_num] % more_or_less
+			
+	else:
+		preview_panel.get_node("Name").modulate.a = 0
+		traits_info.get_node("MarginContainer").modulate.a = 0
 
 func _on_overlay_draw():
 	# For breeding phase overlay
@@ -371,7 +419,7 @@ func find_index(inp: Sunflower):
 
 func find_by_pos(pos: int):
 	for sunflower in sunflowers:
-		if sunflower.pos == pos:
+		if is_instance_valid(sunflower) and sunflower.pos == pos:
 			return sunflower
 	
 	return null

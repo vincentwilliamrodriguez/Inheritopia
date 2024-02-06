@@ -119,7 +119,11 @@ func update_traits_panel():
 		var preview = hovered_sunflower.duplicate(true)
 		preview.position = Vector2(25, 25)
 		preview.modulate = Color("White")
-		preview_panel.get_node("Card").get_child(0).queue_free()
+		
+		for previewous in preview_panel.get_node("Card").get_children():
+			if previewous.name != "Shadow":
+				previewous.queue_free()
+		
 		preview_panel.get_node("Card").add_child.call_deferred(preview)
 		preview_panel.get_node("Name").text = g.get_genome_text(genes)
 		
@@ -131,7 +135,7 @@ func update_traits_panel():
 			var genotype_label = base.get_node("Info/Genotype")
 			var genotype = g.genotypes[trait_num][genes[trait_num]]
 			var phenotype_color = g.phenotype_colors[trait_num][pheno_num]
-			genotype_label.text = "[outline_color=%s]%s[/outline_color]" % [phenotype_color, genotype]
+			genotype_label.text = "[color=%s]%s[/color]" % [phenotype_color, genotype]
 			
 			var phenotype_label = base.get_node("Info/Phenotype")
 			var phenotype = g.phenotypes[trait_num][pheno_num]

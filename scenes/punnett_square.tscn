@@ -1,0 +1,157 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1hifdqnl0x2b"]
+
+[ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="1_03bm8"]
+[ext_resource type="Texture2D" uid="uid://bojuy1y812cea" path="res://images/misc/punnett_square.png" id="2_5lswt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_22bmp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ppbws"]
+
+[node name="PunnettSquare" type="GridContainer"]
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_22bmp")
+
+[node name="1" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 75
+alignment = 1
+
+[node name="0" type="RichTextLabel" parent="1"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_03bm8")
+theme_override_font_sizes/normal_font_size = 72
+bbcode_enabled = true
+text = "[color=#f8e400]Y[/color]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="1" type="RichTextLabel" parent="1"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_03bm8")
+theme_override_font_sizes/normal_font_size = 72
+bbcode_enabled = true
+text = "[color=#f8e400]Y[/color]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="0" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(75, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="0" type="RichTextLabel" parent="0"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_03bm8")
+theme_override_font_sizes/normal_font_size = 72
+bbcode_enabled = true
+text = "[color=#f8e400]Y[/color]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="1" type="RichTextLabel" parent="0"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_fonts/normal_font = ExtResource("1_03bm8")
+theme_override_font_sizes/normal_font_size = 72
+bbcode_enabled = true
+text = "[color=#f8e400]Y[/color]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Offspring" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.898039)
+layout_mode = 2
+texture = ExtResource("2_5lswt")
+expand_mode = 1
+
+[node name="Grid" type="GridContainer" parent="Offspring"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 2
+
+[node name="0" type="PanelContainer" parent="Offspring/Grid"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ppbws")
+
+[node name="Label" type="RichTextLabel" parent="Offspring/Grid/0"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("1_03bm8")
+theme_override_font_sizes/normal_font_size = 52
+bbcode_enabled = true
+text = "[center][color=#f8e400]Yy[/color][/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="1" type="PanelContainer" parent="Offspring/Grid"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ppbws")
+
+[node name="Label" type="RichTextLabel" parent="Offspring/Grid/1"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("1_03bm8")
+theme_override_font_sizes/normal_font_size = 52
+bbcode_enabled = true
+text = "[center][color=#f8e400]Yy[/color][/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="2" type="PanelContainer" parent="Offspring/Grid"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ppbws")
+
+[node name="Label" type="RichTextLabel" parent="Offspring/Grid/2"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("1_03bm8")
+theme_override_font_sizes/normal_font_size = 52
+bbcode_enabled = true
+text = "[center][color=#f8e400]Yy[/color][/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="3" type="PanelContainer" parent="Offspring/Grid"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ppbws")
+
+[node name="Label" type="RichTextLabel" parent="Offspring/Grid/3"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/normal_font = ExtResource("1_03bm8")
+theme_override_font_sizes/normal_font_size = 52
+bbcode_enabled = true
+text = "[center][color=#f8e400]Yy[/color][/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0

@@ -1,9 +1,12 @@
 res://scenes/game.tscn
 res://scripts/Game.gd
+res://themes/strength.tres
 res://themes/default_font.tres
 res://themes/controls_bg.tres
 res://themes/button.tres
+res://themes/tabs.tres
 res://themes/default_theme.tres
 res://themes/default_label.tres
-res://themes/strength.tres
-res://scripts/g.gd
+res://scripts/PunnettSquareTabs.gd
+res://themes/tabs_selected.tres
+res://scenes/punnett_square.tscn

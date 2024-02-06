@@ -21,9 +21,9 @@ var phenotypes = [
 	["Shallow-rooted", "Deep-rooted"]
 ]
 var phenotype_colors = [
-	["#575100", "#8B8000"],
-	["#006100", "#009100"],
-	["#734c00", "#a16b00"]
+	["#ffffff", "#f8e400"],
+	["#006100", "#04e104"],
+	["#734c00", "#c38100"]
 ]
 var events_preview_color = {
 	"Storm": 			Color("White", 0.2),

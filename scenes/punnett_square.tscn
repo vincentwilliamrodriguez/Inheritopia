@@ -18,6 +18,7 @@ layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_22bmp")
 
 [node name="1" type="HBoxContainer" parent="."]
+modulate = Color(1, 1, 1, 0.788235)
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -27,6 +28,7 @@ alignment = 1
 [node name="0" type="RichTextLabel" parent="1"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_fonts/normal_font = ExtResource("1_03bm8")
 theme_override_font_sizes/normal_font_size = 72
 bbcode_enabled = true
@@ -38,6 +40,7 @@ autowrap_mode = 0
 [node name="1" type="RichTextLabel" parent="1"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 theme_override_fonts/normal_font = ExtResource("1_03bm8")
 theme_override_font_sizes/normal_font_size = 72
 bbcode_enabled = true
@@ -47,15 +50,17 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="0" type="VBoxContainer" parent="."]
+modulate = Color(1, 1, 1, 0.788235)
 custom_minimum_size = Vector2(75, 0)
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 30
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="0" type="RichTextLabel" parent="0"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_fonts/normal_font = ExtResource("1_03bm8")
 theme_override_font_sizes/normal_font_size = 72
 bbcode_enabled = true
@@ -67,6 +72,7 @@ autowrap_mode = 0
 [node name="1" type="RichTextLabel" parent="0"]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_fonts/normal_font = ExtResource("1_03bm8")
 theme_override_font_sizes/normal_font_size = 72
 bbcode_enabled = true
@@ -76,12 +82,23 @@ scroll_active = false
 autowrap_mode = 0
 
 [node name="Offspring" type="TextureRect" parent="."]
-modulate = Color(1, 1, 1, 0.898039)
+z_index = 1
 layout_mode = 2
 texture = ExtResource("2_5lswt")
 expand_mode = 1
 
+[node name="Shadow" type="Panel" parent="Offspring"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"shadow"
+
 [node name="Grid" type="GridContainer" parent="Offspring"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -100,7 +117,6 @@ theme_override_styles/panel = SubResource("StyleBoxEmpty_ppbws")
 [node name="Label" type="RichTextLabel" parent="Offspring/Grid/0"]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/normal_font = ExtResource("1_03bm8")
 theme_override_font_sizes/normal_font_size = 52
 bbcode_enabled = true

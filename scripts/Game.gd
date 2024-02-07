@@ -35,7 +35,10 @@ var events = {
 
 func _ready():
 	sign.pivot_offset.x = sign.size.x / 2
+	
+	# Initialization of UI
 	update_traits_panel()
+	update_breeding_panel()
 	
 	# Initialization of tiles
 	for i in 16:
@@ -156,11 +159,49 @@ func update_traits_panel():
 
 func update_breeding_panel():
 	var breeding_panel = get_node("%BreedingPanel")
+	var punnett_square_tabs = get_node("%PunnettSquareTabs")
 	
 	# Breeding Parents Preview
 	for parent_num in 2:
 		var base = breeding_panel.get_node("ParentsPreview/%s" % parent_num)
 		update_preview(base, selected_parents[parent_num])
+	
+	# Punnett square
+	for trait_num in 3:
+		var punnett_square = punnett_square_tabs.get_node("%s/PunnettSquare" % trait_num)
+		var offspring_grid = punnett_square.get_node("%Grid")
+		
+		# Shows alleles of each trait of each parent
+		for parent_num in 2:
+			for allele_num in 2:
+				var allele_label = punnett_square.get_node("%s/%s" % [parent_num, allele_num])
+				allele_label.text = " "
+				
+				if selected_parents[parent_num]:
+					var gene = selected_parents[parent_num].genes[trait_num]
+					var is_allele_dominant = int(g.is_true_in_map(gene, 1 - allele_num))
+					
+					var allele_color = g.phenotype_colors[trait_num][is_allele_dominant]
+					var allele_letter = g.alleles[trait_num][is_allele_dominant]
+					allele_label.text = "[color=%s]%s[/color]" % [allele_color, allele_letter]
+		
+		# Shows offspring's possible genotypes
+		if selected_parents[0] and selected_parents[1]:
+			var gene_1 = selected_parents[0].genes[trait_num]
+			var gene_2 = selected_parents[1].genes[trait_num]
+			var child_genotypes = g.breed_lookup[gene_1][gene_2]
+			
+			for square_num in 4:
+				var square_label = offspring_grid.get_node("%s/Label" % square_num)
+				var child_gene = child_genotypes[square_num]
+				
+				var child_genotype = g.genotypes[trait_num][child_gene]
+				var child_color = g.phenotype_colors[trait_num][int(child_gene > 0)]
+				square_label.text = "[center][color=%s]%s[/color][/center]" % [child_color, child_genotype]
+		else:
+			for square_num in 4:
+				var square_label = offspring_grid.get_node("%s/Label" % square_num)
+				square_label.text = " "
 
 func update_preview(node: Node, sunflower: Sunflower):
 	for previewous in node.get_children():

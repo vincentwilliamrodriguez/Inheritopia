@@ -12,6 +12,11 @@ var breed_lookup = []
 var neighbors_lookup = []
 
 var traits = ['y', 't', 'r']
+var alleles = [
+	['y', 'Y'],
+	['t', 'T'],
+	['r', 'R']
+]
 var genotypes = [
 	["yy", "yY", "Yy", "YY"],
 	["tt", "tT", "Tt", "TT"],

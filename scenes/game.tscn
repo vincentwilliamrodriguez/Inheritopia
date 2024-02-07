@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=58 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
@@ -33,12 +33,20 @@
 [ext_resource type="Texture2D" uid="uid://2rfypl4xjjym" path="res://images/icons/sw11.png" id="21_smkvr"]
 [ext_resource type="Texture2D" uid="uid://dn162vwl16mhb" path="res://images/icons/sw20.png" id="22_ydev2"]
 [ext_resource type="Texture2D" uid="uid://c4sfxvjbugevo" path="res://images/icons/sw21.png" id="23_n4s1p"]
+[ext_resource type="Texture2D" uid="uid://b1nbfet7ko7gv" path="res://images/background/grass.png" id="25_eps6i"]
 [ext_resource type="Texture2D" uid="uid://cblkn27ajevb2" path="res://images/icons/breeding_cross.png" id="33_82x3w"]
+[ext_resource type="Texture2D" uid="uid://bcr20rj04p5se" path="res://images/misc/fences.png" id="33_tbnvj"]
+[ext_resource type="Texture2D" uid="uid://bs1kuvn7avfvh" path="res://images/misc/fences-hq.png" id="34_k3vff"]
 [ext_resource type="Script" path="res://scripts/PunnettSquareTabs.gd" id="35_a1rde"]
 [ext_resource type="PackedScene" uid="uid://c1hifdqnl0x2b" path="res://scenes/punnett_square.tscn" id="36_fbjh8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qphp"]
 bg_color = Color(0.239216, 0.603922, 0.258824, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_umwdr"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+shadow_color = Color(0, 0.196078, 0, 0.156863)
+shadow_size = 7
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bhr2m"]
 texture = ExtResource("4_bcfba")
@@ -84,6 +92,31 @@ font_size = 36
 font_color = Color(0.603922, 1, 0.796078, 1)
 outline_size = 3
 outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s27xu"]
+texture = ExtResource("33_tbnvj")
+texture_region_size = Vector2i(32, 32)
+2:0/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+1:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s7miy"]
+texture = ExtResource("34_k3vff")
+texture_region_size = Vector2i(64, 64)
+1:0/0 = 0
+2:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ivnq7"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_s27xu")
+sources/1 = SubResource("TileSetAtlasSource_s7miy")
 
 [sub_resource type="LabelSettings" id="LabelSettings_sloeo"]
 font_size = 32
@@ -704,7 +737,7 @@ expand_mode = 1
 stretch_mode = 4
 
 [node name="CenterUI" type="Panel" parent="."]
-z_index = -1
+z_index = -2
 layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
@@ -728,7 +761,9 @@ texture = ExtResource("3_1268t")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Garden" type="MarginContainer" parent="CenterUI"]
+[node name="Garden" type="TextureRect" parent="CenterUI"]
+unique_name_in_owner = true
+z_index = 1
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -737,40 +772,62 @@ anchor_bottom = 1.0
 offset_top = -900.0
 grow_horizontal = 2
 grow_vertical = 0
+texture = ExtResource("25_eps6i")
+stretch_mode = 1
+
+[node name="Shadow" type="Panel" parent="CenterUI/Garden"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"shadow"
+theme_override_styles/panel = SubResource("StyleBoxFlat_umwdr")
+
+[node name="GardenContainer" type="MarginContainer" parent="CenterUI/Garden"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("2_t6ejp")
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="TilesPanel" type="PanelContainer" parent="CenterUI/Garden"]
+[node name="TilesPanel" type="PanelContainer" parent="CenterUI/Garden/GardenContainer"]
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="Tiles" type="TileMap" parent="CenterUI/Garden/TilesPanel"]
+[node name="Tiles" type="TileMap" parent="CenterUI/Garden/GardenContainer/TilesPanel"]
 unique_name_in_owner = true
 tile_set = SubResource("TileSet_o2tj1")
 format = 2
 layer_0/name = "ground"
-layer_0/tile_data = PackedInt32Array(65536, 0, 0, 0, 0, 0, 131072, 0, 0, 196608, 0, 0, 1, 0, 0, 65537, 0, 0, 131073, 0, 0, 196609, 0, 0, 2, 0, 0, 65538, 0, 0, 131074, 0, 0, 196610, 0, 0, 3, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0)
+layer_0/tile_data = PackedInt32Array(65536, 1, 0, 0, 0, 0, 131072, 1, 0, 196608, 1, 0, 1, 0, 0, 65537, 1, 0, 131073, 0, 0, 196609, 0, 0, 2, 1, 0, 65538, 0, 0, 131074, 1, 0, 196610, 0, 0, 3, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0)
 
-[node name="SunflowersPanel" type="PanelContainer" parent="CenterUI/Garden"]
+[node name="SunflowersPanel" type="PanelContainer" parent="CenterUI/Garden/GardenContainer"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
+z_index = 2
 layout_mode = 2
 
-[node name="Sunflower" type="Node2D" parent="CenterUI/Garden/SunflowersPanel"]
+[node name="Sunflower" type="Node2D" parent="CenterUI/Garden/GardenContainer/SunflowersPanel"]
 unique_name_in_owner = true
 visible = false
 script = ExtResource("2_5e7ut")
 
-[node name="Sprite2D" type="Sprite2D" parent="CenterUI/Garden/SunflowersPanel/Sunflower"]
+[node name="Sprite2D" type="Sprite2D" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
 modulate = Color(1, 1, 1, 0.439216)
 scale = Vector2(1.563, 1.563)
 texture = ExtResource("3_tqvwn")
 centered = false
 
-[node name="Label" type="Label" parent="CenterUI/Garden/SunflowersPanel/Sunflower"]
+[node name="Label" type="Label" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -784,11 +841,22 @@ label_settings = SubResource("LabelSettings_u6mx4")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="OverlayLayer" type="CanvasLayer" parent="CenterUI/Garden"]
+[node name="OverlayLayer" type="CanvasLayer" parent="CenterUI/Garden/GardenContainer"]
 
-[node name="Overlay" type="Node2D" parent="CenterUI/Garden/OverlayLayer"]
+[node name="Overlay" type="Node2D" parent="CenterUI/Garden/GardenContainer/OverlayLayer"]
 unique_name_in_owner = true
 position = Vector2(560, 230)
+
+[node name="Fences" type="TileMap" parent="CenterUI/Garden"]
+z_index = 1
+scale = Vector2(1.563, 1.563)
+tile_set = SubResource("TileSet_ivnq7")
+format = 2
+layer_0/name = "Front"
+layer_0/z_index = 1
+layer_0/tile_data = PackedInt32Array(524288, 65537, 2, 524289, 131073, 0, 524290, 131073, 0, 524291, 131073, 0, 524292, 131073, 0, 524293, 131073, 0, 524294, 131073, 0, 524295, 131073, 0, 524296, 131073, 2)
+layer_1/name = "Back"
+layer_1/tile_data = PackedInt32Array(0, 65537, 0, 1, 131073, 0, 2, 131073, 0, 3, 131073, 0, 4, 131073, 0, 5, 131073, 0, 6, 131073, 0, 7, 131073, 0, 458752, 65537, 1, 393216, 65537, 1, 327680, 65537, 1, 262144, 65537, 1, 196608, 65537, 1, 131072, 65537, 1, 65536, 65537, 1, 65544, 65537, 1, 131080, 65537, 1, 196616, 65537, 1, 262152, 65537, 1, 327688, 65537, 1, 393224, 65537, 1, 458760, 65537, 1, 8, 131073, 1)
 
 [node name="SignLayer" type="CanvasLayer" parent="CenterUI"]
 
@@ -1042,6 +1110,6 @@ text = "Next Generation"
 icon_alignment = 2
 expand_icon = true
 
-[connection signal="draw" from="CenterUI/Garden/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
+[connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]
 [connection signal="pressed" from="RightUI/VBoxContainer/HBoxContainer/NextBtn" to="." method="next_generation"]

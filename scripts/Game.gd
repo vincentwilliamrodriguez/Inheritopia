@@ -2,19 +2,23 @@ extends Control
 
 @onready var sunflowers_panel = %SunflowersPanel
 @onready var sunflower_template = %Sunflower
+@onready var garden = %Garden
 @onready var sky = %Sky
 @onready var sign = %Sign
 @onready var counters = %Counters
 @onready var tiles = %Tiles
 @onready var overlay = %Overlay
 @onready var traits_panel = %TraitsPanel
-@onready var sky_images = [preload("res://images/sky/day.png"),
-						   preload("res://images/sky/night.png")]
-@onready var sw_resources = [preload("res://themes/weakness.tres"),
-  							 preload("res://themes/strength.tres")]
-@onready var sw_signs = [preload("res://images/icons/sw_minus.png"),
-  						 preload("res://images/icons/sw_plus.png")]
 
+@onready var SKY_IMAGES = [preload("res://images/sky/day.png"),
+						   preload("res://images/sky/night.png")]
+@onready var SW_RESOURCES = [preload("res://themes/weakness.tres"),
+  							 preload("res://themes/strength.tres")]
+@onready var SW_SIGNS = [preload("res://images/icons/sw_minus.png"),
+  						 preload("res://images/icons/sw_plus.png")]
+@onready var GARDEN_BG = [preload("res://images/background/grass.png"),
+						  preload("res://images/background/dry_grass.jpg")]
+						
 var sunflowers: Array[Sunflower]
 var breeding_orders = []
 var preview_map = 0
@@ -149,8 +153,8 @@ func update_traits_panel():
 				var sw_sign: TextureRect = sw.get_node("Sign")
 				var strength_num = int(sw_num == (1 - pheno_num))
 				var more_or_less = "More" if strength_num == 1 else "Less"
-				sw.add_theme_stylebox_override("panel", sw_resources[strength_num])
-				sw_sign.texture = sw_signs[strength_num]
+				sw.add_theme_stylebox_override("panel", SW_RESOURCES[strength_num])
+				sw_sign.texture = SW_SIGNS[strength_num]
 				sw.tooltip_text = g.sw_tooltips[trait_num][sw_num] % more_or_less
 			
 	else:
@@ -488,7 +492,11 @@ func update_event_textures():
 			tiles.set_cell(0, coords, soil_values[i], Vector2i(0, 0))
 	
 	# For the sky
-	sky.texture = sky_images[int(is_event_active("Night"))]
+	sky.texture = SKY_IMAGES[int(is_event_active("Night"))]
+	
+	# For the garden's background
+	garden.texture = GARDEN_BG[int(is_event_active("Drought"))]
+	
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):

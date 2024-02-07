@@ -59,18 +59,16 @@ func _process(delta):
 
 func _input(event):
 	# Breeding Phase control
-	if phase_num == 1:
-		# Next generation
-		if Input.is_action_just_released("next"):
-			transition_phase()
-		
+	if phase_num == 1:		
 		# Selecting breeding parents
 		if event is InputEventMouseButton and event.is_pressed():
-			var selected_parent = get_sunflower_by_mouse()
-			
-			if selected_parent and not selected_parent.is_parent:
-				when_parent_selected(selected_parent)
-			else:
+			if event.button_index == MOUSE_BUTTON_LEFT:
+				var selected_parent = get_sunflower_by_mouse()
+				
+				if selected_parent and not selected_parent.is_parent:
+					when_parent_selected(selected_parent)
+					
+			if event.button_index == MOUSE_BUTTON_RIGHT:
 				reset_selected_parents()
 	
 	# Trait info
@@ -83,21 +81,19 @@ func _input(event):
 				hovered_sunflower = sunflower
 				update_traits_panel()
 
+func next_generation():
+	transition_phase()
 
 func when_parent_selected(parent: Sunflower):
 	if not selected_parents[0]:
 		selected_parents[0] = parent
 		parent.modulate = Color("Yellow")
 		
-	else:
+	elif not selected_parents[1]:
 		selected_parents[1] = parent
-		
-		for sunflower in selected_parents:
-			sunflower.is_parent = true
-			sunflower.modulate = Color("Green")
-		
-		breeding_orders.append(selected_parents)
-		reset_selected_parents()
+		parent.modulate = Color("Yellow")
+	
+	update_breeding_panel()
 
 func reset_selected_parents():
 	for sunflower in selected_parents:
@@ -105,6 +101,16 @@ func reset_selected_parents():
 			sunflower.modulate = Color("White")
 		
 	selected_parents = [null, null]
+	update_breeding_panel()
+
+func confirm_breeding():
+	if selected_parents[0] and selected_parents[1]:
+		for sunflower in selected_parents:
+			sunflower.is_parent = true
+			sunflower.modulate = Color("Green")
+		
+		breeding_orders.append(selected_parents)
+		reset_selected_parents()
 
 func update_traits_panel():
 	var preview_panel = traits_panel.get_node("%SunflowerPreview")
@@ -116,15 +122,7 @@ func update_traits_panel():
 		var genes = hovered_sunflower.genes
 		
 		# Preview Panel
-		var preview = hovered_sunflower.duplicate(true)
-		preview.position = Vector2(25, 25)
-		preview.modulate = Color("White")
-		
-		for previewous in preview_panel.get_node("Card").get_children():
-			if previewous.name != "Shadow":
-				previewous.queue_free()
-		
-		preview_panel.get_node("Card").add_child.call_deferred(preview)
+		update_preview(preview_panel.get_node("Card"), hovered_sunflower)
 		preview_panel.get_node("Name").text = g.get_genome_text(genes)
 		
 		# Traits info
@@ -156,15 +154,52 @@ func update_traits_panel():
 		preview_panel.get_node("Name").modulate.a = 0
 		traits_info.get_node("MarginContainer").modulate.a = 0
 
+func update_breeding_panel():
+	var breeding_panel = get_node("%BreedingPanel")
+	
+	# Breeding Parents Preview
+	for parent_num in 2:
+		var base = breeding_panel.get_node("ParentsPreview/%s" % parent_num)
+		update_preview(base, selected_parents[parent_num])
+
+func update_preview(node: Node, sunflower: Sunflower):
+	for previewous in node.get_children():
+		if previewous.name != "Shadow":
+			previewous.queue_free()
+	
+	if not sunflower:
+		return
+	
+	var preview = sunflower.duplicate(true)
+	preview.scale = (200.0 / 250.0) * node.size / 200.0
+	
+	var cur_size = Vector2(200, 200) * preview.scale
+	preview.position = (node.size - cur_size) / 2
+	preview.modulate = Color("White")
+	node.add_child.call_deferred(preview)
+
+
 func _on_overlay_draw():
 	# For breeding phase overlay
 	if (phase_num == 1):
+		# Selected parents
+		if selected_parents[0]:
+			var center_1 = selected_parents[0].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
+			var center_2 = overlay.to_local(get_viewport().get_mouse_position())
+			
+			if selected_parents[1]:
+				center_2 = selected_parents[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
+			
+			overlay.draw_line(center_1, center_2, g.SELECTED_PARENT_COLOR, 2.0)
+			overlay.draw_circle(center_2, 5, g.SELECTED_PARENT_COLOR)
+		
+		# Already parents
 		for order in breeding_orders:
 			var center_1 = order[0].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
 			var center_2 = order[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
 			
-			overlay.draw_line(center_1, center_2, Color.GREEN, 2.0)
-			overlay.draw_circle(center_2, 10, Color.GREEN)
+			overlay.draw_line(center_1, center_2, g.PARENT_COLOR, 2.0)
+			overlay.draw_circle(center_2, 5, g.PARENT_COLOR)
 	
 	# For event overlay
 	for event_name in events:
@@ -440,3 +475,4 @@ func get_sunflower_by_mouse():
 		return null
 	
 	return find_by_pos(g.to_1d_vector(map_pos))
+

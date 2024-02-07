@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=51 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
@@ -88,6 +88,18 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_sloeo"]
 font_size = 32
 font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="InputEventAction" id="InputEventAction_0c4st"]
+action = &"breed"
+
+[sub_resource type="Shortcut" id="Shortcut_pj4qi"]
+events = [SubResource("InputEventAction_0c4st")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_a6cw5"]
+action = &"next"
+
+[sub_resource type="Shortcut" id="Shortcut_fkdmw"]
+events = [SubResource("InputEventAction_a6cw5")]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -844,6 +856,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="BreedingPanel" type="MarginContainer" parent="RightUI/VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 420)
 layout_mode = 2
 theme_override_constants/margin_bottom = 80
@@ -928,6 +941,8 @@ theme_override_constants/separation = 40
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
+shortcut = SubResource("Shortcut_pj4qi")
+shortcut_in_tooltip = false
 text = "Breed"
 
 [node name="UndoBtn" type="Button" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer"]
@@ -1016,11 +1031,15 @@ size_flags_vertical = 6
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="BreedBtn" type="Button" parent="RightUI/VBoxContainer/HBoxContainer"]
+[node name="NextBtn" type="Button" parent="RightUI/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
+shortcut = SubResource("Shortcut_fkdmw")
+shortcut_in_tooltip = false
 text = "Next Generation"
 icon_alignment = 2
 expand_icon = true
 
 [connection signal="draw" from="CenterUI/Garden/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
+[connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]
+[connection signal="pressed" from="RightUI/VBoxContainer/HBoxContainer/NextBtn" to="." method="next_generation"]

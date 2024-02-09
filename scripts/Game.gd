@@ -73,7 +73,7 @@ func _input(event):
 			if event.button_index == MOUSE_BUTTON_LEFT:
 				var selected_parent = get_sunflower_by_mouse()
 				
-				if selected_parent and not selected_parent.is_parent:
+				if selected_parent and not selected_parent.is_receiver:
 					when_parent_selected(selected_parent)
 					
 			if event.button_index == MOUSE_BUTTON_RIGHT:
@@ -95,7 +95,6 @@ func next_generation():
 func when_parent_selected(parent: Sunflower):
 	if not selected_parents[0]:
 		selected_parents[0] = parent
-		parent.modulate = Color("Yellow")
 		
 	elif not selected_parents[1]:
 		selected_parents[1] = parent
@@ -105,7 +104,7 @@ func when_parent_selected(parent: Sunflower):
 
 func reset_selected_parents():
 	for sunflower in selected_parents:
-		if sunflower and not sunflower.is_parent:
+		if sunflower and not sunflower.is_receiver:
 			sunflower.modulate = Color("White")
 		
 	selected_parents = [null, null]
@@ -113,9 +112,8 @@ func reset_selected_parents():
 
 func confirm_breeding():
 	if selected_parents[0] and selected_parents[1]:
-		for sunflower in selected_parents:
-			sunflower.is_parent = true
-			sunflower.modulate = Color("Green")
+		selected_parents[1].is_receiver = true
+		selected_parents[1].modulate = Color("Green")
 		
 		breeding_orders.append(selected_parents)
 		reset_selected_parents()
@@ -272,10 +270,9 @@ func _on_puzzle_selected(id: int, correct: int, puzzle_btn: OptionButton):
 		
 		for sunflower in sunflowers:
 			if sunflower.is_glowing:
-				sunflower.lose_glow()
+				sunflower.set_glow(false)
 		
 		update_breeding_panel()
-		
 		
 
 func _on_overlay_draw():
@@ -289,16 +286,16 @@ func _on_overlay_draw():
 			if selected_parents[1]:
 				center_2 = selected_parents[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
 			
-			overlay.draw_line(center_1, center_2, g.SELECTED_PARENT_COLOR, 2.0)
-			overlay.draw_circle(center_2, 5, g.SELECTED_PARENT_COLOR)
+			overlay.draw_line(center_1, center_2, g.SELECTED_PARENT_COLOR, 5.0)
+			overlay.draw_circle(center_2, 10, g.SELECTED_PARENT_COLOR)
 		
 		# Already parents
 		for order in breeding_orders:
 			var center_1 = order[0].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
 			var center_2 = order[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
 			
-			overlay.draw_line(center_1, center_2, g.PARENT_COLOR, 2.0)
-			overlay.draw_circle(center_2, 5, g.PARENT_COLOR)
+			overlay.draw_line(center_1, center_2, g.PARENT_COLOR, 5.0)
+			overlay.draw_circle(center_2, 10, g.PARENT_COLOR)
 	
 	# For event overlay
 	for event_name in events:
@@ -332,7 +329,7 @@ func new_sunflower(pos, genes):
 	sunflower.pos = pos
 	
 	if g.rng.randf() < g.GLOWING_CHANCE:
-		sunflower.is_glowing = true
+		sunflower.set_glow(true)
 		
 	return sunflower
 
@@ -365,8 +362,7 @@ func transition_phase():
 					0.2 if (parent_1.genes[0] > 0) else \
 					0.0
 					
-		var rand_num = g.rng.randfn(1.2 + bonus, 0.3) if (order[0] == order[1]) else \
-					   g.rng.randfn(2.2 + bonus, 0.3)
+		var rand_num = g.rng.randfn(1.2 + bonus, 0.3)
 		var num_of_seed = clampi(roundi(rand_num), 1, 3)
 		
 		for n in num_of_seed:
@@ -390,7 +386,11 @@ func transition_phase():
 	
 	for seed in seeds:
 		sunflowers_panel.add_child.call_deferred(seed)
-	
+		
+	for sunflower in sunflowers:
+			if sunflower.is_glowing:
+				print("Awaw")
+				
 	await get_tree().create_timer(0.5).timeout
 	
 	breeding_orders.clear()

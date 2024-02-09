@@ -3,6 +3,7 @@ extends Node
 const SQUARE_SIZE = 200
 const START_POS = [5, 6, 9, 10]
 const START_GENES = [2, 2, 2]
+const GLOWING_CHANCE = 0.10
 const SELECTED_PARENT_COLOR = Color("Yellow", 0.5)
 const PARENT_COLOR = Color("Green", 0.5)
 const PHASES = ["Event Phase", "Breeding Phase", "Transition Phase"]

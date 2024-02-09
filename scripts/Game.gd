@@ -25,6 +25,7 @@ var preview_map = 0
 var generation_num = 1
 var phase_num = 1
 var score = 0
+var correct_puzzles = 0
 var hovered_sunflower: Sunflower = null
 var selected_parents = [null, null]
 var soil_values = []
@@ -194,18 +195,39 @@ func update_breeding_panel():
 			var gene_1 = selected_parents[0].genes[trait_num]
 			var gene_2 = selected_parents[1].genes[trait_num]
 			var child_genotypes = g.breed_lookup[gene_1][gene_2]
+			var is_one_parent_glowing = selected_parents[0].is_glowing or \
+										selected_parents[1].is_glowing
 			
 			for square_num in 4:
 				var square_label = offspring_grid.get_node("%s/Label" % square_num)
+				var puzzle_btn = square_label.get_node("Puzzle")
 				var child_gene = child_genotypes[square_num]
 				
 				var child_genotype = g.genotypes[trait_num][child_gene]
 				var child_color = g.phenotype_colors[trait_num][int(child_gene > 0)]
 				square_label.text = "[center][color=%s]%s[/color][/center]" % [child_color, child_genotype]
+				
+				if is_one_parent_glowing:
+					puzzle_btn.visible = true
+					
+					for i in range(1, 4):
+						var puzzle_num = [-1, 3, 2, 0][i]
+						var puzzle_option = g.genotypes[trait_num][puzzle_num]
+						puzzle_btn.set_item_text(i, puzzle_option)
+					
+					if puzzle_btn.item_selected.is_connected(_on_puzzle_selected):
+						puzzle_btn.item_selected.disconnect(_on_puzzle_selected)
+					puzzle_btn.item_selected.connect(_on_puzzle_selected.bind(child_gene, puzzle_btn))
+				
+				else:
+					puzzle_btn.visible = false
 		else:
 			for square_num in 4:
 				var square_label = offspring_grid.get_node("%s/Label" % square_num)
+				var puzzle_btn = square_label.get_node("Puzzle")
 				square_label.text = " "
+				puzzle_btn.visible = false
+				puzzle_btn.select(0)
 
 func update_preview(node: Node, sunflower: Sunflower):
 	for previewous in node.get_children():
@@ -223,6 +245,38 @@ func update_preview(node: Node, sunflower: Sunflower):
 	preview.modulate = Color("White")
 	node.add_child.call_deferred(preview)
 
+func _on_puzzle_selected(id: int, correct: int, puzzle_btn: OptionButton):
+	var attempt = [-1, 3, 2, 0][id]
+	
+	if attempt == correct:
+		puzzle_btn.visible = false
+		correct_puzzles += 1
+		# TODO: Add sound effect
+	else:
+		puzzle_btn.select(0) # Sets it back to question mark
+		# TODO: Add sound effect
+	
+	# Player gets enough puzzles correct
+	if correct_puzzles >= 8:
+		score += 50
+		
+		var sunflower_map = 0b0
+		
+		for sunflower in sunflowers:
+			sunflower_map |= (1 << sunflower.pos)
+			
+		var new_sunflower_pos = find_free_tile(g.rng.randi_range(0, 15), sunflower_map)
+		var new_sunflower = new_sunflower(new_sunflower_pos, g.START_GENES)
+		sunflowers.append(new_sunflower)
+		sunflowers_panel.add_child.call_deferred(new_sunflower)
+		
+		for sunflower in sunflowers:
+			if sunflower.is_glowing:
+				sunflower.lose_glow()
+		
+		update_breeding_panel()
+		
+		
 
 func _on_overlay_draw():
 	# For breeding phase overlay
@@ -276,6 +330,10 @@ func new_sunflower(pos, genes):
 	sunflower.visible = true
 	sunflower.genes = genes
 	sunflower.pos = pos
+	
+	if g.rng.randf() < g.GLOWING_CHANCE:
+		sunflower.is_glowing = true
+		
 	return sunflower
 
 func breed(parent_1: Sunflower, parent_2: Sunflower):
@@ -292,6 +350,9 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 
 func transition_phase():
 	phase_num = 2
+	selected_parents = [null, null]
+	correct_puzzles = 0
+	update_breeding_panel()
 	
 	var seeds: Array[Sunflower]
 	var seed_map = 0x0
@@ -446,7 +507,6 @@ func event_phase():
 		# Reverting tiles affected too long to normal
 		if is_position_based:
 			event.remove_longest_affected()
-	
 	
 	var current_events = []
 	for event_name in events:

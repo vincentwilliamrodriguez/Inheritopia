@@ -20,25 +20,40 @@ extends Control
 						  preload("res://images/background/dry_grass.jpg")]
 						
 var sunflowers: Array[Sunflower]
-var breeding_orders = []
-var preview_map = 0
-var generation_num = 1
-var phase_num = 1
-var score = 0
-var correct_puzzles = 0
-var hovered_sunflower: Sunflower = null
-var selected_parents = [null, null]
-var soil_values = []
-var events = {
-	"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
-	"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
-	"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
-	"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
-	"Night": 			g.Event.new(1, [0.85, 0.95], 0.00),
-	"Fertility": 		g.Event.new(0, [1.00, 1.00], 0.05)
-}
+var breeding_orders: Array
+var preview_map: int
+var generation_num: int
+var phase_num: int
+var score: int
+var correct_puzzles: int
+var hovered_sunflower: Sunflower
+var selected_parents: Array
+var soil_values: Array
+var events: Dictionary
+
+func _init_variables():
+	sunflowers = []
+	breeding_orders = []
+	preview_map = 0
+	generation_num = 1
+	phase_num = 1
+	score = 0
+	correct_puzzles = 0
+	hovered_sunflower = null
+	selected_parents = [null, null]
+	soil_values = []
+	events = {
+		"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
+		"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
+		"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
+		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
+		"Night": 			g.Event.new(1, [0.85, 0.95], 0.00),
+		"Fertility": 		g.Event.new(0, [1.00, 1.00], 0.05)
+	}
 
 func _ready():
+	_init_variables()
+	
 	sign.pivot_offset.x = sign.size.x / 2
 	
 	# Initialization of UI
@@ -51,6 +66,8 @@ func _ready():
 		var value = g.rng.randi_range(0, 1)
 		tiles.set_cell(0, coords, value, Vector2i(0, 0))
 		soil_values.append(value)
+		
+	update_event_textures()
 	
 	# Initialization of sunflowers
 	for i in g.START_POS:
@@ -66,6 +83,9 @@ func _process(delta):
 	overlay.queue_redraw()
 
 func _input(event):
+	# Popup control
+	
+	
 	# Breeding Phase control
 	if phase_num == 1:		
 		# Selecting breeding parents
@@ -344,6 +364,22 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 	
 	return genes_seed
 
+func undo_breeding():
+	reset_selected_parents()
+	
+	if len(breeding_orders) > 0:
+		var last_order = breeding_orders.pop_back()[1]
+		last_order.is_receiver = false
+		last_order.modulate = Color("White")
+
+func restart_game():
+	
+	
+	if phase_num == 1:
+		for sunflower in sunflowers:
+			sunflower.queue_free()
+		
+		_ready()
 
 func transition_phase():
 	phase_num = 2
@@ -534,8 +570,8 @@ func check_game_over():
 	if len(sunflowers) == 0:
 		print("Awaw over!")
 		
-		# To-do: game over pop-up
-		get_tree().reload_current_scene()
+		# TODO: game over pop-up
+		restart_game()
 
 func update_event_textures():
 	# For tiles

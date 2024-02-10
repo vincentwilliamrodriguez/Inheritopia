@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=62 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
@@ -39,6 +39,14 @@
 [ext_resource type="Texture2D" uid="uid://bs1kuvn7avfvh" path="res://images/misc/fences-hq.png" id="34_k3vff"]
 [ext_resource type="Script" path="res://scripts/PunnettSquareTabs.gd" id="35_a1rde"]
 [ext_resource type="PackedScene" uid="uid://c1hifdqnl0x2b" path="res://scenes/punnett_square.tscn" id="36_fbjh8"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_1ys0g"]
+device = -1
+keycode = 82
+unicode = 114
+
+[sub_resource type="Shortcut" id="Shortcut_ecplw"]
+events = [SubResource("InputEventKey_1ys0g")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qphp"]
 bg_color = Color(0.239216, 0.603922, 0.258824, 1)
@@ -128,6 +136,14 @@ action = &"breed"
 [sub_resource type="Shortcut" id="Shortcut_pj4qi"]
 events = [SubResource("InputEventAction_0c4st")]
 
+[sub_resource type="InputEventKey" id="InputEventKey_x6okl"]
+device = -1
+keycode = 90
+unicode = 122
+
+[sub_resource type="Shortcut" id="Shortcut_iod7g"]
+events = [SubResource("InputEventKey_x6okl")]
+
 [sub_resource type="InputEventAction" id="InputEventAction_a6cw5"]
 action = &"next"
 
@@ -143,6 +159,18 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_t6ejp")
 script = ExtResource("1_bmtli")
+
+[node name="PopupLayer" type="CanvasLayer" parent="."]
+layer = 4
+
+[node name="Shade" type="ColorRect" parent="PopupLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.505882)
 
 [node name="LeftUI" type="Panel" parent="."]
 layout_mode = 1
@@ -181,7 +209,9 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+focus_mode = 0
 theme = ExtResource("2_t6ejp")
+shortcut_in_tooltip = false
 
 [node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/HomeBtn"]
 layout_mode = 1
@@ -205,7 +235,9 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+focus_mode = 0
 theme = ExtResource("2_t6ejp")
+shortcut_in_tooltip = false
 
 [node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/SettingBtn"]
 layout_mode = 1
@@ -229,7 +261,9 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+focus_mode = 0
 theme = ExtResource("2_t6ejp")
+shortcut_in_tooltip = false
 
 [node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/HelpBtn"]
 layout_mode = 1
@@ -253,7 +287,10 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+focus_mode = 0
 theme = ExtResource("2_t6ejp")
+shortcut = SubResource("Shortcut_ecplw")
+shortcut_in_tooltip = false
 
 [node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/RestartBtn"]
 layout_mode = 1
@@ -1017,6 +1054,7 @@ theme_override_constants/separation = 40
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
 shortcut = SubResource("Shortcut_pj4qi")
 shortcut_in_tooltip = false
 text = "Breed"
@@ -1026,7 +1064,10 @@ custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+focus_mode = 0
 theme = ExtResource("2_t6ejp")
+shortcut = SubResource("Shortcut_iod7g")
+shortcut_in_tooltip = false
 
 [node name="Icon" type="TextureRect" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/UndoBtn"]
 layout_mode = 1
@@ -1118,6 +1159,8 @@ text = "Next Generation"
 icon_alignment = 2
 expand_icon = true
 
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="restart_game"]
 [connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]
+[connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/UndoBtn" to="." method="undo_breeding"]
 [connection signal="pressed" from="RightUI/VBoxContainer/HBoxContainer/NextBtn" to="." method="next_generation"]

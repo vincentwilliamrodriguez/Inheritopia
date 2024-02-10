@@ -8,5 +8,3 @@ res://themes/tabs.tres
 res://themes/default_theme.tres
 res://themes/default_label.tres
 res://scenes/punnett_square.tscn
-res://scripts/Sunflower.gd
-res://scripts/g.gd

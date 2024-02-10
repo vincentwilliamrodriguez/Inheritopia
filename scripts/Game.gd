@@ -1,5 +1,6 @@
 extends Control
 
+@onready var popup_layer = %PopupLayer
 @onready var sunflowers_panel = %SunflowersPanel
 @onready var sunflower_template = %Sunflower
 @onready var garden = %Garden
@@ -82,10 +83,7 @@ func _process(delta):
 	
 	overlay.queue_redraw()
 
-func _input(event):
-	# Popup control
-	
-	
+func _input(event):	
 	# Breeding Phase control
 	if phase_num == 1:		
 		# Selecting breeding parents
@@ -372,14 +370,23 @@ func undo_breeding():
 		last_order.is_receiver = false
 		last_order.modulate = Color("White")
 
-func restart_game():
-	
-	
-	if phase_num == 1:
+func restart_game(is_gameover = false):	
+	if is_gameover or phase_num == 1:
 		for sunflower in sunflowers:
 			sunflower.queue_free()
 		
 		_ready()
+
+func show_popup(name: String):
+	popup_layer.get_node(name).show()
+	popup_layer.get_node("Shade").visible = true
+
+func hide_popup():
+	for popup in popup_layer.get_children():
+		if popup is Window:
+			popup.hide()
+	
+	popup_layer.get_node("Shade").visible = false
 
 func transition_phase():
 	phase_num = 2
@@ -569,10 +576,50 @@ func compute_trait_scores():
 func check_game_over():
 	if len(sunflowers) == 0:
 		print("Awaw over!")
+		show_popup("GameoverScreen")
+		save_scores()
 		
-		# TODO: game over pop-up
-		restart_game()
+		var awaw = load_scores()
+		%GameoverScreen.get_label().text = "Good job! You survived %s generations and got a score of %s.\n\nYour highscores are now %s generations and a score of %s." % \
+											[generation_num, 		\
+											 score, 				\
+											 awaw["HS_generation"], \
+											 awaw["HS_score"]]
+		
+func save_scores():	
+	var hs_generation = 0
+	var hs_score = 0
+	var past_data = load_scores()
+	
+	if past_data:
+		hs_generation = past_data["HS_generation"]
+		hs_score = past_data["HS_score"]
+	
+	var save_game = FileAccess.open("user://savegame.save", FileAccess.WRITE)
+	var data = {
+		"HS_generation": max(hs_generation, generation_num),
+		"HS_score": max(hs_score, score)
+	}
+	
+	var json_string = JSON.stringify(data)
+	save_game.store_line(json_string)
 
+
+func load_scores():
+	if not FileAccess.file_exists("user://savegame.save"):
+		return null
+
+	var save_game = FileAccess.open("user://savegame.save", FileAccess.READ)
+	var json_string = save_game.get_line()
+	var json = JSON.new()
+	var parse_result = json.parse(json_string)
+	
+	if not parse_result == OK:
+		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+		return null
+
+	return json.get_data()
+	
 func update_event_textures():
 	# For tiles
 	for i in 16:

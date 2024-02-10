@@ -8,3 +8,7 @@ res://themes/tabs.tres
 res://themes/default_theme.tres
 res://themes/default_label.tres
 res://scenes/punnett_square.tscn
+res://themes/popup.tres
+res://scripts/popup.gd
+res://themes/popup_theme.tres
+res://themes/dialog_text.tres

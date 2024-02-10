@@ -1,12 +1,10 @@
-[gd_scene load_steps=64 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=62 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
 [ext_resource type="Texture2D" uid="uid://dxhvly0a14y0c" path="res://images/background/wood.png" id="3_0mqbn"]
-[ext_resource type="Script" path="res://scripts/popup.gd" id="3_4kks3"]
 [ext_resource type="Texture2D" uid="uid://c08pva05aoqfc" path="res://images/sky/day.png" id="3_1268t"]
-[ext_resource type="Theme" uid="uid://cgl0kr3l8h2w1" path="res://themes/popup_theme.tres" id="3_cey50"]
 [ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
 [ext_resource type="Texture2D" uid="uid://cc43p8f5recor" path="res://images/icons/home.png" id="4_6kj66"]
 [ext_resource type="Texture2D" uid="uid://45fbnxxqdelb" path="res://images/dirt/dirt_1.png" id="4_bcfba"]
@@ -173,37 +171,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.631373)
-
-[node name="RestartConfirmation" type="ConfirmationDialog" parent="PopupLayer"]
-transparent_bg = true
-title = "Restart Game"
-initial_position = 1
-size = Vector2i(500, 250)
-unresizable = true
-transparent = true
-theme = ExtResource("3_cey50")
-ok_button_text = "Yes"
-dialog_text = "Are you sure you want to restart the game?"
-dialog_autowrap = true
-cancel_button_text = "No"
-script = ExtResource("3_4kks3")
-
-[node name="GameoverScreen" type="AcceptDialog" parent="PopupLayer"]
-unique_name_in_owner = true
-transparent_bg = true
-title = "Game Over!"
-initial_position = 1
-size = Vector2i(700, 400)
-unresizable = true
-transparent = true
-theme = ExtResource("3_cey50")
-ok_button_text = "Play Again"
-dialog_text = "Good job! You survived %s generations and got a score of %s.
-
-Your highscores are now %s generations and a score of %s."
-dialog_autowrap = true
-script = ExtResource("3_4kks3")
+color = Color(0, 0, 0, 0.505882)
 
 [node name="LeftUI" type="Panel" parent="."]
 layout_mode = 1
@@ -1192,15 +1160,7 @@ text = "Next Generation"
 icon_alignment = 2
 expand_icon = true
 
-[connection signal="canceled" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
-[connection signal="close_requested" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="restart_game"]
-[connection signal="canceled" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
-[connection signal="close_requested" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="restart_game" binds= [true]]
-[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="show_popup" binds= ["RestartConfirmation"]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="restart_game"]
 [connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/UndoBtn" to="." method="undo_breeding"]

@@ -79,7 +79,7 @@ func _ready():
 func _process(delta):
 	# Updates counters
 	var phase_name = g.PHASES[phase_num]
-	counters.text = "Generation %s\n%s\nScore: %s" % [generation_num, phase_name, score]
+	counters.text = g.counters_text % [generation_num, score, phase_name]
 	
 	overlay.queue_redraw()
 
@@ -557,6 +557,8 @@ func event_phase():
 			current_events.append(event_name)
 	
 	print("Awaw %s %s" % [generation_num, current_events])
+	
+	%SignBody.apply_random_force()
 	update_event_textures()
 	compute_trait_scores()
 	check_game_over()
@@ -580,11 +582,7 @@ func check_game_over():
 		save_scores()
 		
 		var awaw = load_scores()
-		%GameoverScreen.get_label().text = "Good job! You survived %s generations and got a score of %s.\n\nYour highscores are now %s generations and a score of %s." % \
-											[generation_num, 		\
-											 score, 				\
-											 awaw["HS_generation"], \
-											 awaw["HS_score"]]
+		%GameoverScreen.get_label().text = g.gameover_text % [generation_num, score, awaw["HS_generation"], awaw["HS_score"]]
 		
 func save_scores():	
 	var hs_generation = 0

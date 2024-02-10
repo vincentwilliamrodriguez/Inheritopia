@@ -12,3 +12,5 @@ res://themes/popup.tres
 res://scripts/popup.gd
 res://themes/popup_theme.tres
 res://themes/dialog_text.tres
+res://scripts/g.gd
+res://scripts/sign_interactive.gd

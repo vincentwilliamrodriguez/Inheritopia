@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=67 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
@@ -41,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://bs1kuvn7avfvh" path="res://images/misc/fences-hq.png" id="34_k3vff"]
 [ext_resource type="Script" path="res://scripts/PunnettSquareTabs.gd" id="35_a1rde"]
 [ext_resource type="PackedScene" uid="uid://c1hifdqnl0x2b" path="res://scenes/punnett_square.tscn" id="36_fbjh8"]
+[ext_resource type="Script" path="res://scripts/sign_interactive.gd" id="37_rvuv6"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_1ys0g"]
 device = -1
@@ -128,9 +129,15 @@ tile_size = Vector2i(64, 64)
 sources/0 = SubResource("TileSetAtlasSource_s27xu")
 sources/1 = SubResource("TileSetAtlasSource_s7miy")
 
-[sub_resource type="LabelSettings" id="LabelSettings_sloeo"]
-font_size = 32
-font_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_170gs"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+shadow_color = Color(0, 0, 0, 0.156863)
+shadow_size = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkoh4"]
+size = Vector2(322, 226)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wp2j0"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_0c4st"]
 action = &"breed"
@@ -173,6 +180,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0.631373)
 
 [node name="RestartConfirmation" type="ConfirmationDialog" parent="PopupLayer"]
@@ -243,6 +251,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
 shortcut_in_tooltip = false
 
@@ -269,6 +278,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
 shortcut_in_tooltip = false
 
@@ -295,6 +305,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
 shortcut_in_tooltip = false
 
@@ -321,6 +332,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
 shortcut = SubResource("Shortcut_ecplw")
 shortcut_in_tooltip = false
@@ -938,22 +950,60 @@ layer_1/tile_data = PackedInt32Array(0, 65537, 0, 1, 131073, 0, 2, 131073, 0, 3,
 
 [node name="SignLayer" type="CanvasLayer" parent="CenterUI"]
 
-[node name="Sign" type="TextureRect" parent="CenterUI/SignLayer"]
+[node name="SignContainer" type="PanelContainer" parent="CenterUI/SignLayer"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="PinJoint2D" type="PinJoint2D" parent="CenterUI/SignLayer/SignContainer"]
+position = Vector2(3, -9.15)
+node_a = NodePath("../SignBody")
+node_b = NodePath("../Pivot")
+
+[node name="SignBody" type="RigidBody2D" parent="CenterUI/SignLayer/SignContainer"]
+unique_name_in_owner = true
+position = Vector2(0, -12)
+collision_layer = 255
+input_pickable = true
+script = ExtResource("37_rvuv6")
+
+[node name="Sign" type="TextureRect" parent="CenterUI/SignLayer/SignContainer/SignBody"]
 unique_name_in_owner = true
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -161.5
-offset_top = -8.0
 offset_right = 161.5
-offset_bottom = 258.0
+offset_bottom = 266.0
 grow_horizontal = 2
 pivot_offset = Vector2(161.5, 0)
+mouse_filter = 2
+mouse_default_cursor_shape = 2
 texture = ExtResource("11_yinur")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="Counters" type="Label" parent="CenterUI/SignLayer/Sign"]
+[node name="Shadow" type="Panel" parent="CenterUI/SignLayer/SignContainer/SignBody/Sign"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 72.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+theme_type_variation = &"shadow"
+theme_override_styles/panel = SubResource("StyleBoxFlat_170gs")
+
+[node name="Counters" type="RichTextLabel" parent="CenterUI/SignLayer/SignContainer/SignBody/Sign"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -965,13 +1015,26 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
+mouse_filter = 2
 theme = ExtResource("2_t6ejp")
-text = "Generation 99 
-Awaw Phase
-Score: 999"
-label_settings = SubResource("LabelSettings_sloeo")
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center][color=\"#ddd\"][font_size=24]Generation[/font_size][/color] 99
+[color=\"#ddd\"][font_size=24]Score[/font_size][/color] 99
+Awaw Phase[/center]"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterUI/SignLayer/SignContainer/SignBody"]
+visible = false
+position = Vector2(0, 114)
+shape = SubResource("RectangleShape2D_pkoh4")
+
+[node name="Pivot" type="StaticBody2D" parent="CenterUI/SignLayer/SignContainer"]
+position = Vector2(3, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterUI/SignLayer/SignContainer/Pivot"]
+shape = SubResource("CircleShape2D_wp2j0")
 
 [node name="RightUI" type="Panel" parent="."]
 layout_mode = 1
@@ -1088,6 +1151,7 @@ custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 focus_mode = 0
+mouse_default_cursor_shape = 2
 shortcut = SubResource("Shortcut_pj4qi")
 shortcut_in_tooltip = false
 text = "Breed"
@@ -1098,6 +1162,7 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 focus_mode = 0
+mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
 shortcut = SubResource("Shortcut_iod7g")
 shortcut_in_tooltip = false
@@ -1186,6 +1251,7 @@ alignment = 1
 custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
 focus_mode = 0
+mouse_default_cursor_shape = 2
 shortcut = SubResource("Shortcut_fkdmw")
 shortcut_in_tooltip = false
 text = "Next Generation"

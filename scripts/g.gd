@@ -56,6 +56,8 @@ var sw_tooltips = [
 	["%s likely to survive droughts", "%s resistant to waterlogging"]
 ]
 
+var gameover_text = "Good job! You survived %s generations and got a score of %s.\n\nYour highscores are now %s generations and a score of %s."
+var counters_text = "[center][color=\"#ddd\"][font_size=24]Generation[/font_size][/color] %s\n[color=\"#ddd\"][font_size=24]Score[/font_size][/color] %s\n%s[/center]"
 
 class Event:
 	var affected_map: int

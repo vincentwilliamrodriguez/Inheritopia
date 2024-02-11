@@ -45,7 +45,7 @@ var events_overlay = {
 	"Storm": 			false,
 	"Waterlogging": 	false,
 	"Drought": 			false,
-	"Pest Invasion": 	true,
+	"Pest Invasion": 	false,
 	"Night": 			true,
 	"Fertility": 		true
 }

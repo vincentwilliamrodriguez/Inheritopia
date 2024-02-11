@@ -1,4 +1,4 @@
-[gd_scene load_steps=103 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=105 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
@@ -41,6 +41,7 @@
 [ext_resource type="Texture2D" uid="uid://bcr20rj04p5se" path="res://images/misc/fences.png" id="33_tbnvj"]
 [ext_resource type="Texture2D" uid="uid://bs1kuvn7avfvh" path="res://images/misc/fences-hq.png" id="34_k3vff"]
 [ext_resource type="Script" path="res://scripts/PunnettSquareTabs.gd" id="35_a1rde"]
+[ext_resource type="PackedScene" uid="uid://5jv6xt74r45n" path="res://scenes/pest_tile.tscn" id="35_ea5e1"]
 [ext_resource type="PackedScene" uid="uid://c1hifdqnl0x2b" path="res://scenes/punnett_square.tscn" id="36_fbjh8"]
 [ext_resource type="Script" path="res://scripts/sign_interactive.gd" id="37_rvuv6"]
 
@@ -393,6 +394,9 @@ texture = ExtResource("9_du1dr")
 texture_region_size = Vector2i(200, 200)
 0:0/0 = 0
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ra0u7"]
+scenes/1/scene = ExtResource("35_ea5e1")
+
 [sub_resource type="TileSet" id="TileSet_o2tj1"]
 tile_size = Vector2i(200, 200)
 sources/0 = SubResource("TileSetAtlasSource_bhr2m")
@@ -401,6 +405,7 @@ sources/2 = SubResource("TileSetAtlasSource_gra50")
 sources/3 = SubResource("TileSetAtlasSource_5l4p3")
 sources/4 = SubResource("TileSetAtlasSource_cx02h")
 sources/5 = SubResource("TileSetAtlasSource_8mfvb")
+sources/7 = SubResource("TileSetScenesCollectionSource_ra0u7")
 
 [sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
 font_size = 36
@@ -1232,7 +1237,12 @@ unique_name_in_owner = true
 tile_set = SubResource("TileSet_o2tj1")
 format = 2
 layer_0/name = "ground"
-layer_0/tile_data = PackedInt32Array(65536, 1, 0, 0, 0, 0, 131072, 1, 0, 196608, 1, 0, 1, 0, 0, 65537, 1, 0, 131073, 0, 0, 196609, 0, 0, 2, 1, 0, 65538, 0, 0, 131074, 1, 0, 196610, 0, 0, 3, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0)
+layer_0/tile_data = PackedInt32Array(65536, 1, 0, 0, 0, 0, 131072, 1, 0, 196608, 1, 0, 1, 0, 0, 65537, 0, 0, 131073, 0, 0, 196609, 0, 0, 2, 1, 0, 65538, 0, 0, 131074, 1, 0, 196610, 0, 0, 3, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0)
+layer_1/name = "pests"
+layer_1/tile_data = PackedInt32Array()
+
+[node name="PestTile" parent="CenterUI/Garden/GardenContainer/TilesPanel/Tiles" instance=ExtResource("35_ea5e1")]
+visible = false
 
 [node name="SunflowersPanel" type="PanelContainer" parent="CenterUI/Garden/GardenContainer"]
 unique_name_in_owner = true

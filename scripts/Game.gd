@@ -46,10 +46,10 @@ func _init_variables():
 	selected_parents = [null, null]
 	soil_values = []
 	events = {
-		"Storm": 			g.Storm.new(1, [0.90, 0.70], 1.00, 4),
+		"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
 		"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
 		"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
-		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
+		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 1.00, 2), #15%
 		"Night": 			g.Event.new(1, [0.85, 0.95], 0.00),
 		"Fertility": 		g.Event.new(0, [1.00, 1.00], 0.05)
 	}
@@ -399,6 +399,8 @@ func hide_popup():
 	popup_layer.get_node("Shade").visible = false
 
 func transition_phase():
+	%SignBody.apply_random_force()
+	
 	phase_num = 2
 	selected_parents = [null, null]
 	correct_puzzles = 0
@@ -412,10 +414,10 @@ func transition_phase():
 		var parent_2 = order[1]
 		
 		var bonus = 2.0 if is_event_active("Fertility") else \
-					0.2 if (parent_1.genes[0] > 0) else \
+					0.1 if (parent_1.genes[0] > 0) else \
 					0.0
 					
-		var rand_num = g.rng.randfn(1.2 + bonus, 0.3)
+		var rand_num = g.rng.randfn(1.1 + bonus, 0.3)
 		var num_of_seed = clampi(roundi(rand_num), 1, 3)
 		
 		for n in num_of_seed:
@@ -570,7 +572,6 @@ func event_phase():
 	
 	print("Awaw %s %s" % [generation_num, current_events])
 	
-	%SignBody.apply_random_force()
 	update_event_textures()
 	compute_trait_scores()
 	check_game_over()
@@ -643,6 +644,14 @@ func update_event_textures():
 		
 		else:
 			tiles.set_cell(0, coords, soil_values[i], Vector2i(0, 0))
+			
+		# For pests
+		var is_infested = g.is_true_in_map(events["Pest Invasion"].affected_map, i)
+		if is_infested:
+			tiles.set_cell(1, coords, 7, Vector2i(0, 0), 1)
+			print("Awaw")
+		else:
+			tiles.set_cell(1, coords, -1)
 	
 	# For the sky
 	sky.texture = SKY_IMAGES[int(is_event_active("Night"))]

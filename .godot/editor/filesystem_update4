@@ -9,3 +9,4 @@ res://themes/popup_theme.tres
 res://themes/default_label.tres
 res://scenes/punnett_square.tscn
 res://scripts/g.gd
+res://scenes/pest_tile.tscn

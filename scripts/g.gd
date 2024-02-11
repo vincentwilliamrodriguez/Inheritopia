@@ -47,7 +47,7 @@ var events_overlay = {
 	"Drought": 			false,
 	"Pest Invasion": 	false,
 	"Night": 			true,
-	"Fertility": 		true
+	"Fertility": 		false
 }
 
 var sw_tooltips = [

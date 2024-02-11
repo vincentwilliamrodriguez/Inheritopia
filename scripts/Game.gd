@@ -49,7 +49,7 @@ func _init_variables():
 		"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
 		"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
 		"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
-		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 1.00, 2), #15%
+		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
 		"Night": 			g.Event.new(1, [0.85, 0.95], 0.00),
 		"Fertility": 		g.Event.new(0, [1.00, 1.00], 0.05)
 	}
@@ -62,18 +62,12 @@ func _ready():
 	
 	sign.pivot_offset.x = sign.size.x / 2
 	
-	# Initialization of UI
-	update_traits_panel()
-	update_breeding_panel()
-	
 	# Initialization of tiles
 	for i in 16:
 		var coords = Vector2i(g.to_2d_x(i), g.to_2d_y(i))
 		var value = g.rng.randi_range(0, 1)
 		tiles.set_cell(0, coords, value, Vector2i(0, 0))
 		soil_values.append(value)
-		
-	update_event_textures()
 	
 	# Initialization of sunflowers
 	for i in g.START_POS:
@@ -84,6 +78,12 @@ func _ready():
 	# Initialization of event animations
 	for event in events.values():
 		event.animation = animation
+	
+	
+	# Initialization of UI and others
+	update_traits_panel()
+	update_breeding_panel()
+	update_event_textures()
 
 func _process(delta):
 	# Updates counters
@@ -413,7 +413,7 @@ func transition_phase():
 		var parent_1 = order[0]
 		var parent_2 = order[1]
 		
-		var bonus = 2.0 if is_event_active("Fertility") else \
+		var bonus = 0.5 if is_event_active("Fertility") else \
 					0.1 if (parent_1.genes[0] > 0) else \
 					0.0
 					
@@ -649,9 +649,12 @@ func update_event_textures():
 		var is_infested = g.is_true_in_map(events["Pest Invasion"].affected_map, i)
 		if is_infested:
 			tiles.set_cell(1, coords, 7, Vector2i(0, 0), 1)
-			print("Awaw")
 		else:
 			tiles.set_cell(1, coords, -1)
+	
+	# For fertility events
+	for sunflower in sunflowers:
+		sunflower.get_node("Sparkles").visible = is_event_active("Fertility")
 	
 	# For the sky
 	sky.texture = SKY_IMAGES[int(is_event_active("Night"))]
@@ -659,6 +662,11 @@ func update_event_textures():
 	# For the garden's background
 	garden.texture = GARDEN_BG[int(is_event_active("Drought"))]
 	
+	# For the sign during nights
+	if is_event_active("Night"):
+		sign.modulate = Color("999")
+	else:
+		sign.modulate = Color("White")
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):

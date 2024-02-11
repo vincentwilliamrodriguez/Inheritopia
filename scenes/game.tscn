@@ -1,4 +1,4 @@
-[gd_scene load_steps=105 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=108 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
@@ -42,6 +42,7 @@
 [ext_resource type="Texture2D" uid="uid://bs1kuvn7avfvh" path="res://images/misc/fences-hq.png" id="34_k3vff"]
 [ext_resource type="Script" path="res://scripts/PunnettSquareTabs.gd" id="35_a1rde"]
 [ext_resource type="PackedScene" uid="uid://5jv6xt74r45n" path="res://scenes/pest_tile.tscn" id="35_ea5e1"]
+[ext_resource type="Texture2D" uid="uid://cff6tjcc08psx" path="res://images/sprite_sheet/sparkle.png" id="36_44y55"]
 [ext_resource type="PackedScene" uid="uid://c1hifdqnl0x2b" path="res://scenes/punnett_square.tscn" id="36_fbjh8"]
 [ext_resource type="Script" path="res://scripts/sign_interactive.gd" id="37_rvuv6"]
 
@@ -97,7 +98,7 @@ resource_name = "MoveStorm"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%StormVisuals:position")
+tracks/0/path = NodePath("../CenterUI/Garden/StormVisuals:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -112,7 +113,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%StormVisuals:position")
+tracks/0/path = NodePath("../CenterUI/Garden/StormVisuals:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -124,7 +125,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("%StormVisuals:modulate")
+tracks/1/path = NodePath("../CenterUI/Garden/StormVisuals:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -139,7 +140,7 @@ resource_name = "ShowStorm"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%StormVisuals:modulate")
+tracks/0/path = NodePath("../CenterUI/Garden/StormVisuals:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -154,7 +155,7 @@ resource_name = "ShowStorm"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("%StormVisuals:modulate")
+tracks/0/path = NodePath("../CenterUI/Garden/StormVisuals:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -187,6 +188,95 @@ bg_color = Color(0.239216, 0.603922, 0.258824, 1)
 bg_color = Color(0.6, 0.6, 0.6, 0)
 shadow_color = Color(0, 0.196078, 0, 0.156863)
 shadow_size = 7
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bhr2m"]
+texture = ExtResource("4_bcfba")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g0lph"]
+texture = ExtResource("5_fgwel")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gra50"]
+texture = ExtResource("6_cg2xk")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5l4p3"]
+texture = ExtResource("7_2xrdv")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cx02h"]
+texture = ExtResource("8_dfhwu")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8mfvb"]
+texture = ExtResource("9_du1dr")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ra0u7"]
+scenes/1/scene = ExtResource("35_ea5e1")
+
+[sub_resource type="TileSet" id="TileSet_o2tj1"]
+tile_size = Vector2i(200, 200)
+sources/0 = SubResource("TileSetAtlasSource_bhr2m")
+sources/1 = SubResource("TileSetAtlasSource_g0lph")
+sources/2 = SubResource("TileSetAtlasSource_gra50")
+sources/3 = SubResource("TileSetAtlasSource_5l4p3")
+sources/4 = SubResource("TileSetAtlasSource_cx02h")
+sources/5 = SubResource("TileSetAtlasSource_8mfvb")
+sources/7 = SubResource("TileSetScenesCollectionSource_ra0u7")
+
+[sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
+font_size = 36
+font_color = Color(0.603922, 1, 0.796078, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wwiby"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 4
+particles_anim_loop = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qfemh"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(30, 30, 1)
+gravity = Vector3(0, 0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s27xu"]
+texture = ExtResource("33_tbnvj")
+texture_region_size = Vector2i(32, 32)
+2:0/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+1:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s7miy"]
+texture = ExtResource("34_k3vff")
+texture_region_size = Vector2i(64, 64)
+1:0/0 = 0
+2:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ivnq7"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_s27xu")
+sources/1 = SubResource("TileSetAtlasSource_s7miy")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dsrn0"]
 atlas = ExtResource("28_tnrgv")
@@ -363,80 +453,6 @@ animations = [{
 "name": &"default",
 "speed": 10.0
 }]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bhr2m"]
-texture = ExtResource("4_bcfba")
-texture_region_size = Vector2i(200, 200)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g0lph"]
-texture = ExtResource("5_fgwel")
-texture_region_size = Vector2i(200, 200)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gra50"]
-texture = ExtResource("6_cg2xk")
-texture_region_size = Vector2i(200, 200)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5l4p3"]
-texture = ExtResource("7_2xrdv")
-texture_region_size = Vector2i(200, 200)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cx02h"]
-texture = ExtResource("8_dfhwu")
-texture_region_size = Vector2i(200, 200)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8mfvb"]
-texture = ExtResource("9_du1dr")
-texture_region_size = Vector2i(200, 200)
-0:0/0 = 0
-
-[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ra0u7"]
-scenes/1/scene = ExtResource("35_ea5e1")
-
-[sub_resource type="TileSet" id="TileSet_o2tj1"]
-tile_size = Vector2i(200, 200)
-sources/0 = SubResource("TileSetAtlasSource_bhr2m")
-sources/1 = SubResource("TileSetAtlasSource_g0lph")
-sources/2 = SubResource("TileSetAtlasSource_gra50")
-sources/3 = SubResource("TileSetAtlasSource_5l4p3")
-sources/4 = SubResource("TileSetAtlasSource_cx02h")
-sources/5 = SubResource("TileSetAtlasSource_8mfvb")
-sources/7 = SubResource("TileSetScenesCollectionSource_ra0u7")
-
-[sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
-font_size = 36
-font_color = Color(0.603922, 1, 0.796078, 1)
-outline_size = 3
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s27xu"]
-texture = ExtResource("33_tbnvj")
-texture_region_size = Vector2i(32, 32)
-2:0/0 = 0
-2:1/0 = 0
-2:2/0 = 0
-1:0/0 = 0
-1:1/0 = 0
-1:2/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s7miy"]
-texture = ExtResource("34_k3vff")
-texture_region_size = Vector2i(64, 64)
-1:0/0 = 0
-2:0/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_ivnq7"]
-tile_size = Vector2i(64, 64)
-sources/0 = SubResource("TileSetAtlasSource_s27xu")
-sources/1 = SubResource("TileSetAtlasSource_s7miy")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_170gs"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -1202,19 +1218,6 @@ grow_vertical = 2
 theme_type_variation = &"shadow"
 theme_override_styles/panel = SubResource("StyleBoxFlat_umwdr")
 
-[node name="StormVisuals" type="AnimatedSprite2D" parent="CenterUI/Garden"]
-unique_name_in_owner = true
-modulate = Color(1, 1, 1, 0)
-self_modulate = Color(1, 1, 1, 0.6)
-z_index = 3
-position = Vector2(300, 300)
-rotation = 6.28319
-scale = Vector2(2.75, 2.75)
-sprite_frames = SubResource("SpriteFrames_ka12o")
-frame = 11
-frame_progress = 1.0
-offset = Vector2(-10, -5)
-
 [node name="GardenContainer" type="MarginContainer" parent="CenterUI/Garden"]
 layout_mode = 1
 anchors_preset = 15
@@ -1283,6 +1286,16 @@ offset_right = 200.0
 offset_bottom = 200.0
 texture = ExtResource("3_tqvwn")
 
+[node name="Sparkles" type="GPUParticles2D" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.25098)
+material = SubResource("CanvasItemMaterial_wwiby")
+position = Vector2(100, 100)
+scale = Vector2(2, 2)
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_qfemh")
+texture = ExtResource("36_44y55")
+
 [node name="OverlayLayer" type="CanvasLayer" parent="CenterUI/Garden/GardenContainer"]
 
 [node name="Overlay" type="Node2D" parent="CenterUI/Garden/GardenContainer/OverlayLayer"]
@@ -1299,6 +1312,19 @@ layer_0/z_index = 1
 layer_0/tile_data = PackedInt32Array(524288, 65537, 2, 524289, 131073, 0, 524290, 131073, 0, 524291, 131073, 0, 524292, 131073, 0, 524293, 131073, 0, 524294, 131073, 0, 524295, 131073, 0, 524296, 131073, 2)
 layer_1/name = "Back"
 layer_1/tile_data = PackedInt32Array(0, 65537, 0, 1, 131073, 0, 2, 131073, 0, 3, 131073, 0, 4, 131073, 0, 5, 131073, 0, 6, 131073, 0, 7, 131073, 0, 458752, 65537, 1, 393216, 65537, 1, 327680, 65537, 1, 262144, 65537, 1, 196608, 65537, 1, 131072, 65537, 1, 65536, 65537, 1, 65544, 65537, 1, 131080, 65537, 1, 196616, 65537, 1, 262152, 65537, 1, 327688, 65537, 1, 393224, 65537, 1, 458760, 65537, 1, 8, 131073, 1)
+
+[node name="StormVisuals" type="AnimatedSprite2D" parent="CenterUI/Garden"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0.6)
+z_index = 3
+position = Vector2(300, 300)
+rotation = 6.28319
+scale = Vector2(2.75, 2.75)
+sprite_frames = SubResource("SpriteFrames_ka12o")
+frame = 11
+frame_progress = 1.0
+offset = Vector2(-10, -5)
 
 [node name="SignLayer" type="CanvasLayer" parent="CenterUI"]
 

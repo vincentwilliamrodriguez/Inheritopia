@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cptjvavc7n53h"
-path="res://.godot/imported/bee-sheet.png-eec38ff87b8442e5c833fce59de71b05.ctex"
+uid="uid://c2b4jjv3h7pm"
+path="res://.godot/imported/storm_sheet.png-efd61aec7cfc03d9d6a2bbc5d7a70578.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/bee/bee-sheet.png"
-dest_files=["res://.godot/imported/bee-sheet.png-eec38ff87b8442e5c833fce59de71b05.ctex"]
+source_file="res://images/sprite_sheet/storm_sheet.png"
+dest_files=["res://.godot/imported/storm_sheet.png-efd61aec7cfc03d9d6a2bbc5d7a70578.ctex"]
 
 [params]
 

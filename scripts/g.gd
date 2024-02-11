@@ -42,7 +42,7 @@ var events_preview_color = {
 	"Fertility": 		Color("Yellow", 0.1)
 }
 var events_overlay = {
-	"Storm": 			true,
+	"Storm": 			false,
 	"Waterlogging": 	false,
 	"Drought": 			false,
 	"Pest Invasion": 	true,
@@ -67,6 +67,7 @@ class Event:
 	var active_num: int
 	var past_affected_map: Array
 	var tile_lasts_for: int
+	var animation: AnimationMixer
 	
 	func _init(inp_trait, inp_survival, inp_spawn, inp_tile = 0):
 		affected_trait = inp_trait
@@ -92,6 +93,8 @@ class Storm:
 	extends Event
 	var eye_pos: Vector2i
 	var dir: Vector2i
+	var storm_visuals: Node2D
+	var storm_player: AnimationPlayer
 	
 	func spawn_storm():
 		dir = Vector2i(g.rng.randi_range(-1, 1), g.rng.randi_range(-1, 1))
@@ -111,7 +114,13 @@ class Storm:
 		update_map()
 		
 	func move_storm():
+		var move_storm_anim: Animation = storm_player.get_animation("MoveStorm")
+		move_storm_anim.track_set_key_value(0, 0, to_storm_visuals_pos(eye_pos))
+		
 		eye_pos += dir
+		
+		move_storm_anim.track_set_key_value(0, 1, to_storm_visuals_pos(eye_pos))
+		storm_player.play("MoveStorm")
 	
 	func update_map():
 		affected_map = 0
@@ -122,6 +131,17 @@ class Storm:
 			
 			for neighbpr in g.neighbors_lookup[eye_pos_1d]:
 				affected_map |= (1 << neighbpr)
+		
+		storm_visuals.position = to_storm_visuals_pos(eye_pos)
+	
+	func to_storm_visuals_pos(inp_eye_pos: Vector2):
+		return (Vector2(eye_pos) + Vector2(0.6, 0.5)) * g.SQUARE_SIZE
+	
+	func show():
+		storm_player.play("ShowStorm")
+	
+	func hide():
+		storm_player.play("HideStorm")
 	
 class Waterlogging:
 	extends Event

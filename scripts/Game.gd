@@ -10,6 +10,8 @@ extends Control
 @onready var tiles = %Tiles
 @onready var overlay = %Overlay
 @onready var traits_panel = %TraitsPanel
+@onready var storm_visuals = %StormVisuals
+@onready var animation = %AnimationTree
 
 @onready var SKY_IMAGES = [preload("res://images/sky/day.png"),
 						   preload("res://images/sky/night.png")]
@@ -44,13 +46,16 @@ func _init_variables():
 	selected_parents = [null, null]
 	soil_values = []
 	events = {
-		"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
+		"Storm": 			g.Storm.new(1, [0.90, 0.70], 1.00, 4),
 		"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
 		"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
 		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
 		"Night": 			g.Event.new(1, [0.85, 0.95], 0.00),
 		"Fertility": 		g.Event.new(0, [1.00, 1.00], 0.05)
 	}
+	
+	events["Storm"].storm_visuals = storm_visuals
+	events["Storm"].storm_player = animation.get_node("Storm")
 
 func _ready():
 	_init_variables()
@@ -75,6 +80,10 @@ func _ready():
 		var sunflower = new_sunflower(i, g.START_GENES)
 		sunflowers.append(sunflower)
 		sunflowers_panel.add_child.call_deferred(sunflower)
+	
+	# Initialization of event animations
+	for event in events.values():
+		event.animation = animation
 
 func _process(delta):
 	# Updates counters
@@ -334,7 +343,8 @@ func _on_overlay_draw():
 				overlay.draw_rect(Rect2(-50, -50, g.SQUARE_SIZE * 4 + 100, g.SQUARE_SIZE * 4 + 100), event_color)
 			else:
 				overlay.draw_rect(Rect2(0, 0, g.SQUARE_SIZE * 4, g.SQUARE_SIZE * 4), event_color)
-	
+		
+		
 	# For custom overlay
 	for i in 16:
 		if g.is_true_in_map(preview_map, i):
@@ -429,10 +439,6 @@ func transition_phase():
 	
 	for seed in seeds:
 		sunflowers_panel.add_child.call_deferred(seed)
-		
-	for sunflower in sunflowers:
-			if sunflower.is_glowing:
-				print("Awaw")
 				
 	await get_tree().create_timer(0.5).timeout
 	
@@ -491,6 +497,7 @@ func event_phase():
 				"Storm":
 					events["Waterlogging"].spawn_waterlogged(event)
 					event.move_storm()
+					await %Storm.animation_finished
 					event.update_map()
 						
 				"Pest Invasion":
@@ -519,6 +526,10 @@ func event_phase():
 			
 			if remove_event:
 				event.active_num = 0
+				
+				match event_name:
+					"Storm":
+						event.hide()
 		
 		# Spawning new events
 		else:
@@ -541,6 +552,7 @@ func event_phase():
 				match event_name:
 					"Storm":
 						event.spawn_storm()
+						event.show()
 					"Pest Invasion":
 						event.spawn_pest()
 					"Drought":

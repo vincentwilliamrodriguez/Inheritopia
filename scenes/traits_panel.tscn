@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bpb3vyyb4l0j5" path="res://images/nine_patch_rect/white.png" id="2_hr2qo"]
 [ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_edaoj"]
 [ext_resource type="LabelSettings" uid="uid://cnaya5cupl4tk" path="res://themes/default_label.tres" id="4_dr0we"]
-[ext_resource type="Texture2D" uid="uid://8nlmqc1u7o4l" path="res://images/nine_patch_rect/template.png" id="5_k3m5m"]
+[ext_resource type="Texture2D" uid="uid://8nlmqc1u7o4l" path="res://images/sprite_sheet/template.png" id="5_k3m5m"]
 [ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="6_txkq1"]
 [ext_resource type="Texture2D" uid="uid://bmvhrxm2k47l3" path="res://images/icons/right_arrow.png" id="7_00sc7"]
 [ext_resource type="StyleBox" uid="uid://cmcinwnrqhwnx" path="res://themes/strength.tres" id="8_2f0bd"]

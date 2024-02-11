@@ -3,7 +3,7 @@
 [ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="1_j6u2e"]
 [ext_resource type="StyleBox" uid="uid://dar7kcnw7tqbh" path="res://themes/dropdown.tres" id="2_bft6m"]
 [ext_resource type="StyleBox" uid="uid://xi3fusnf65k" path="res://themes/controls_bg.tres" id="3_lmaqg"]
-[ext_resource type="Texture2D" uid="uid://8nlmqc1u7o4l" path="res://images/nine_patch_rect/template.png" id="4_agca1"]
+[ext_resource type="Texture2D" uid="uid://8nlmqc1u7o4l" path="res://images/sprite_sheet/template.png" id="4_agca1"]
 [ext_resource type="StyleBox" uid="uid://c8jaoh6m3h341" path="res://themes/tabs.tres" id="5_cgnf8"]
 [ext_resource type="StyleBox" uid="uid://h0ku2k1y086w" path="res://themes/popup_bg.tres" id="6_otke6"]
 

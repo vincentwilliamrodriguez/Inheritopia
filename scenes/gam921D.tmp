@@ -1,6 +1,7 @@
-[gd_scene load_steps=104 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=112 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
+[ext_resource type="Script" path="res://scripts/Sunflower.gd" id="2_5e7ut"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
 [ext_resource type="Texture2D" uid="uid://dxhvly0a14y0c" path="res://images/background/wood.png" id="3_0mqbn"]
 [ext_resource type="Script" path="res://scripts/popup.gd" id="3_4kks3"]
@@ -39,9 +40,9 @@
 [ext_resource type="Texture2D" uid="uid://cblkn27ajevb2" path="res://images/icons/breeding_cross.png" id="33_82x3w"]
 [ext_resource type="Texture2D" uid="uid://bcr20rj04p5se" path="res://images/misc/fences.png" id="33_tbnvj"]
 [ext_resource type="Texture2D" uid="uid://bs1kuvn7avfvh" path="res://images/misc/fences-hq.png" id="34_k3vff"]
-[ext_resource type="PackedScene" uid="uid://ddxeldi445cl4" path="res://scenes/sunflower.tscn" id="35_5rxda"]
 [ext_resource type="Script" path="res://scripts/PunnettSquareTabs.gd" id="35_a1rde"]
 [ext_resource type="PackedScene" uid="uid://5jv6xt74r45n" path="res://scenes/pest_tile.tscn" id="35_ea5e1"]
+[ext_resource type="Texture2D" uid="uid://cff6tjcc08psx" path="res://images/sprite_sheet/sparkle.png" id="36_44y55"]
 [ext_resource type="PackedScene" uid="uid://c1hifdqnl0x2b" path="res://scenes/punnett_square.tscn" id="36_fbjh8"]
 [ext_resource type="Script" path="res://scripts/sign_interactive.gd" id="37_rvuv6"]
 
@@ -151,6 +152,41 @@ sources/3 = SubResource("TileSetAtlasSource_5l4p3")
 sources/4 = SubResource("TileSetAtlasSource_cx02h")
 sources/5 = SubResource("TileSetAtlasSource_8mfvb")
 sources/7 = SubResource("TileSetScenesCollectionSource_ra0u7")
+
+[sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
+font_size = 36
+font_color = Color(0.603922, 1, 0.796078, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wwiby"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 4
+particles_anim_loop = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qfemh"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(30, 30, 1)
+gravity = Vector3(0, 0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="Gradient" id="Gradient_qremb"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dgd7b"]
+gradient = SubResource("Gradient_qremb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ymaml"]
+particle_flag_disable_z = true
+gravity = Vector3(0, -20, 0)
+color_ramp = SubResource("GradientTexture1D_dgd7b")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_s3w1h"]
+viewport_path = NodePath("CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower/ScoreViewport")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s27xu"]
 texture = ExtResource("33_tbnvj")
@@ -1225,9 +1261,76 @@ self_modulate = Color(1, 1, 1, 0)
 z_index = 2
 layout_mode = 2
 
-[node name="Sunflower" parent="CenterUI/Garden/GardenContainer/SunflowersPanel" instance=ExtResource("35_5rxda")]
+[node name="Sunflower" type="Node2D" parent="CenterUI/Garden/GardenContainer/SunflowersPanel"]
 unique_name_in_owner = true
+script = ExtResource("2_5e7ut")
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
+modulate = Color(1, 1, 1, 0.439216)
+scale = Vector2(1.563, 1.563)
+texture = ExtResource("3_tqvwn")
+centered = false
+
+[node name="Label" type="Label" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+text = "AwAwAw"
+label_settings = SubResource("LabelSettings_u6mx4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Glow" type="TextureRect" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
 visible = false
+modulate = Color(100, 100, 0.781, 0.703)
+show_behind_parent = true
+offset_right = 200.0
+offset_bottom = 200.0
+texture = ExtResource("3_tqvwn")
+
+[node name="ScoreViewport" type="SubViewport" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(100, 100)
+
+[node name="Label" type="Label" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower/ScoreViewport"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+theme_override_colors/font_color = Color(0, 0.921569, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("12_n1y4b")
+theme_override_font_sizes/font_size = 42
+text = "+Aw"
+
+[node name="Sparkles" type="GPUParticles2D" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.25098)
+material = SubResource("CanvasItemMaterial_wwiby")
+position = Vector2(100, 100)
+scale = Vector2(2, 2)
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_qfemh")
+texture = ExtResource("36_44y55")
+
+[node name="ScoreParticle" type="GPUParticles2D" parent="CenterUI/Garden/GardenContainer/SunflowersPanel/Sunflower"]
+position = Vector2(100, 100)
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_ymaml")
+texture = SubResource("ViewportTexture_s3w1h")
+lifetime = 3.0
+one_shot = true
 
 [node name="OverlayLayer" type="CanvasLayer" parent="CenterUI/Garden/GardenContainer"]
 

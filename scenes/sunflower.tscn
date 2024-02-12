@@ -1,0 +1,111 @@
+[gd_scene load_steps=13 format=3 uid="uid://ddxeldi445cl4"]
+
+[ext_resource type="Script" path="res://scripts/Sunflower.gd" id="1_v2p6h"]
+[ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="2_pfv7j"]
+[ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="3_nphvv"]
+[ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="4_2fogc"]
+[ext_resource type="Texture2D" uid="uid://cff6tjcc08psx" path="res://images/sprite_sheet/sparkle.png" id="5_dd28b"]
+[ext_resource type="Texture2D" uid="uid://bav7mmi10vhcu" path="res://resources/score_particle.tres" id="6_fgkp2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_u6mx4"]
+font_size = 36
+font_color = Color(0.603922, 1, 0.796078, 1)
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_wwiby"]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 4
+particles_anim_loop = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qfemh"]
+lifetime_randomness = 0.5
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(30, 30, 1)
+gravity = Vector3(0, 0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="Gradient" id="Gradient_qremb"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dgd7b"]
+gradient = SubResource("Gradient_qremb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ymaml"]
+particle_flag_disable_z = true
+gravity = Vector3(0, -20, 0)
+color_ramp = SubResource("GradientTexture1D_dgd7b")
+
+[node name="Sunflower" type="Node2D"]
+script = ExtResource("1_v2p6h")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.439216)
+scale = Vector2(1.563, 1.563)
+texture = ExtResource("2_pfv7j")
+centered = false
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_nphvv")
+text = "AwAwAw"
+label_settings = SubResource("LabelSettings_u6mx4")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Glow" type="TextureRect" parent="."]
+visible = false
+modulate = Color(100, 100, 0.781, 0.703)
+show_behind_parent = true
+offset_right = 200.0
+offset_bottom = 200.0
+texture = ExtResource("2_pfv7j")
+
+[node name="ScoreViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(100, 100)
+render_target_update_mode = 4
+
+[node name="Label" type="Label" parent="ScoreViewport"]
+custom_minimum_size = Vector2(100, 100)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_nphvv")
+theme_override_colors/font_color = Color(0, 0.921569, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("4_2fogc")
+theme_override_font_sizes/font_size = 42
+text = "+Aw"
+
+[node name="Sparkles" type="GPUParticles2D" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.25098)
+material = SubResource("CanvasItemMaterial_wwiby")
+position = Vector2(100, 100)
+scale = Vector2(2, 2)
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_qfemh")
+texture = ExtResource("5_dd28b")
+
+[node name="ScoreParticle" type="GPUParticles2D" parent="."]
+position = Vector2(100, 100)
+emitting = false
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_ymaml")
+texture = ExtResource("6_fgkp2")
+lifetime = 3.0
+one_shot = true

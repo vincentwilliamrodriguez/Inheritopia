@@ -9,3 +9,6 @@ res://themes/popup_theme.tres
 res://themes/default_label.tres
 res://scenes/punnett_square.tscn
 res://scenes/pest_tile.tscn
+res://scripts/Sunflower.gd
+res://resources/score_particle.tres
+res://scenes/sunflower.tscn

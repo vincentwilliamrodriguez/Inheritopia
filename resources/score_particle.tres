@@ -1,0 +1,4 @@
+[gd_resource type="ViewportTexture" format=3 uid="uid://bav7mmi10vhcu"]
+
+[resource]
+viewport_path = NodePath("ScoreViewport")

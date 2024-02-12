@@ -3,6 +3,7 @@ extends Control
 @onready var popup_layer = %PopupLayer
 @onready var sunflowers_panel = %SunflowersPanel
 @onready var sunflower_template = %Sunflower
+@onready var sunflower_scene = preload("res://scenes/sunflower.tscn")
 @onready var garden = %Garden
 @onready var sky = %Sky
 @onready var sign = %Sign
@@ -262,6 +263,7 @@ func update_preview(node: Node, sunflower: Sunflower):
 		return
 	
 	var preview = sunflower.duplicate(true)
+	preview.get_node("ScoreParticle").visible = false
 	preview.scale = (200.0 / 250.0) * node.size / 200.0
 	
 	var cur_size = Vector2(200, 200) * preview.scale
@@ -349,7 +351,7 @@ func _on_overlay_draw():
 			overlay.draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), Color("Red", 0.3))
 
 func add_sunflower(pos, genes, is_seed = false):
-	var sunflower = sunflower_template.duplicate()
+	var sunflower = sunflower_scene.instantiate()
 	sunflower.visible = true
 	sunflower.genes = genes
 	sunflower.pos = pos
@@ -357,6 +359,7 @@ func add_sunflower(pos, genes, is_seed = false):
 	if g.rng.randf() < g.GLOWING_CHANCE:
 		sunflower.set_glow(true)
 	
+
 	sunflowers_panel.add_child.call_deferred(sunflower)
 	sunflower.modulate.a = 0
 	
@@ -591,11 +594,18 @@ func breeding_phase():
 
 func compute_trait_scores():
 	for sunflower in sunflowers:
+		var sunflower_score := 0 
+		
 		for gene in sunflower.genes:
 			if (gene > 0):
-				score += 5	# For dominant traits
+				sunflower_score += 5	# For dominant traits
 			else:
-				score += 8	# For recessive traits
+				sunflower_score += 8	# For recessive traits
+		
+		sunflower.get_node("ScoreViewport/Label").text = str(sunflower_score)
+		sunflower.get_node("ScoreParticle").emitting = true
+		
+		score += sunflower_score
 
 func check_game_over():
 	if len(sunflowers) == 0:

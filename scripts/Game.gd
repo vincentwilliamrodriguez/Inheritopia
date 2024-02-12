@@ -11,7 +11,7 @@ extends Control
 @onready var overlay = %Overlay
 @onready var traits_panel = %TraitsPanel
 @onready var storm_visuals = %StormVisuals
-@onready var animation = %AnimationTree
+@onready var anim_tree = %AnimationTree
 
 @onready var SKY_IMAGES = [preload("res://images/sky/day.png"),
 						   preload("res://images/sky/night.png")]
@@ -55,7 +55,7 @@ func _init_variables():
 	}
 	
 	events["Storm"].storm_visuals = storm_visuals
-	events["Storm"].storm_player = animation.get_node("Storm")
+	events["Storm"].storm_player = %StormPlayer
 
 func _ready():
 	_init_variables()
@@ -71,13 +71,12 @@ func _ready():
 	
 	# Initialization of sunflowers
 	for i in g.START_POS:
-		var sunflower = new_sunflower(i, g.START_GENES)
+		var sunflower = add_sunflower(i, g.START_GENES)
 		sunflowers.append(sunflower)
-		sunflowers_panel.add_child.call_deferred(sunflower)
 	
 	# Initialization of event animations
 	for event in events.values():
-		event.animation = animation
+		event.animation = anim_tree
 	
 	
 	# Initialization of UI and others
@@ -291,9 +290,8 @@ func _on_puzzle_selected(id: int, correct: int, puzzle_btn: OptionButton):
 			sunflower_map |= (1 << sunflower.pos)
 			
 		var new_sunflower_pos = find_free_tile(g.rng.randi_range(0, 15), sunflower_map)
-		var new_sunflower = new_sunflower(new_sunflower_pos, g.START_GENES)
+		var new_sunflower = add_sunflower(new_sunflower_pos, g.START_GENES)
 		sunflowers.append(new_sunflower)
-		sunflowers_panel.add_child.call_deferred(new_sunflower)
 		
 		for sunflower in sunflowers:
 			if sunflower.is_glowing:
@@ -350,7 +348,7 @@ func _on_overlay_draw():
 		if g.is_true_in_map(preview_map, i):
 			overlay.draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), Color("Red", 0.3))
 
-func new_sunflower(pos, genes):
+func add_sunflower(pos, genes, is_seed = false):
 	var sunflower = sunflower_template.duplicate()
 	sunflower.visible = true
 	sunflower.genes = genes
@@ -358,8 +356,21 @@ func new_sunflower(pos, genes):
 	
 	if g.rng.randf() < g.GLOWING_CHANCE:
 		sunflower.set_glow(true)
-		
+	
+	sunflowers_panel.add_child.call_deferred(sunflower)
+	sunflower.modulate.a = 0
+	
+	var tween = create_tween()
+	tween.tween_property(sunflower, "modulate:a", 1, 0.5) \
+		 .set_ease(Tween.EASE_IN_OUT) \
+		 .set_delay(1.5 if is_seed else 0)
+	
 	return sunflower
+
+func remove_sunflower(sunflower: Sunflower):
+	var tween = create_tween()
+	tween.tween_property(sunflower, "modulate:a", 0, 0.5).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_callback(sunflower.queue_free)
 
 func breed(parent_1: Sunflower, parent_2: Sunflower):
 	var genes_1 = parent_1.genes
@@ -383,8 +394,11 @@ func undo_breeding():
 func restart_game(is_gameover = false):	
 	if is_gameover or phase_num == 1:
 		for sunflower in sunflowers:
-			sunflower.queue_free()
+			remove_sunflower(sunflower)
 		
+		if is_event_active("Storm"):
+			events["Storm"].hide()
+			
 		_ready()
 
 func show_popup(name: String):
@@ -426,27 +440,22 @@ func transition_phase():
 			
 			var seed_genes = breed(parent_1, parent_2)
 			var seed_pos = find_free_tile(parent_2.pos, seed_map)
-			var seed = new_sunflower(seed_pos, seed_genes)
+			var seed = add_sunflower(seed_pos, seed_genes, true)
 			
 			seeds.append(seed)
 			seed_map |= 1 << seed_pos
 	
-	for sunflower in sunflowers:
-		sunflower.queue_free()
-		
-	await get_tree().create_timer(0.5).timeout
 	
+	for sunflower in sunflowers:
+		remove_sunflower(sunflower)
+		
 	sunflowers.clear()
 	sunflowers.append_array(seeds)
-	
-	for seed in seeds:
-		sunflowers_panel.add_child.call_deferred(seed)
-				
-	await get_tree().create_timer(0.5).timeout
 	
 	breeding_orders.clear()
 	generation_num += 1
 	
+	await get_tree().create_timer(3).timeout
 	event_phase()
 
 func find_free_tile(pos, map):
@@ -491,7 +500,7 @@ func event_phase():
 			
 			for sunflower in perished_sunflowers:
 				sunflowers.pop_at(find_index(sunflower))
-				sunflower.queue_free()
+				remove_sunflower(sunflower)
 		
 			# Updating existing events
 			
@@ -499,7 +508,7 @@ func event_phase():
 				"Storm":
 					events["Waterlogging"].spawn_waterlogged(event)
 					event.move_storm()
-					await %Storm.animation_finished
+					await %StormPlayer.animation_finished
 					event.update_map()
 						
 				"Pest Invasion":

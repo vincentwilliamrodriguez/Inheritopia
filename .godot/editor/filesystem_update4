@@ -12,3 +12,5 @@ res://scenes/pest_tile.tscn
 res://scripts/Sunflower.gd
 res://resources/score_particle.tres
 res://scenes/sunflower.tscn
+res://scenes/bee.tscn
+res://scripts/bee.gd

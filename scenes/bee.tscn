@@ -1,0 +1,140 @@
+[gd_scene load_steps=14 format=3 uid="uid://2dpi8ra4j88w"]
+
+[ext_resource type="Texture2D" uid="uid://c6l7m4l41qpk6" path="res://images/bee/Bee_Walk.png" id="1_6ti0a"]
+[ext_resource type="Script" path="res://scripts/bee.gd" id="2_wksgj"]
+
+[sub_resource type="Animation" id="Animation_7atgy"]
+resource_name = "up"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_y3k2c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_b3t7q"]
+resource_name = "left"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [4, 4, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_dloua"]
+resource_name = "right"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11]
+}
+
+[sub_resource type="Animation" id="Animation_xq1gx"]
+resource_name = "down"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [12, 13, 14, 15]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xiuan"]
+_data = {
+"RESET": SubResource("Animation_y3k2c"),
+"down": SubResource("Animation_xq1gx"),
+"left": SubResource("Animation_b3t7q"),
+"right": SubResource("Animation_dloua"),
+"up": SubResource("Animation_7atgy")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5n6vq"]
+animation = &"left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_w51o0"]
+animation = &"down"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a5n4s"]
+animation = &"up"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_emyly"]
+animation = &"right"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_nu4oq"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_5n6vq")
+blend_point_0/pos = Vector2(-1, 0)
+blend_point_1/node = SubResource("AnimationNodeAnimation_w51o0")
+blend_point_1/pos = Vector2(0, 1)
+blend_point_2/node = SubResource("AnimationNodeAnimation_a5n4s")
+blend_point_2/pos = Vector2(0, -1)
+blend_point_3/node = SubResource("AnimationNodeAnimation_emyly")
+blend_point_3/pos = Vector2(1, 0)
+blend_mode = 1
+
+[node name="Bee" type="Sprite2D"]
+position = Vector2(382, 168)
+scale = Vector2(3, 3)
+texture = ExtResource("1_6ti0a")
+hframes = 4
+vframes = 4
+script = ExtResource("2_wksgj")
+
+[node name="BeePlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xiuan")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xiuan")
+}
+tree_root = SubResource("AnimationNodeBlendSpace2D_nu4oq")
+anim_player = NodePath("../BeePlayer")
+parameters/blend_position = Vector2(-0.0139211, -0.491979)

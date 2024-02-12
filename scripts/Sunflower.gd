@@ -2,8 +2,9 @@ class_name Sunflower extends Node2D
 
 @export var genes: Array = g.START_GENES
 @export var pos: int
-@export var is_receiver: bool = false
-@export var is_glowing: bool = false
+@export var is_receiver := false
+@export var is_glowing := false
+@export var flower_center := Vector2(100, 100)
 
 func _ready():
 	position.x = g.SQUARE_SIZE * g.to_2d_x(pos)

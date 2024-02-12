@@ -13,6 +13,7 @@ extends Control
 @onready var traits_panel = %TraitsPanel
 @onready var storm_visuals = %StormVisuals
 @onready var anim_tree = %AnimationTree
+@onready var bees = $CenterUI/Garden/Bees
 
 @onready var SKY_IMAGES = [preload("res://images/sky/day.png"),
 						   preload("res://images/sky/night.png")]
@@ -35,6 +36,7 @@ var selected_parents: Array
 var soil_values: Array
 var events: Dictionary
 
+
 func _init_variables():
 	sunflowers = []
 	breeding_orders = []
@@ -47,7 +49,7 @@ func _init_variables():
 	selected_parents = [null, null]
 	soil_values = []
 	events = {
-		"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
+		"Storm": 			g.Storm.new(1, [0.90, 0.70], 1.20, 4),
 		"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
 		"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
 		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
@@ -423,6 +425,13 @@ func transition_phase():
 	correct_puzzles = 0
 	update_breeding_panel()
 	
+	# For bees
+	for order in breeding_orders:
+		add_bee(order[0], order[1])
+		
+	await get_tree().create_timer(4).timeout
+	
+	# For seeds
 	var seeds: Array[Sunflower]
 	var seed_map = 0x0
 	
@@ -476,6 +485,8 @@ func find_free_tile(pos, map):
 
 func event_phase():
 	phase_num = 0
+	
+	storm_visuals.self_modulate.a = 0.6
 	
 	for event_name in events:
 		var event = events[event_name]
@@ -584,6 +595,8 @@ func event_phase():
 	
 	print("Awaw %s %s" % [generation_num, current_events])
 	
+	storm_visuals.self_modulate.a = 0.2
+	
 	update_event_textures()
 	compute_trait_scores()
 	check_game_over()
@@ -591,6 +604,28 @@ func event_phase():
 
 func breeding_phase():
 	phase_num = 1
+
+func add_bee(parent_1: Sunflower, parent_2: Sunflower):
+	var bee = preload("res://scenes/bee.tscn").instantiate()
+	bees.add_child.call_deferred(bee)
+	
+	var waypoint_1 = parent_1.position + parent_1.flower_center
+	var waypoint_2 = parent_2.position + parent_2.flower_center
+	var tween = create_tween()
+	bee.position = Vector2(-20, clamp(g.rng.randfn(waypoint_1.y, 100), 0, 800))
+	
+	tween.tween_property(bee, "position", waypoint_1, 0.7) \
+		 .set_ease(Tween.EASE_IN_OUT)
+	
+	tween.tween_property(bee, "position", waypoint_2, 1) \
+		 .set_ease(Tween.EASE_IN_OUT) \
+		 .set_delay(1)
+	
+	tween.tween_property(bee, "position", Vector2(920, clamp(g.rng.randfn(waypoint_2.y, 50), 0, 800)), 0.7) \
+		 .set_ease(Tween.EASE_IN_OUT) \
+		 .set_delay(1)
+	
+	tween.tween_callback(bee.queue_free)
 
 func compute_trait_scores():
 	for sunflower in sunflowers:
@@ -649,7 +684,7 @@ func load_scores():
 		return null
 
 	return json.get_data()
-	
+
 func update_event_textures():
 	# For tiles
 	for i in 16:

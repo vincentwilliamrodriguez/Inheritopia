@@ -14,3 +14,4 @@ res://resources/score_particle.tres
 res://scenes/sunflower.tscn
 res://scenes/bee.tscn
 res://scripts/bee.gd
+res://scripts/g.gd

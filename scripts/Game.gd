@@ -6,14 +6,15 @@ extends Control
 @onready var sunflower_scene = preload("res://scenes/sunflower.tscn")
 @onready var garden = %Garden
 @onready var sky = %Sky
-@onready var sign = %Sign
+@onready var sign_visuals = %Sign
 @onready var counters = %Counters
 @onready var tiles = %Tiles
 @onready var overlay = %Overlay
 @onready var traits_panel = %TraitsPanel
 @onready var storm_visuals = %StormVisuals
 @onready var anim_tree = %AnimationTree
-@onready var bees = $CenterUI/Garden/Bees
+@onready var bees = %Bees
+@onready var seeds_visuals = %Seeds
 
 @onready var SKY_IMAGES = [preload("res://images/sky/day.png"),
 						   preload("res://images/sky/night.png")]
@@ -63,7 +64,7 @@ func _init_variables():
 func _ready():
 	_init_variables()
 	
-	sign.pivot_offset.x = sign.size.x / 2
+	sign_visuals.pivot_offset.x = sign_visuals.size.x / 2
 	
 	# Initialization of tiles
 	for i in 16:
@@ -87,7 +88,7 @@ func _ready():
 	update_breeding_panel()
 	update_event_textures()
 
-func _process(delta):
+func _process(_delta):
 	# Updates counters
 	var phase_name = g.PHASES[phase_num]
 	counters.text = g.counters_text % [generation_num, score, phase_name]
@@ -119,7 +120,8 @@ func _input(event):
 				update_traits_panel()
 
 func next_generation():
-	transition_phase()
+	if phase_num == 1:
+		transition_phase()
 
 func when_parent_selected(parent: Sunflower):
 	if not selected_parents[0]:
@@ -140,7 +142,7 @@ func reset_selected_parents():
 	update_breeding_panel()
 
 func confirm_breeding():
-	if selected_parents[0] and selected_parents[1]:
+	if phase_num == 1 and selected_parents[0] and selected_parents[1]:
 		selected_parents[1].is_receiver = true
 		selected_parents[1].modulate = Color("Green")
 		
@@ -361,14 +363,13 @@ func add_sunflower(pos, genes, is_seed = false):
 	if g.rng.randf() < g.GLOWING_CHANCE:
 		sunflower.set_glow(true)
 	
-
 	sunflowers_panel.add_child.call_deferred(sunflower)
 	sunflower.modulate.a = 0
 	
 	var tween = create_tween()
-	tween.tween_property(sunflower, "modulate:a", 1, 0.5) \
+	tween.tween_property(sunflower, "modulate:a", 1, 1) \
 		 .set_ease(Tween.EASE_IN_OUT) \
-		 .set_delay(1.5 if is_seed else 0)
+		 .set_delay(2 if is_seed else 0)
 	
 	return sunflower
 
@@ -389,12 +390,13 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 	return genes_seed
 
 func undo_breeding():
-	reset_selected_parents()
-	
-	if len(breeding_orders) > 0:
-		var last_order = breeding_orders.pop_back()[1]
-		last_order.is_receiver = false
-		last_order.modulate = Color("White")
+	if phase_num == 1:
+		reset_selected_parents()
+		
+		if len(breeding_orders) > 0:
+			var last_order = breeding_orders.pop_back()[1]
+			last_order.is_receiver = false
+			last_order.modulate = Color("White")
 
 func restart_game(is_gameover = false):	
 	if is_gameover or phase_num == 1:
@@ -406,8 +408,8 @@ func restart_game(is_gameover = false):
 			
 		_ready()
 
-func show_popup(name: String):
-	popup_layer.get_node(name).show()
+func show_popup(popup_name: String):
+	popup_layer.get_node(popup_name).show()
 	popup_layer.get_node("Shade").visible = true
 
 func hide_popup():
@@ -429,10 +431,10 @@ func transition_phase():
 	for order in breeding_orders:
 		add_bee(order[0], order[1])
 		
-	await get_tree().create_timer(4).timeout
+	await get_tree().create_timer(2.7).timeout
 	
 	# For seeds
-	var seeds: Array[Sunflower]
+	var seeds = []
 	var seed_map = 0x0
 	
 	for order in breeding_orders:
@@ -452,11 +454,14 @@ func transition_phase():
 			
 			var seed_genes = breed(parent_1, parent_2)
 			var seed_pos = find_free_tile(parent_2.pos, seed_map)
-			var seed = add_sunflower(seed_pos, seed_genes, true)
+			var seed_instance = add_sunflower(seed_pos, seed_genes, true)
 			
-			seeds.append(seed)
+			seeds.append(seed_instance)
 			seed_map |= 1 << seed_pos
+			
+			add_seed(parent_2, seed_pos)
 	
+	await get_tree().create_timer(1).timeout
 	
 	for sunflower in sunflowers:
 		remove_sunflower(sunflower)
@@ -467,7 +472,7 @@ func transition_phase():
 	breeding_orders.clear()
 	generation_num += 1
 	
-	await get_tree().create_timer(3).timeout
+	await get_tree().create_timer(2).timeout
 	event_phase()
 
 func find_free_tile(pos, map):
@@ -483,10 +488,54 @@ func find_free_tile(pos, map):
 	
 	return find_free_tile(neighbors[0], map)
 
+func add_bee(parent_1: Sunflower, parent_2: Sunflower):
+	var bee = preload("res://scenes/bee.tscn").instantiate()
+	bees.add_child.call_deferred(bee)
+	
+	var waypoint_1 = parent_1.position + parent_1.flower_center
+	var waypoint_2 = parent_2.position + parent_2.flower_center
+	var tween = create_tween()
+	bee.position = Vector2(-70, clamp(g.rng.randfn(waypoint_1.y, 100), 0, 800))
+	
+	tween.tween_property(bee, "position", waypoint_1, 0.7) \
+		 .set_ease(Tween.EASE_IN_OUT)
+	
+	tween.tween_property(bee, "position", waypoint_2, 1) \
+		 .set_ease(Tween.EASE_IN_OUT) \
+		 .set_delay(1)
+	
+	tween.tween_property(bee, "position", Vector2(920, clamp(g.rng.randfn(waypoint_2.y, 50), 0, 800)), 0.7) \
+		 .set_ease(Tween.EASE_IN_OUT) \
+		 .set_delay(1)
+	
+	tween.tween_callback(bee.queue_free)
+
+func add_seed(parent: Sunflower, child_pos: int):
+	
+	var waypoint_1 = parent.position + parent.flower_center
+	var waypoint_2 = g.SQUARE_SIZE * g.to_2d_vector(child_pos) + Vector2(100, 100)
+	
+	var seed_single = seeds_visuals.get_node("Seed").duplicate()
+	seed_single.position = waypoint_1
+	seeds_visuals.add_child.call_deferred(seed_single)
+	
+	var tween = create_tween()
+	tween.tween_property(seed_single, "modulate:a", 1, 0.5) \
+		 .set_ease(Tween.EASE_IN_OUT)
+		
+	tween.tween_property(seed_single, "position", waypoint_2, 1) \
+		 .set_ease(Tween.EASE_IN_OUT)
+	
+	tween.tween_property(seed_single, "modulate:a", 0, 1) \
+		 .set_ease(Tween.EASE_IN_OUT)
+	
+	tween.tween_callback(seed_single.queue_free)
+	
 func event_phase():
 	phase_num = 0
 	
-	storm_visuals.self_modulate.a = 0.6
+	var storm_tween = create_tween()
+	storm_tween.tween_property(storm_visuals, "self_modulate:a", 0.6, 0.2)
 	
 	for event_name in events:
 		var event = events[event_name]
@@ -510,7 +559,7 @@ func event_phase():
 					perished_sunflowers.append(sunflower)
 					preview_map = (1 << sunflower.pos)
 			
-			await get_tree().create_timer(0.5).timeout
+			await get_tree().create_timer(1.5).timeout
 			
 			for sunflower in perished_sunflowers:
 				sunflowers.pop_at(find_index(sunflower))
@@ -595,7 +644,8 @@ func event_phase():
 	
 	print("Awaw %s %s" % [generation_num, current_events])
 	
-	storm_visuals.self_modulate.a = 0.2
+	storm_tween = create_tween()
+	storm_tween.tween_property(storm_visuals, "self_modulate:a", 0.2, 0.2)
 	
 	update_event_textures()
 	compute_trait_scores()
@@ -604,28 +654,6 @@ func event_phase():
 
 func breeding_phase():
 	phase_num = 1
-
-func add_bee(parent_1: Sunflower, parent_2: Sunflower):
-	var bee = preload("res://scenes/bee.tscn").instantiate()
-	bees.add_child.call_deferred(bee)
-	
-	var waypoint_1 = parent_1.position + parent_1.flower_center
-	var waypoint_2 = parent_2.position + parent_2.flower_center
-	var tween = create_tween()
-	bee.position = Vector2(-20, clamp(g.rng.randfn(waypoint_1.y, 100), 0, 800))
-	
-	tween.tween_property(bee, "position", waypoint_1, 0.7) \
-		 .set_ease(Tween.EASE_IN_OUT)
-	
-	tween.tween_property(bee, "position", waypoint_2, 1) \
-		 .set_ease(Tween.EASE_IN_OUT) \
-		 .set_delay(1)
-	
-	tween.tween_property(bee, "position", Vector2(920, clamp(g.rng.randfn(waypoint_2.y, 50), 0, 800)), 0.7) \
-		 .set_ease(Tween.EASE_IN_OUT) \
-		 .set_delay(1)
-	
-	tween.tween_callback(bee.queue_free)
 
 func compute_trait_scores():
 	for sunflower in sunflowers:
@@ -637,7 +665,7 @@ func compute_trait_scores():
 			else:
 				sunflower_score += 8	# For recessive traits
 		
-		sunflower.get_node("ScoreViewport/Label").text = str(sunflower_score)
+		sunflower.get_node("ScoreViewport/Label").text = "+" + str(sunflower_score)
 		sunflower.get_node("ScoreParticle").emitting = true
 		
 		score += sunflower_score
@@ -718,9 +746,9 @@ func update_event_textures():
 	
 	# For the sign during nights
 	if is_event_active("Night"):
-		sign.modulate = Color("999")
+		sign_visuals.modulate = Color("aaa")
 	else:
-		sign.modulate = Color("White")
+		sign_visuals.modulate = Color("White")
 
 func find_index(inp: Sunflower):
 	for i in len(sunflowers):

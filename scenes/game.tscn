@@ -1,4 +1,4 @@
-[gd_scene load_steps=105 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=106 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
@@ -44,6 +44,7 @@
 [ext_resource type="PackedScene" uid="uid://5jv6xt74r45n" path="res://scenes/pest_tile.tscn" id="35_ea5e1"]
 [ext_resource type="PackedScene" uid="uid://c1hifdqnl0x2b" path="res://scenes/punnett_square.tscn" id="36_fbjh8"]
 [ext_resource type="Script" path="res://scripts/sign_interactive.gd" id="37_rvuv6"]
+[ext_resource type="Texture2D" uid="uid://dvu6q7ar0kx5k" path="res://images/sunflower/seed.png" id="38_3h8u3"]
 [ext_resource type="PackedScene" uid="uid://2dpi8ra4j88w" path="res://scenes/bee.tscn" id="38_citi5"]
 
 [sub_resource type="Animation" id="Animation_jnj31"]
@@ -1247,12 +1248,25 @@ layer_0/tile_data = PackedInt32Array(524288, 65537, 2, 524289, 131073, 0, 524290
 layer_1/name = "Back"
 layer_1/tile_data = PackedInt32Array(0, 65537, 0, 1, 131073, 0, 2, 131073, 0, 3, 131073, 0, 4, 131073, 0, 5, 131073, 0, 6, 131073, 0, 7, 131073, 0, 458752, 65537, 1, 393216, 65537, 1, 327680, 65537, 1, 262144, 65537, 1, 196608, 65537, 1, 131072, 65537, 1, 65536, 65537, 1, 65544, 65537, 1, 131080, 65537, 1, 196616, 65537, 1, 262152, 65537, 1, 327688, 65537, 1, 393224, 65537, 1, 458760, 65537, 1, 8, 131073, 1)
 
+[node name="Seeds" type="Node2D" parent="CenterUI/Garden"]
+unique_name_in_owner = true
+z_index = 2
+position = Vector2(50, 50)
+
+[node name="Seed" type="Sprite2D" parent="CenterUI/Garden/Seeds"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(200, 200)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("38_3h8u3")
+
 [node name="Bees" type="Node2D" parent="CenterUI/Garden"]
+unique_name_in_owner = true
+z_index = 2
 position = Vector2(50, 50)
 
 [node name="Bee" parent="CenterUI/Garden/Bees" instance=ExtResource("38_citi5")]
 visible = false
-position = Vector2(-20, 450)
+position = Vector2(500, 800)
 
 [node name="StormVisuals" type="AnimatedSprite2D" parent="CenterUI/Garden"]
 unique_name_in_owner = true

@@ -135,7 +135,7 @@ class Storm:
 		storm_visuals.position = to_storm_visuals_pos(eye_pos)
 	
 	func to_storm_visuals_pos(inp_eye_pos: Vector2):
-		return (Vector2(eye_pos) + Vector2(0.6, 0.5)) * g.SQUARE_SIZE
+		return (Vector2(inp_eye_pos) + Vector2(0.6, 0.5)) * g.SQUARE_SIZE
 	
 	func show():
 		storm_player.play("ShowStorm")
@@ -199,9 +199,6 @@ func _ready():
 					   is_inbound(new_x, new_y):
 					neighbors_lookup[i].append(to_1d(new_x, new_y))
 
-func _process(delta):
-	pass
-
 func to_1d(x: int, y: int):
 	return x + 4 * y
 
@@ -213,6 +210,9 @@ func to_2d_x(n: int):
 	
 func to_2d_y(n: int):
 	return n / 4
+
+func to_2d_vector(n: int):
+	return Vector2(n % 4, n / 4)
 
 func is_inbound(x: int, y: int):
 	return (x >= 0 and x < 4) and \

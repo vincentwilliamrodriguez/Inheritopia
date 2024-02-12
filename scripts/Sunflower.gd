@@ -7,8 +7,7 @@ class_name Sunflower extends Node2D
 @export var flower_center := Vector2(100, 100)
 
 func _ready():
-	position.x = g.SQUARE_SIZE * g.to_2d_x(pos)
-	position.y = g.SQUARE_SIZE * g.to_2d_y(pos)
+	position = g.SQUARE_SIZE * g.to_2d_vector(pos)
 	
 	$Label.text = g.get_genome_text(genes)
 

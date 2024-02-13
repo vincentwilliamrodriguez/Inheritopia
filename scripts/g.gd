@@ -4,6 +4,7 @@ const SQUARE_SIZE = 200
 const START_POS = [5, 6, 9, 10]
 const START_GENES = [2, 2, 2]
 const GLOWING_CHANCE = 0.10
+const START_SPAWN_FACTOR = 0.5
 const SELECTED_PARENT_COLOR = Color("Yellow", 0.5)
 const PARENT_COLOR = Color("Green", 0.5)
 const PHASES = ["Event Phase", "Breeding Phase", "Transition Phase"]
@@ -62,6 +63,7 @@ var counters_text = "[center][color=\"#ddd\"][font_size=24]Generation[/font_size
 class Event:
 	var affected_map: int
 	var affected_trait: int
+	var base_spawn_chance: float
 	var spawn_chance: float
 	var survival_chances: Array
 	var active_num: int
@@ -72,6 +74,7 @@ class Event:
 	func _init(inp_trait, inp_survival, inp_spawn, inp_tile = 0):
 		affected_trait = inp_trait
 		survival_chances = inp_survival
+		base_spawn_chance = inp_spawn
 		spawn_chance = inp_spawn
 		tile_lasts_for = inp_tile
 		

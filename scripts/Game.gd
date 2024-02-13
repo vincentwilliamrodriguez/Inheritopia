@@ -50,7 +50,7 @@ func _init_variables():
 	selected_parents = [null, null]
 	soil_values = []
 	events = {
-		"Storm": 			g.Storm.new(1, [0.90, 0.70], 1.20, 4),
+		"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
 		"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
 		"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
 		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
@@ -449,8 +449,9 @@ func transition_phase():
 		var bonus = 0.5 if is_event_active("Fertility") else \
 					0.1 if (parent_1.genes[0] > 0) else \
 					0.0
-					
-		var rand_num = g.rng.randfn(1.1 + bonus, 0.3)
+		var penalty = remap(len(sunflowers), 1, 16, -0.2, 0.6)
+		
+		var rand_num = g.rng.randfn(1.2 + bonus - penalty, 0.3)
 		var num_of_seed = clampi(roundi(rand_num), 1, 3)
 		
 		for n in num_of_seed:
@@ -546,6 +547,12 @@ func event_phase():
 		var event = events[event_name]
 		var is_position_based = (event_name in ["Storm", "Waterlogging", "Pest Invasion"])
 		preview_map = 0
+		
+		# Difficulty progression by adjusting event spawn chance
+		if (event_name in ["Storm", "Drought", "Pest Invasion"]):
+			var spawn_factor = remap(generation_num, 1, 10, g.START_SPAWN_FACTOR, 1)
+			spawn_factor = clamp(spawn_factor, g.START_SPAWN_FACTOR, 1)
+			event.spawn_chance = event.base_spawn_chance * spawn_factor
 		
 		if event.active_num > 0:
 			# Applying events

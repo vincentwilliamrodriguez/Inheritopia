@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=22 format=3 uid="uid://ddeymmf1elgc0"]
+[gd_resource type="Theme" load_steps=23 format=3 uid="uid://ddeymmf1elgc0"]
 
 [ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="1_117qy"]
 [ext_resource type="StyleBox" uid="uid://xi3fusnf65k" path="res://themes/controls_bg.tres" id="1_hydms"]
@@ -127,6 +127,24 @@ shadow_color = Color(0, 0, 0, 0.109804)
 shadow_size = 7
 shadow_offset = Vector2(0, -7)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dctbx"]
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0.686275)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.184314, 0.184314, 0.184314, 0.929412)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.0941176)
+shadow_size = 4
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mnbm0"]
 bg_color = Color(0.831373, 0.831373, 0.831373, 1)
 
@@ -178,6 +196,9 @@ TabContainer/styles/tab_focus = SubResource("StyleBoxEmpty_l3fkj")
 TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_sxxlb")
 TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_tpl2i")
 TabContainer/styles/tab_unselected = ExtResource("5_qtg5a")
+TooltipLabel/font_sizes/font_size = 24
+TooltipLabel/fonts/font = ExtResource("1_117qy")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_dctbx")
 Window/colors/title_color = Color(1, 1, 1, 1)
 Window/colors/title_outline_modulate = Color(0.109804, 0.231373, 0.101961, 1)
 Window/constants/close_h_offset = 50

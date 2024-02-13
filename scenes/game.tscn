@@ -586,6 +586,7 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+tooltip_text = "Home"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
@@ -608,17 +609,18 @@ texture = ExtResource("4_6kj66")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="SettingBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+[node name="SettingsBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+tooltip_text = "Settings"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
 shortcut_in_tooltip = false
 
-[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/SettingBtn"]
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/SettingsBtn"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -635,17 +637,18 @@ texture = ExtResource("5_enpai")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="HelpBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+[node name="TutorialBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+tooltip_text = "Tutorial"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
 shortcut_in_tooltip = false
 
-[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/HelpBtn"]
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/TutorialBtn"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -667,6 +670,7 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+tooltip_text = "Restart"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
@@ -1503,6 +1507,7 @@ theme_override_constants/separation = 40
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
+tooltip_text = "Shortcut: B or Space"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 shortcut = SubResource("Shortcut_pj4qi")
@@ -1514,6 +1519,7 @@ custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
+tooltip_text = "Shortcut: Z"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
@@ -1603,6 +1609,7 @@ alignment = 1
 [node name="NextBtn" type="Button" parent="RightUI/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
+tooltip_text = "Shortcut: N or Enter"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 shortcut = SubResource("Shortcut_fkdmw")

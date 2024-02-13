@@ -121,6 +121,11 @@ func _input(event):
 
 func next_generation():
 	if phase_num == 1:
+		for sunflower in sunflowers:
+			if not sunflower.is_receiver:
+				show_popup("NextConfirmation")
+				return
+		
 		transition_phase()
 
 func when_parent_selected(parent: Sunflower):

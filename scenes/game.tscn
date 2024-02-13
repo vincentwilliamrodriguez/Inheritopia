@@ -89,7 +89,6 @@ _data = {
 animation = &"Storm"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aivys"]
-graph_offset = Vector2(-166.072, 82.4849)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_yxdug")
 "nodes/Animation 2/position" = Vector2(26.6667, 133.333)
 nodes/output/position = Vector2(480, 160)
@@ -516,6 +515,20 @@ transparent = true
 theme = ExtResource("3_cey50")
 ok_button_text = "Yes"
 dialog_text = "Are you sure you want to restart the game?"
+dialog_autowrap = true
+cancel_button_text = "No"
+script = ExtResource("3_4kks3")
+
+[node name="NextConfirmation" type="ConfirmationDialog" parent="PopupLayer"]
+transparent_bg = true
+title = "Warning"
+initial_position = 1
+size = Vector2i(600, 250)
+unresizable = true
+transparent = true
+theme = ExtResource("3_cey50")
+ok_button_text = "Yes"
+dialog_text = "You haven't bred all sunflowers yet. Proceed anyways?"
 dialog_autowrap = true
 cancel_button_text = "No"
 script = ExtResource("3_4kks3")
@@ -1602,6 +1615,10 @@ expand_icon = true
 [connection signal="close_requested" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="restart_game"]
+[connection signal="canceled" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
+[connection signal="close_requested" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/NextConfirmation" to="." method="transition_phase"]
+[connection signal="confirmed" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
 [connection signal="canceled" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]

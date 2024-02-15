@@ -201,6 +201,8 @@ func _ready():
 				if not (dir_x == 0 and dir_y == 0) and \
 					   is_inbound(new_x, new_y):
 					neighbors_lookup[i].append(to_1d(new_x, new_y))
+	
+
 
 func to_1d(x: int, y: int):
 	return x + 4 * y

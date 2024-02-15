@@ -82,6 +82,10 @@ func _ready():
 	for event in events.values():
 		event.animation = anim_tree
 	
+	# Initialize sound signals
+	for button: Button in get_tree().get_nodes_in_group("button"):
+		if not button.is_connected("pressed", sound.play):
+			button.pressed.connect(sound.play.bind("button"))
 	
 	# Initialization of UI and others
 	update_traits_panel()
@@ -117,6 +121,7 @@ func _input(event):
 			(not hovered_sunflower or \
 			 not hovered_sunflower.pos == sunflower.pos):
 				hovered_sunflower = sunflower
+				sound.play("pick")
 				update_traits_panel()
 
 func next_generation():
@@ -131,10 +136,12 @@ func next_generation():
 func when_parent_selected(parent: Sunflower):
 	if not selected_parents[0]:
 		selected_parents[0] = parent
+		sound.play("select_1")
 		
 	elif not selected_parents[1]:
 		selected_parents[1] = parent
 		parent.modulate = Color("Yellow")
+		sound.play("select_2")
 	
 	update_breeding_panel()
 
@@ -286,14 +293,17 @@ func _on_puzzle_selected(id: int, correct: int, puzzle_btn: OptionButton):
 	if attempt == correct:
 		puzzle_btn.visible = false
 		correct_puzzles += 1
-		# TODO: Add sound effect
+		sound.play("correct")
 	else:
 		puzzle_btn.select(0) # Sets it back to question mark
-		# TODO: Add sound effect
+		sound.play("incorrect")
 	
 	# Player gets enough puzzles correct
 	if correct_puzzles >= 8:
 		score += 50
+		
+		if len(sunflowers) >= 16:
+			return
 		
 		var sunflower_map = 0b0
 		
@@ -410,8 +420,13 @@ func restart_game(is_gameover = false):
 		
 		if is_event_active("Storm"):
 			events["Storm"].hide()
-			
+		
+		save_scores()
 		_ready()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		save_scores()
 
 func show_popup(popup_name: String):
 	popup_layer.get_node(popup_name).show()
@@ -432,10 +447,25 @@ func transition_phase():
 	correct_puzzles = 0
 	update_breeding_panel()
 	
+	# Skip when empty
+	if len(breeding_orders) == 0:
+		for sunflower in sunflowers:
+			remove_sunflower(sunflower)
+			
+		sunflowers.clear()
+		
+		breeding_orders.clear()
+		generation_num += 1
+		
+		await get_tree().create_timer(1).timeout
+		event_phase()
+		return
+	
 	# For bees
 	for order in breeding_orders:
 		add_bee(order[0], order[1])
-		
+	
+	sound.play("bees")
 	await get_tree().create_timer(2.7).timeout
 	
 	# For seeds
@@ -478,6 +508,7 @@ func transition_phase():
 	breeding_orders.clear()
 	generation_num += 1
 	
+	sound.stop("bees")
 	await get_tree().create_timer(2).timeout
 	event_phase()
 
@@ -524,9 +555,10 @@ func add_seed(parent: Sunflower, child_pos: int):
 	var seed_single = seeds_visuals.get_node("Seed").duplicate()
 	seed_single.position = waypoint_1
 	seeds_visuals.add_child.call_deferred(seed_single)
+	sound.play("seed_pop")
 	
 	var tween = create_tween()
-	tween.tween_property(seed_single, "modulate:a", 1, 0.5) \
+	tween.tween_property(seed_single, "modulate:a", 1, 0.2) \
 		 .set_ease(Tween.EASE_IN_OUT)
 		
 	tween.tween_property(seed_single, "position", waypoint_2, 1) \
@@ -569,7 +601,7 @@ func event_phase():
 				
 				if g.rng.randf() > survival_chance:
 					perished_sunflowers.append(sunflower)
-					preview_map = (1 << sunflower.pos)
+					sunflower.modulate = Color(1, 0.5, 0.5)
 			
 			await get_tree().create_timer(1.5).timeout
 			
@@ -616,6 +648,13 @@ func event_phase():
 				match event_name:
 					"Storm":
 						event.hide()
+						sound.stop("storm")
+					"Night":
+						sound.stop("night")
+					"Pest Invasion":
+						sound.stop("pests")
+					"Fertility":
+						sound.stop("shimmering")
 		
 		# Spawning new events
 		else:
@@ -634,16 +673,23 @@ func event_phase():
 			
 			if add_event:
 				event.active_num = 1
+				print(event_name)
 				
 				match event_name:
 					"Storm":
 						event.spawn_storm()
 						event.show()
+						sound.play("storm")
 					"Pest Invasion":
 						event.spawn_pest()
+						sound.play("pests")
 					"Drought":
 						events["Waterlogging"].affected_map = 0b0  # drought removes waterlogging
 						events["Waterlogging"].active_num = 0
+					"Night":
+						sound.play("night")
+					"Fertility":
+						sound.play("shimmering")
 		
 		# Reverting tiles affected too long to normal
 		if is_position_based:
@@ -668,6 +714,8 @@ func breeding_phase():
 	phase_num = 1
 
 func compute_trait_scores():
+	sound.play("points")
+	
 	for sunflower in sunflowers:
 		var sunflower_score := 0 
 		
@@ -685,6 +733,7 @@ func compute_trait_scores():
 func check_game_over():
 	if len(sunflowers) == 0:
 		print("Awaw over!")
+		sound.play("gameover")
 		show_popup("GameoverScreen")
 		save_scores()
 		

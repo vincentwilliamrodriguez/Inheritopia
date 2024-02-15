@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 g="*res://scripts/g.gd"
+sound="*res://scripts/Sound.gd"
 
 [debug]
 
@@ -41,8 +42,10 @@ folder_colors={
 "res://fonts/": "pink",
 "res://images/": "blue",
 "res://images/sunflower/": "yellow",
+"res://resources/": "red",
 "res://scenes/": "green",
 "res://scripts/": "yellow",
+"res://sounds/": "gray",
 "res://themes/": "purple"
 }
 

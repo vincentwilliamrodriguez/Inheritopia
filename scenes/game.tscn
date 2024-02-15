@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=128 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
@@ -6,31 +6,52 @@
 [ext_resource type="Script" path="res://scripts/popup.gd" id="3_4kks3"]
 [ext_resource type="Texture2D" uid="uid://c08pva05aoqfc" path="res://images/sky/day.png" id="3_1268t"]
 [ext_resource type="Theme" uid="uid://cgl0kr3l8h2w1" path="res://themes/popup_theme.tres" id="3_cey50"]
+[ext_resource type="Script" path="res://scripts/Sound.gd" id="3_nxwbt"]
 [ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
 [ext_resource type="Texture2D" uid="uid://cc43p8f5recor" path="res://images/icons/home.png" id="4_6kj66"]
+[ext_resource type="AudioStream" uid="uid://rhj38dm0k55c" path="res://sounds/Better Days.mp3" id="4_ak07j"]
 [ext_resource type="Texture2D" uid="uid://45fbnxxqdelb" path="res://images/dirt/dirt_1.png" id="4_bcfba"]
+[ext_resource type="AudioStream" uid="uid://cdt4ofkv0qxf1" path="res://sounds/Blue Boi.mp3" id="5_4d83h"]
 [ext_resource type="Texture2D" uid="uid://ch83jfs02gx4d" path="res://images/icons/setting.png" id="5_enpai"]
 [ext_resource type="Texture2D" uid="uid://3v4rfcdcwq3s" path="res://images/dirt/dirt_2.png" id="5_fgwel"]
 [ext_resource type="Texture2D" uid="uid://ceb7q7q6iqqux" path="res://images/icons/restart.png" id="6_1bm8n"]
 [ext_resource type="Texture2D" uid="uid://daa4wn0q7v3mt" path="res://images/icons/help.png" id="6_60ds3"]
 [ext_resource type="Texture2D" uid="uid://6mr4p7ynu3cr" path="res://images/dirt/drought_1.png" id="6_cg2xk"]
+[ext_resource type="AudioStream" uid="uid://8ulksrr5kry2" path="res://sounds/Chill Day.mp3" id="6_oi46h"]
 [ext_resource type="Texture2D" uid="uid://qhr2g881xixa" path="res://images/dirt/drought_2.png" id="7_2xrdv"]
 [ext_resource type="Texture2D" uid="uid://dn2fgcisnb7d1" path="res://images/icons/undo.png" id="7_apkyq"]
+[ext_resource type="AudioStream" uid="uid://cr3otyflkaelk" path="res://sounds/City Of Angels.mp3" id="7_jfe6c"]
 [ext_resource type="Texture2D" uid="uid://sgjact2vc816" path="res://images/dirt/waterlogged_1.png" id="8_dfhwu"]
+[ext_resource type="AudioStream" uid="uid://csd3yo8x4vr2o" path="res://sounds/The Process.mp3" id="8_drw82"]
 [ext_resource type="Texture2D" uid="uid://bpb3vyyb4l0j5" path="res://images/nine_patch_rect/white.png" id="8_r0diy"]
 [ext_resource type="Texture2D" uid="uid://bo0tml5kn3ks0" path="res://images/dirt/waterlogged_2.png" id="9_du1dr"]
+[ext_resource type="AudioStream" uid="uid://bb44uppsktlc6" path="res://sounds/bees.mp3" id="9_ya0dy"]
+[ext_resource type="AudioStream" uid="uid://bx0bp15mwmm66" path="res://sounds/gameover.mp3" id="10_7vj70"]
+[ext_resource type="AudioStream" uid="uid://by6x4f3i0f8u5" path="res://sounds/button.mp3" id="10_cy3c5"]
 [ext_resource type="LabelSettings" uid="uid://cnaya5cupl4tk" path="res://themes/default_label.tres" id="10_vtjxm"]
 [ext_resource type="Texture2D" uid="uid://8nlmqc1u7o4l" path="res://images/sprite_sheet/template.png" id="11_64jia"]
+[ext_resource type="AudioStream" uid="uid://dxh3e87t8trtq" path="res://sounds/night.mp3" id="11_ht0dh"]
+[ext_resource type="AudioStream" uid="uid://y12nv8yvgdb2" path="res://sounds/correct.mp3" id="11_lby5y"]
 [ext_resource type="Texture2D" uid="uid://dekrfcp64evr5" path="res://images/misc/wooden_sign.png" id="11_yinur"]
 [ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="12_n1y4b"]
+[ext_resource type="AudioStream" uid="uid://bgo753157t160" path="res://sounds/shimmering.mp3" id="12_noocw"]
+[ext_resource type="AudioStream" uid="uid://t3p43ok1alcx" path="res://sounds/incorrect.mp3" id="12_r1yjl"]
+[ext_resource type="AudioStream" uid="uid://rn4p4uxopw1s" path="res://sounds/pests.mp3" id="12_ujngl"]
 [ext_resource type="Texture2D" uid="uid://bmvhrxm2k47l3" path="res://images/icons/right_arrow.png" id="13_u3o63"]
+[ext_resource type="AudioStream" uid="uid://diybvotd4p2js" path="res://sounds/storm.mp3" id="13_uyxi1"]
+[ext_resource type="AudioStream" uid="uid://dih50txavrtci" path="res://sounds/points.mp3" id="13_xsyvd"]
+[ext_resource type="AudioStream" uid="uid://b3ibpb2bqwh7e" path="res://sounds/seed_pop.mp3" id="14_4t8xs"]
 [ext_resource type="Texture2D" uid="uid://bsr76pi7wocs0" path="res://images/icons/sw_plus.png" id="14_8leee"]
 [ext_resource type="StyleBox" uid="uid://cmcinwnrqhwnx" path="res://themes/strength.tres" id="14_yhj1p"]
 [ext_resource type="Texture2D" uid="uid://7xvheno85f64" path="res://images/icons/sw00.png" id="15_1cok6"]
+[ext_resource type="AudioStream" uid="uid://boitixysdopd" path="res://sounds/pick.mp3" id="16_ontde"]
 [ext_resource type="Texture2D" uid="uid://xoda77evodgp" path="res://images/icons/sw_minus.png" id="16_p4npa"]
 [ext_resource type="StyleBox" uid="uid://cn7vi6sn44gcn" path="res://themes/weakness.tres" id="17_3uk7d"]
 [ext_resource type="Texture2D" uid="uid://c3spcy6mrrmud" path="res://images/icons/sw01.png" id="17_leop4"]
+[ext_resource type="AudioStream" uid="uid://o2d387yoy46y" path="res://sounds/ping.mp3" id="17_sd7r6"]
 [ext_resource type="Texture2D" uid="uid://dmio7yt8bvext" path="res://images/icons/sw10.png" id="20_ff0il"]
+[ext_resource type="AudioStream" uid="uid://xltd8n8ppq8d" path="res://sounds/select_1.mp3" id="20_ga7h4"]
+[ext_resource type="AudioStream" uid="uid://dmcxa1lifopmd" path="res://sounds/select_2.mp3" id="21_6f83w"]
 [ext_resource type="Texture2D" uid="uid://2rfypl4xjjym" path="res://images/icons/sw11.png" id="21_smkvr"]
 [ext_resource type="Texture2D" uid="uid://dn162vwl16mhb" path="res://images/icons/sw20.png" id="22_ydev2"]
 [ext_resource type="Texture2D" uid="uid://c4sfxvjbugevo" path="res://images/icons/sw21.png" id="23_n4s1p"]
@@ -46,6 +67,19 @@
 [ext_resource type="Script" path="res://scripts/sign_interactive.gd" id="37_rvuv6"]
 [ext_resource type="Texture2D" uid="uid://dvu6q7ar0kx5k" path="res://images/sunflower/seed.png" id="38_3h8u3"]
 [ext_resource type="PackedScene" uid="uid://2dpi8ra4j88w" path="res://scenes/bee.tscn" id="38_citi5"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_n4mt6"]
+streams_count = 5
+stream_0/stream = ExtResource("4_ak07j")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("5_4d83h")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("6_oi46h")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("7_jfe6c")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("8_drw82")
+stream_4/weight = 1.0
 
 [sub_resource type="Animation" id="Animation_jnj31"]
 length = 0.001
@@ -474,6 +508,90 @@ grow_vertical = 2
 theme = ExtResource("2_t6ejp")
 script = ExtResource("1_bmtli")
 
+[node name="Sound" type="Node" parent="." groups=["audio_player"]]
+unique_name_in_owner = true
+script = ExtResource("3_nxwbt")
+
+[node name="music" type="AudioStreamPlayer" parent="Sound"]
+stream = SubResource("AudioStreamRandomizer_n4mt6")
+volume_db = -28.0
+autoplay = true
+
+[node name="bees" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("9_ya0dy")
+volume_db = -25.0
+bus = &"GameSFX"
+
+[node name="gameover" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("10_7vj70")
+volume_db = -20.0
+bus = &"GameSFX"
+
+[node name="night" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("11_ht0dh")
+volume_db = -5.0
+bus = &"GameSFX"
+
+[node name="shimmering" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("12_noocw")
+volume_db = -12.0
+bus = &"GameSFX"
+
+[node name="storm" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("13_uyxi1")
+volume_db = -24.0
+bus = &"GameSFX"
+
+[node name="pests" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("12_ujngl")
+volume_db = -25.0
+bus = &"GameSFX"
+
+[node name="points" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("13_xsyvd")
+volume_db = -26.0
+bus = &"GameSFX"
+
+[node name="seed_pop" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("14_4t8xs")
+volume_db = -22.0
+bus = &"GameSFX"
+
+[node name="button" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("10_cy3c5")
+volume_db = -22.0
+bus = &"UISFX"
+
+[node name="correct" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("11_lby5y")
+volume_db = -18.0
+bus = &"UISFX"
+
+[node name="incorrect" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("12_r1yjl")
+volume_db = -18.0
+bus = &"UISFX"
+
+[node name="pick" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("16_ontde")
+volume_db = -30.0
+bus = &"UISFX"
+
+[node name="ping" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("17_sd7r6")
+volume_db = -10.0
+bus = &"UISFX"
+
+[node name="select_1" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("20_ga7h4")
+volume_db = -22.0
+bus = &"UISFX"
+
+[node name="select_2" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("21_6f83w")
+volume_db = -22.0
+bus = &"UISFX"
+
 [node name="AnimationTree" type="AnimationTree" parent="."]
 unique_name_in_owner = true
 root_node = NodePath("%AnimationTree/..")
@@ -581,7 +699,7 @@ size_flags_vertical = 0
 theme = ExtResource("2_t6ejp")
 alignment = 1
 
-[node name="HomeBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+[node name="HomeBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -609,7 +727,7 @@ texture = ExtResource("4_6kj66")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="SettingsBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+[node name="SettingsBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -637,7 +755,7 @@ texture = ExtResource("5_enpai")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="TutorialBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+[node name="TutorialBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -665,7 +783,7 @@ texture = ExtResource("6_60ds3")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="RestartBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons"]
+[node name="RestartBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1328,6 +1446,7 @@ unique_name_in_owner = true
 position = Vector2(0, -12)
 collision_layer = 255
 input_pickable = true
+can_sleep = false
 script = ExtResource("37_rvuv6")
 
 [node name="Sign" type="TextureRect" parent="CenterUI/SignLayer/SignContainer/SignBody"]
@@ -1503,7 +1622,7 @@ layout_mode = 2
 size_flags_vertical = 8
 theme_override_constants/separation = 40
 
-[node name="BreedBtn" type="Button" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer"]
+[node name="BreedBtn" type="Button" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer" groups=["button"]]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1514,7 +1633,7 @@ shortcut = SubResource("Shortcut_pj4qi")
 shortcut_in_tooltip = false
 text = "Breed"
 
-[node name="UndoBtn" type="Button" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer"]
+[node name="UndoBtn" type="Button" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer" groups=["button"]]
 custom_minimum_size = Vector2(100, 80)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -1606,7 +1725,7 @@ size_flags_vertical = 6
 theme_override_constants/separation = 40
 alignment = 1
 
-[node name="NextBtn" type="Button" parent="RightUI/VBoxContainer/HBoxContainer"]
+[node name="NextBtn" type="Button" parent="RightUI/VBoxContainer/HBoxContainer" groups=["button"]]
 custom_minimum_size = Vector2(400, 80)
 layout_mode = 2
 tooltip_text = "Shortcut: N or Enter"
@@ -1620,8 +1739,8 @@ expand_icon = true
 
 [connection signal="canceled" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="restart_game"]
+[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="canceled" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/NextConfirmation" to="." method="transition_phase"]
@@ -1629,8 +1748,6 @@ expand_icon = true
 [connection signal="canceled" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="restart_game" binds= [true]]
-[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="show_popup" binds= ["RestartConfirmation"]]
 [connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/UndoBtn" to="." method="undo_breeding"]

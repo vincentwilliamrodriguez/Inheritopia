@@ -1,0 +1,1679 @@
+[gd_scene load_steps=115 format=3 uid="uid://bcwkumgg4hhny"]
+
+[ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
+[ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
+[ext_resource type="Texture2D" uid="uid://dxhvly0a14y0c" path="res://images/background/wood.png" id="3_0mqbn"]
+[ext_resource type="Script" path="res://scripts/popup.gd" id="3_4kks3"]
+[ext_resource type="Texture2D" uid="uid://c08pva05aoqfc" path="res://images/sky/day.png" id="3_1268t"]
+[ext_resource type="Theme" uid="uid://cgl0kr3l8h2w1" path="res://themes/popup_theme.tres" id="3_cey50"]
+[ext_resource type="Script" path="res://scripts/Sound.gd" id="3_nxwbt"]
+[ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
+[ext_resource type="Texture2D" uid="uid://cc43p8f5recor" path="res://images/icons/home.png" id="4_6kj66"]
+[ext_resource type="AudioStream" uid="uid://rhj38dm0k55c" path="res://sounds/Better Days.mp3" id="4_ak07j"]
+[ext_resource type="Texture2D" uid="uid://45fbnxxqdelb" path="res://images/dirt/dirt_1.png" id="4_bcfba"]
+[ext_resource type="AudioStream" uid="uid://cdt4ofkv0qxf1" path="res://sounds/Blue Boi.mp3" id="5_4d83h"]
+[ext_resource type="Texture2D" uid="uid://ch83jfs02gx4d" path="res://images/icons/setting.png" id="5_enpai"]
+[ext_resource type="Texture2D" uid="uid://3v4rfcdcwq3s" path="res://images/dirt/dirt_2.png" id="5_fgwel"]
+[ext_resource type="Texture2D" uid="uid://ceb7q7q6iqqux" path="res://images/icons/restart.png" id="6_1bm8n"]
+[ext_resource type="Texture2D" uid="uid://daa4wn0q7v3mt" path="res://images/icons/help.png" id="6_60ds3"]
+[ext_resource type="Texture2D" uid="uid://6mr4p7ynu3cr" path="res://images/dirt/drought_1.png" id="6_cg2xk"]
+[ext_resource type="AudioStream" uid="uid://8ulksrr5kry2" path="res://sounds/Chill Day.mp3" id="6_oi46h"]
+[ext_resource type="Texture2D" uid="uid://qhr2g881xixa" path="res://images/dirt/drought_2.png" id="7_2xrdv"]
+[ext_resource type="Texture2D" uid="uid://dn2fgcisnb7d1" path="res://images/icons/undo.png" id="7_apkyq"]
+[ext_resource type="AudioStream" uid="uid://cr3otyflkaelk" path="res://sounds/City Of Angels.mp3" id="7_jfe6c"]
+[ext_resource type="Texture2D" uid="uid://sgjact2vc816" path="res://images/dirt/waterlogged_1.png" id="8_dfhwu"]
+[ext_resource type="AudioStream" uid="uid://csd3yo8x4vr2o" path="res://sounds/The Process.mp3" id="8_drw82"]
+[ext_resource type="Texture2D" uid="uid://bpb3vyyb4l0j5" path="res://images/nine_patch_rect/white.png" id="8_r0diy"]
+[ext_resource type="Texture2D" uid="uid://bo0tml5kn3ks0" path="res://images/dirt/waterlogged_2.png" id="9_du1dr"]
+[ext_resource type="AudioStream" uid="uid://bb44uppsktlc6" path="res://sounds/bees.mp3" id="9_ya0dy"]
+[ext_resource type="AudioStream" uid="uid://by6x4f3i0f8u5" path="res://sounds/button.mp3" id="10_cy3c5"]
+[ext_resource type="LabelSettings" uid="uid://cnaya5cupl4tk" path="res://themes/default_label.tres" id="10_vtjxm"]
+[ext_resource type="Texture2D" uid="uid://8nlmqc1u7o4l" path="res://images/sprite_sheet/template.png" id="11_64jia"]
+[ext_resource type="Texture2D" uid="uid://dekrfcp64evr5" path="res://images/misc/wooden_sign.png" id="11_yinur"]
+[ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="12_n1y4b"]
+[ext_resource type="Texture2D" uid="uid://bmvhrxm2k47l3" path="res://images/icons/right_arrow.png" id="13_u3o63"]
+[ext_resource type="Texture2D" uid="uid://bsr76pi7wocs0" path="res://images/icons/sw_plus.png" id="14_8leee"]
+[ext_resource type="StyleBox" uid="uid://cmcinwnrqhwnx" path="res://themes/strength.tres" id="14_yhj1p"]
+[ext_resource type="Texture2D" uid="uid://7xvheno85f64" path="res://images/icons/sw00.png" id="15_1cok6"]
+[ext_resource type="Texture2D" uid="uid://xoda77evodgp" path="res://images/icons/sw_minus.png" id="16_p4npa"]
+[ext_resource type="StyleBox" uid="uid://cn7vi6sn44gcn" path="res://themes/weakness.tres" id="17_3uk7d"]
+[ext_resource type="Texture2D" uid="uid://c3spcy6mrrmud" path="res://images/icons/sw01.png" id="17_leop4"]
+[ext_resource type="Texture2D" uid="uid://dmio7yt8bvext" path="res://images/icons/sw10.png" id="20_ff0il"]
+[ext_resource type="Texture2D" uid="uid://2rfypl4xjjym" path="res://images/icons/sw11.png" id="21_smkvr"]
+[ext_resource type="Texture2D" uid="uid://dn162vwl16mhb" path="res://images/icons/sw20.png" id="22_ydev2"]
+[ext_resource type="Texture2D" uid="uid://c4sfxvjbugevo" path="res://images/icons/sw21.png" id="23_n4s1p"]
+[ext_resource type="Texture2D" uid="uid://b1nbfet7ko7gv" path="res://images/background/grass.png" id="25_eps6i"]
+[ext_resource type="Texture2D" uid="uid://c2b4jjv3h7pm" path="res://images/sprite_sheet/storm_sheet.png" id="28_tnrgv"]
+[ext_resource type="Texture2D" uid="uid://cblkn27ajevb2" path="res://images/icons/breeding_cross.png" id="33_82x3w"]
+[ext_resource type="Texture2D" uid="uid://bcr20rj04p5se" path="res://images/misc/fences.png" id="33_tbnvj"]
+[ext_resource type="Texture2D" uid="uid://bs1kuvn7avfvh" path="res://images/misc/fences-hq.png" id="34_k3vff"]
+[ext_resource type="PackedScene" uid="uid://ddxeldi445cl4" path="res://scenes/sunflower.tscn" id="35_5rxda"]
+[ext_resource type="Script" path="res://scripts/PunnettSquareTabs.gd" id="35_a1rde"]
+[ext_resource type="PackedScene" uid="uid://5jv6xt74r45n" path="res://scenes/pest_tile.tscn" id="35_ea5e1"]
+[ext_resource type="PackedScene" uid="uid://c1hifdqnl0x2b" path="res://scenes/punnett_square.tscn" id="36_fbjh8"]
+[ext_resource type="Script" path="res://scripts/sign_interactive.gd" id="37_rvuv6"]
+[ext_resource type="Texture2D" uid="uid://dvu6q7ar0kx5k" path="res://images/sunflower/seed.png" id="38_3h8u3"]
+[ext_resource type="PackedScene" uid="uid://2dpi8ra4j88w" path="res://scenes/bee.tscn" id="38_citi5"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_n4mt6"]
+streams_count = 5
+stream_0/stream = ExtResource("4_ak07j")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("5_4d83h")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("6_oi46h")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("7_jfe6c")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("8_drw82")
+stream_4/weight = 1.0
+
+[sub_resource type="Animation" id="Animation_jnj31"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CenterUI/Garden/StormVisuals:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_2jyaa"]
+resource_name = "Storm"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CenterUI/Garden/StormVisuals:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5ikl2"]
+_data = {
+"RESET": SubResource("Animation_jnj31"),
+"Storm": SubResource("Animation_2jyaa")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yxdug"]
+animation = &"Storm"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_aivys"]
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_yxdug")
+"nodes/Animation 2/position" = Vector2(26.6667, 133.333)
+nodes/output/position = Vector2(480, 160)
+node_connections = [&"output", 0, &"Animation 2"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_1ys0g"]
+device = -1
+keycode = 82
+unicode = 114
+
+[sub_resource type="Shortcut" id="Shortcut_ecplw"]
+events = [SubResource("InputEventKey_1ys0g")]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qphp"]
+bg_color = Color(0.239216, 0.603922, 0.258824, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_umwdr"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+shadow_color = Color(0, 0.196078, 0, 0.156863)
+shadow_size = 7
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bhr2m"]
+texture = ExtResource("4_bcfba")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g0lph"]
+texture = ExtResource("5_fgwel")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gra50"]
+texture = ExtResource("6_cg2xk")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5l4p3"]
+texture = ExtResource("7_2xrdv")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cx02h"]
+texture = ExtResource("8_dfhwu")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8mfvb"]
+texture = ExtResource("9_du1dr")
+texture_region_size = Vector2i(200, 200)
+0:0/0 = 0
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ra0u7"]
+scenes/1/scene = ExtResource("35_ea5e1")
+
+[sub_resource type="TileSet" id="TileSet_o2tj1"]
+tile_size = Vector2i(200, 200)
+sources/0 = SubResource("TileSetAtlasSource_bhr2m")
+sources/1 = SubResource("TileSetAtlasSource_g0lph")
+sources/2 = SubResource("TileSetAtlasSource_gra50")
+sources/3 = SubResource("TileSetAtlasSource_5l4p3")
+sources/4 = SubResource("TileSetAtlasSource_cx02h")
+sources/5 = SubResource("TileSetAtlasSource_8mfvb")
+sources/7 = SubResource("TileSetScenesCollectionSource_ra0u7")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s27xu"]
+texture = ExtResource("33_tbnvj")
+texture_region_size = Vector2i(32, 32)
+2:0/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+1:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s7miy"]
+texture = ExtResource("34_k3vff")
+texture_region_size = Vector2i(64, 64)
+1:0/0 = 0
+2:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_ivnq7"]
+tile_size = Vector2i(64, 64)
+sources/0 = SubResource("TileSetAtlasSource_s27xu")
+sources/1 = SubResource("TileSetAtlasSource_s7miy")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsrn0"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1053, 35, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cpitq"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1389, 35, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xip10"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1725, 35, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14kjq"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(2061, 35, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihf8p"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1053, 373, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vfuh"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1389, 373, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqp4p"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1725, 373, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pkmpk"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(2061, 373, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wq037"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1053, 711, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpxhd"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1389, 711, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4plb"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1725, 711, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1j60"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(2061, 711, 296, 298)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o037v"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1058, 40, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ygl4"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1394, 40, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v813r"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1730, 40, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcant"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(2066, 40, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tod65"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1058, 378, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjqsx"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1394, 378, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_516k4"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1730, 378, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_al2xq"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(2066, 378, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjhxo"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1058, 716, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idfoc"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1394, 716, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xsnp"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(1730, 716, 286, 288)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l00tr"]
+atlas = ExtResource("28_tnrgv")
+region = Rect2(2066, 716, 286, 288)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ka12o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dsrn0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cpitq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xip10")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_14kjq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihf8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vfuh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vqp4p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pkmpk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wq037")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpxhd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4plb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m1j60")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o037v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ygl4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v813r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcant")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tod65")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjqsx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_516k4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_al2xq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xjhxo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idfoc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xsnp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l00tr")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_bbqsn"]
+resource_name = "ShowStorm"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CenterUI/Garden/StormVisuals:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_t1neb"]
+resource_name = "MoveStorm"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CenterUI/Garden/StormVisuals:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(300, 300), Vector2(500, 500)]
+}
+
+[sub_resource type="Animation" id="Animation_fnc6b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CenterUI/Garden/StormVisuals:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(300, 300)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../CenterUI/Garden/StormVisuals:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3biwa"]
+resource_name = "ShowStorm"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../CenterUI/Garden/StormVisuals:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vfnmg"]
+_data = {
+"HideStorm": SubResource("Animation_bbqsn"),
+"MoveStorm": SubResource("Animation_t1neb"),
+"RESET": SubResource("Animation_fnc6b"),
+"ShowStorm": SubResource("Animation_3biwa")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_170gs"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+shadow_color = Color(0, 0, 0, 0.156863)
+shadow_size = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pkoh4"]
+size = Vector2(322, 226)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wp2j0"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_0c4st"]
+action = &"breed"
+
+[sub_resource type="Shortcut" id="Shortcut_pj4qi"]
+events = [SubResource("InputEventAction_0c4st")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_x6okl"]
+device = -1
+keycode = 90
+unicode = 122
+
+[sub_resource type="Shortcut" id="Shortcut_iod7g"]
+events = [SubResource("InputEventKey_x6okl")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_a6cw5"]
+action = &"next"
+
+[sub_resource type="Shortcut" id="Shortcut_fkdmw"]
+events = [SubResource("InputEventAction_a6cw5")]
+
+[node name="Game" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+script = ExtResource("1_bmtli")
+
+[node name="Sound" type="Node" parent="." groups=["audio_player"]]
+unique_name_in_owner = true
+script = ExtResource("3_nxwbt")
+
+[node name="music" type="AudioStreamPlayer" parent="Sound"]
+stream = SubResource("AudioStreamRandomizer_n4mt6")
+volume_db = -20.0
+autoplay = true
+
+[node name="bees" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("9_ya0dy")
+volume_db = -25.0
+bus = &"GameSFX"
+
+[node name="button" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("10_cy3c5")
+volume_db = -20.0
+autoplay = true
+bus = &"UISFX"
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+unique_name_in_owner = true
+root_node = NodePath("%AnimationTree/..")
+libraries = {
+"": SubResource("AnimationLibrary_5ikl2")
+}
+tree_root = SubResource("AnimationNodeBlendTree_aivys")
+anim_player = NodePath("Main")
+
+[node name="Main" type="AnimationPlayer" parent="AnimationTree"]
+unique_name_in_owner = true
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_5ikl2")
+}
+autoplay = "Storm"
+
+[node name="PopupLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 4
+
+[node name="Shade" type="ColorRect" parent="PopupLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.631373)
+
+[node name="RestartConfirmation" type="ConfirmationDialog" parent="PopupLayer"]
+transparent_bg = true
+title = "Restart Game"
+initial_position = 1
+size = Vector2i(500, 250)
+unresizable = true
+transparent = true
+theme = ExtResource("3_cey50")
+ok_button_text = "Yes"
+dialog_text = "Are you sure you want to restart the game?"
+dialog_autowrap = true
+cancel_button_text = "No"
+script = ExtResource("3_4kks3")
+
+[node name="NextConfirmation" type="ConfirmationDialog" parent="PopupLayer"]
+transparent_bg = true
+title = "Warning"
+initial_position = 1
+size = Vector2i(600, 250)
+unresizable = true
+transparent = true
+theme = ExtResource("3_cey50")
+ok_button_text = "Yes"
+dialog_text = "You haven't bred all sunflowers yet. Proceed anyways?"
+dialog_autowrap = true
+cancel_button_text = "No"
+script = ExtResource("3_4kks3")
+
+[node name="GameoverScreen" type="AcceptDialog" parent="PopupLayer"]
+unique_name_in_owner = true
+transparent_bg = true
+title = "Game Over!"
+initial_position = 1
+size = Vector2i(700, 400)
+unresizable = true
+transparent = true
+theme = ExtResource("3_cey50")
+ok_button_text = "Play Again"
+dialog_text = "Good job! You survived %s generations and got a score of %s.
+
+Your highscores are now %s generations and a score of %s."
+dialog_autowrap = true
+script = ExtResource("3_4kks3")
+
+[node name="LeftUI" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 510.0
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+
+[node name="Background" type="TextureRect" parent="LeftUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_0mqbn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Buttons" type="HBoxContainer" parent="LeftUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("2_t6ejp")
+alignment = 1
+
+[node name="HomeBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+tooltip_text = "Home"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_t6ejp")
+shortcut_in_tooltip = false
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/HomeBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_6kj66")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="SettingsBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+tooltip_text = "Settings"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_t6ejp")
+shortcut_in_tooltip = false
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/SettingsBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_enpai")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TutorialBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+tooltip_text = "Tutorial"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_t6ejp")
+shortcut_in_tooltip = false
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/TutorialBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_60ds3")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="RestartBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+tooltip_text = "Restart"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_t6ejp")
+shortcut = SubResource("Shortcut_ecplw")
+shortcut_in_tooltip = false
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/RestartBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_1bm8n")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TraitsPanel" type="MarginContainer" parent="LeftUI/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_t6ejp")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SunflowerPreview" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Card" type="NinePatchRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/SunflowerPreview"]
+self_modulate = Color(0.917647, 0.894118, 0.827451, 1)
+z_index = 1
+custom_minimum_size = Vector2(250, 250)
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("8_r0diy")
+patch_margin_left = 30
+patch_margin_top = 30
+patch_margin_right = 30
+patch_margin_bottom = 30
+
+[node name="Sample" type="Sprite2D" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/SunflowerPreview/Card"]
+visible = false
+position = Vector2(25, 25)
+scale = Vector2(1.563, 1.563)
+texture = ExtResource("3_tqvwn")
+centered = false
+
+[node name="Shadow" type="Panel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/SunflowerPreview/Card"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"shadow"
+
+[node name="Name" type="Label" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/SunflowerPreview"]
+layout_mode = 2
+theme = ExtResource("2_t6ejp")
+text = "YyttRR"
+label_settings = ExtResource("10_vtjxm")
+horizontal_alignment = 1
+
+[node name="TraitsInfo" type="NinePatchRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer"]
+unique_name_in_owner = true
+self_modulate = Color(0.839216, 0.839216, 0.839216, 1)
+z_index = 1
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("11_64jia")
+region_rect = Rect2(268, 532, 128, 128)
+patch_margin_left = 40
+patch_margin_top = 40
+patch_margin_right = 40
+patch_margin_bottom = 40
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="Shadow" type="Panel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"shadow"
+
+[node name="MarginContainer" type="MarginContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer"]
+layout_mode = 2
+
+[node name="0" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Info" type="HBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Genotype" type="RichTextLabel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/Info"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+bbcode_enabled = true
+text = "[outline_color=#8B8000]Yy[/outline_color]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Arrow" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/Info"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("13_u3o63")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Phenotype" type="RichTextLabel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+bbcode_enabled = true
+text = "[font_size=36][outline_size=8] Yellow[/outline_size][/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="sw" type="HBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+alignment = 2
+
+[node name="0" type="Panel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/sw"]
+custom_minimum_size = Vector2(75, 50)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "%s seed production"
+theme_override_styles/panel = ExtResource("14_yhj1p")
+
+[node name="Sign" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/sw/0"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -9.5
+offset_right = 27.0
+offset_bottom = 9.5
+grow_vertical = 2
+texture = ExtResource("14_8leee")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/sw/0"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -17.0
+offset_right = -8.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("15_1cok6")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="1" type="Panel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/sw"]
+custom_minimum_size = Vector2(75, 50)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "%s resistant to pests"
+theme_override_styles/panel = ExtResource("17_3uk7d")
+
+[node name="Sign" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/sw/1"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -9.5
+offset_right = 27.0
+offset_bottom = 9.5
+grow_vertical = 2
+texture = ExtResource("16_p4npa")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/0/sw/1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -17.0
+offset_right = -8.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("17_leop4")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Separator1" type="ColorRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+color = Color(0.172549, 0.407843, 0.509804, 0.607843)
+
+[node name="1" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Info" type="HBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Genotype" type="RichTextLabel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/Info"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+bbcode_enabled = true
+text = "[outline_color=#006100]tt[/outline_color]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Arrow" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/Info"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("13_u3o63")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Phenotype" type="RichTextLabel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+bbcode_enabled = true
+text = "[font_size=36][outline_size=8] Short[/outline_size][/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="sw" type="HBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+alignment = 2
+
+[node name="0" type="Panel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/sw"]
+custom_minimum_size = Vector2(75, 50)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "%s likely to survive nights"
+theme_override_styles/panel = ExtResource("14_yhj1p")
+
+[node name="Sign" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/sw/0"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -9.5
+offset_right = 27.0
+offset_bottom = 9.5
+grow_vertical = 2
+texture = ExtResource("14_8leee")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/sw/0"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -17.0
+offset_right = -8.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("20_ff0il")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="1" type="Panel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/sw"]
+custom_minimum_size = Vector2(75, 50)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "%s resistant to storms"
+theme_override_styles/panel = ExtResource("17_3uk7d")
+
+[node name="Sign" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/sw/1"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -9.5
+offset_right = 27.0
+offset_bottom = 9.5
+grow_vertical = 2
+texture = ExtResource("16_p4npa")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/1/sw/1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -17.0
+offset_right = -8.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("21_smkvr")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Separator2" type="ColorRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+color = Color(0.172549, 0.407843, 0.509804, 0.607843)
+
+[node name="2" type="VBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Info" type="HBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Genotype" type="RichTextLabel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/Info"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+bbcode_enabled = true
+text = "[outline_color=#a16b00]RR[/outline_color]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Arrow" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/Info"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("13_u3o63")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Phenotype" type="RichTextLabel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme = ExtResource("2_t6ejp")
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+bbcode_enabled = true
+text = "[font_size=36][outline_size=8] Deep-rooted[/outline_size][/font_size]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="sw" type="HBoxContainer" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+alignment = 2
+
+[node name="0" type="Panel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/sw"]
+custom_minimum_size = Vector2(75, 50)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "%s likely to survive droughts"
+theme_override_styles/panel = ExtResource("14_yhj1p")
+
+[node name="Sign" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/sw/0"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -9.5
+offset_right = 27.0
+offset_bottom = 9.5
+grow_vertical = 2
+texture = ExtResource("14_8leee")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/sw/0"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -17.0
+offset_right = -8.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("22_ydev2")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="1" type="Panel" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/sw"]
+custom_minimum_size = Vector2(75, 50)
+layout_mode = 2
+size_flags_vertical = 0
+tooltip_text = "%s resistant to waterlogging"
+theme_override_styles/panel = ExtResource("17_3uk7d")
+
+[node name="Sign" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/sw/1"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -9.5
+offset_right = 27.0
+offset_bottom = 9.5
+grow_vertical = 2
+texture = ExtResource("16_p4npa")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/TraitsPanel/VBoxContainer/TraitsInfo/MarginContainer/VBoxContainer/2/sw/1"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -42.0
+offset_top = -17.0
+offset_right = -8.0
+offset_bottom = 17.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("23_n4s1p")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CenterUI" type="Panel" parent="."]
+z_index = -2
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_right = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+theme_override_styles/panel = SubResource("StyleBoxFlat_7qphp")
+
+[node name="Sky" type="TextureRect" parent="CenterUI"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 180.0
+grow_horizontal = 2
+texture = ExtResource("3_1268t")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Garden" type="TextureRect" parent="CenterUI"]
+unique_name_in_owner = true
+z_index = 1
+clip_contents = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -900.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("25_eps6i")
+stretch_mode = 1
+
+[node name="Shadow" type="Panel" parent="CenterUI/Garden"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"shadow"
+theme_override_styles/panel = SubResource("StyleBoxFlat_umwdr")
+
+[node name="GardenContainer" type="MarginContainer" parent="CenterUI/Garden"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="TilesPanel" type="PanelContainer" parent="CenterUI/Garden/GardenContainer"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="Tiles" type="TileMap" parent="CenterUI/Garden/GardenContainer/TilesPanel"]
+unique_name_in_owner = true
+tile_set = SubResource("TileSet_o2tj1")
+format = 2
+layer_0/name = "ground"
+layer_0/tile_data = PackedInt32Array(65536, 1, 0, 0, 0, 0, 131072, 1, 0, 196608, 1, 0, 1, 0, 0, 65537, 0, 0, 131073, 0, 0, 196609, 0, 0, 2, 1, 0, 65538, 0, 0, 131074, 1, 0, 196610, 0, 0, 3, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0)
+layer_1/name = "pests"
+layer_1/tile_data = PackedInt32Array()
+
+[node name="PestTile" parent="CenterUI/Garden/GardenContainer/TilesPanel/Tiles" instance=ExtResource("35_ea5e1")]
+visible = false
+
+[node name="SunflowersPanel" type="PanelContainer" parent="CenterUI/Garden/GardenContainer"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 2
+layout_mode = 2
+
+[node name="Sunflower" parent="CenterUI/Garden/GardenContainer/SunflowersPanel" instance=ExtResource("35_5rxda")]
+unique_name_in_owner = true
+visible = false
+
+[node name="OverlayLayer" type="CanvasLayer" parent="CenterUI/Garden/GardenContainer"]
+
+[node name="Overlay" type="Node2D" parent="CenterUI/Garden/GardenContainer/OverlayLayer"]
+unique_name_in_owner = true
+position = Vector2(560, 230)
+
+[node name="Fences" type="TileMap" parent="CenterUI/Garden"]
+z_index = 1
+scale = Vector2(1.563, 1.563)
+tile_set = SubResource("TileSet_ivnq7")
+format = 2
+layer_0/name = "Front"
+layer_0/z_index = 1
+layer_0/tile_data = PackedInt32Array(524288, 65537, 2, 524289, 131073, 0, 524290, 131073, 0, 524291, 131073, 0, 524292, 131073, 0, 524293, 131073, 0, 524294, 131073, 0, 524295, 131073, 0, 524296, 131073, 2)
+layer_1/name = "Back"
+layer_1/tile_data = PackedInt32Array(0, 65537, 0, 1, 131073, 0, 2, 131073, 0, 3, 131073, 0, 4, 131073, 0, 5, 131073, 0, 6, 131073, 0, 7, 131073, 0, 458752, 65537, 1, 393216, 65537, 1, 327680, 65537, 1, 262144, 65537, 1, 196608, 65537, 1, 131072, 65537, 1, 65536, 65537, 1, 65544, 65537, 1, 131080, 65537, 1, 196616, 65537, 1, 262152, 65537, 1, 327688, 65537, 1, 393224, 65537, 1, 458760, 65537, 1, 8, 131073, 1)
+
+[node name="Seeds" type="Node2D" parent="CenterUI/Garden"]
+unique_name_in_owner = true
+z_index = 2
+position = Vector2(50, 50)
+
+[node name="Seed" type="Sprite2D" parent="CenterUI/Garden/Seeds"]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(200, 200)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("38_3h8u3")
+
+[node name="Bees" type="Node2D" parent="CenterUI/Garden"]
+unique_name_in_owner = true
+z_index = 2
+position = Vector2(50, 50)
+
+[node name="Bee" parent="CenterUI/Garden/Bees" instance=ExtResource("38_citi5")]
+visible = false
+position = Vector2(500, 800)
+
+[node name="StormVisuals" type="AnimatedSprite2D" parent="CenterUI/Garden"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0.6)
+z_index = 3
+position = Vector2(300, 300)
+rotation = 6.28319
+scale = Vector2(2.75, 2.75)
+sprite_frames = SubResource("SpriteFrames_ka12o")
+frame = 11
+frame_progress = 1.0
+offset = Vector2(-10, -5)
+
+[node name="StormPlayer" type="AnimationPlayer" parent="CenterUI/Garden/StormVisuals"]
+unique_name_in_owner = true
+root_node = NodePath("../../../../AnimationTree")
+libraries = {
+"": SubResource("AnimationLibrary_vfnmg")
+}
+
+[node name="SignLayer" type="CanvasLayer" parent="CenterUI"]
+
+[node name="SignContainer" type="PanelContainer" parent="CenterUI/SignLayer"]
+self_modulate = Color(1, 1, 1, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="PinJoint2D" type="PinJoint2D" parent="CenterUI/SignLayer/SignContainer"]
+position = Vector2(3, -9.15)
+node_a = NodePath("../SignBody")
+node_b = NodePath("../Pivot")
+
+[node name="SignBody" type="RigidBody2D" parent="CenterUI/SignLayer/SignContainer"]
+unique_name_in_owner = true
+position = Vector2(0, -12)
+collision_layer = 255
+input_pickable = true
+can_sleep = false
+script = ExtResource("37_rvuv6")
+
+[node name="Sign" type="TextureRect" parent="CenterUI/SignLayer/SignContainer/SignBody"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -161.5
+offset_right = 161.5
+offset_bottom = 266.0
+grow_horizontal = 2
+pivot_offset = Vector2(161.5, 0)
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("11_yinur")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Shadow" type="Panel" parent="CenterUI/SignLayer/SignContainer/SignBody/Sign"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 72.0
+offset_bottom = -31.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+theme_type_variation = &"shadow"
+theme_override_styles/panel = SubResource("StyleBoxFlat_170gs")
+
+[node name="Counters" type="RichTextLabel" parent="CenterUI/SignLayer/SignContainer/SignBody/Sign"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 81.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+mouse_filter = 2
+theme = ExtResource("2_t6ejp")
+theme_override_constants/outline_size = 10
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[center][color=\"#ddd\"][font_size=24]Generation[/font_size][/color] 99
+[color=\"#ddd\"][font_size=24]Score[/font_size][/color] 99
+Awaw Phase[/center]"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterUI/SignLayer/SignContainer/SignBody"]
+visible = false
+position = Vector2(0, 114)
+shape = SubResource("RectangleShape2D_pkoh4")
+
+[node name="Pivot" type="StaticBody2D" parent="CenterUI/SignLayer/SignContainer"]
+position = Vector2(3, -12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterUI/SignLayer/SignContainer/Pivot"]
+shape = SubResource("CircleShape2D_wp2j0")
+
+[node name="RightUI" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -510.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("2_t6ejp")
+
+[node name="Background" type="TextureRect" parent="RightUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_0mqbn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RightUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BreedingPanel" type="MarginContainer" parent="RightUI/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 420)
+layout_mode = 2
+theme_override_constants/margin_bottom = 80
+
+[node name="ParentsPreview" type="HBoxContainer" parent="RightUI/VBoxContainer/BreedingPanel"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="0" type="NinePatchRect" parent="RightUI/VBoxContainer/BreedingPanel/ParentsPreview"]
+self_modulate = Color(0.917647, 0.894118, 0.827451, 1)
+z_index = 1
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("8_r0diy")
+patch_margin_left = 30
+patch_margin_top = 30
+patch_margin_right = 30
+patch_margin_bottom = 30
+
+[node name="Sample" type="Sprite2D" parent="RightUI/VBoxContainer/BreedingPanel/ParentsPreview/0"]
+visible = false
+position = Vector2(25, 25)
+scale = Vector2(1.563, 1.563)
+texture = ExtResource("3_tqvwn")
+centered = false
+
+[node name="Shadow" type="Panel" parent="RightUI/VBoxContainer/BreedingPanel/ParentsPreview/0"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"shadow"
+
+[node name="Cross" type="TextureRect" parent="RightUI/VBoxContainer/BreedingPanel/ParentsPreview"]
+self_modulate = Color(1, 1, 1, 0.756863)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("33_82x3w")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="1" type="NinePatchRect" parent="RightUI/VBoxContainer/BreedingPanel/ParentsPreview"]
+self_modulate = Color(0.917647, 0.894118, 0.827451, 1)
+z_index = 1
+custom_minimum_size = Vector2(175, 175)
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("8_r0diy")
+patch_margin_left = 30
+patch_margin_top = 30
+patch_margin_right = 30
+patch_margin_bottom = 30
+
+[node name="Sample" type="Sprite2D" parent="RightUI/VBoxContainer/BreedingPanel/ParentsPreview/1"]
+visible = false
+position = Vector2(25, 25)
+scale = Vector2(1.563, 1.563)
+texture = ExtResource("3_tqvwn")
+centered = false
+
+[node name="Shadow" type="Panel" parent="RightUI/VBoxContainer/BreedingPanel/ParentsPreview/1"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"shadow"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RightUI/VBoxContainer/BreedingPanel"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_constants/separation = 40
+
+[node name="BreedBtn" type="Button" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer" groups=["button"]]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Shortcut: B or Space"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+shortcut = SubResource("Shortcut_pj4qi")
+shortcut_in_tooltip = false
+text = "Breed"
+
+[node name="UndoBtn" type="Button" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer" groups=["button"]]
+custom_minimum_size = Vector2(100, 80)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+tooltip_text = "Shortcut: Z"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_t6ejp")
+shortcut = SubResource("Shortcut_iod7g")
+shortcut_in_tooltip = false
+
+[node name="Icon" type="TextureRect" parent="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/UndoBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_apkyq")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="PunnettSquarePanel" type="MarginContainer" parent="RightUI/VBoxContainer"]
+z_index = 1
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="RightUI/VBoxContainer/PunnettSquarePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Shadow" type="Panel" parent="RightUI/VBoxContainer/PunnettSquarePanel/MarginContainer"]
+z_index = -1
+layout_mode = 2
+theme_type_variation = &"shadow"
+
+[node name="PunnettSquareTabs" type="TabContainer" parent="RightUI/VBoxContainer/PunnettSquarePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+tab_alignment = 1
+script = ExtResource("35_a1rde")
+
+[node name="0" type="MarginContainer" parent="RightUI/VBoxContainer/PunnettSquarePanel/PunnettSquareTabs"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="PunnettSquare" parent="RightUI/VBoxContainer/PunnettSquarePanel/PunnettSquareTabs/0" instance=ExtResource("36_fbjh8")]
+layout_mode = 2
+
+[node name="1" type="MarginContainer" parent="RightUI/VBoxContainer/PunnettSquarePanel/PunnettSquareTabs"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="PunnettSquare" parent="RightUI/VBoxContainer/PunnettSquarePanel/PunnettSquareTabs/1" instance=ExtResource("36_fbjh8")]
+layout_mode = 2
+
+[node name="2" type="MarginContainer" parent="RightUI/VBoxContainer/PunnettSquarePanel/PunnettSquareTabs"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="PunnettSquare" parent="RightUI/VBoxContainer/PunnettSquarePanel/PunnettSquareTabs/2" instance=ExtResource("36_fbjh8")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RightUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="NextBtn" type="Button" parent="RightUI/VBoxContainer/HBoxContainer" groups=["button"]]
+custom_minimum_size = Vector2(400, 80)
+layout_mode = 2
+tooltip_text = "Shortcut: N or Enter"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+shortcut = SubResource("Shortcut_fkdmw")
+shortcut_in_tooltip = false
+text = "Next Generation"
+icon_alignment = 2
+expand_icon = true
+
+[connection signal="canceled" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
+[connection signal="close_requested" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="restart_game"]
+[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
+[connection signal="canceled" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
+[connection signal="close_requested" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/NextConfirmation" to="." method="transition_phase"]
+[connection signal="confirmed" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
+[connection signal="canceled" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
+[connection signal="close_requested" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="restart_game" binds= [true]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="show_popup" binds= ["RestartConfirmation"]]
+[connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
+[connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]
+[connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/UndoBtn" to="." method="undo_breeding"]
+[connection signal="pressed" from="RightUI/VBoxContainer/HBoxContainer/NextBtn" to="." method="next_generation"]

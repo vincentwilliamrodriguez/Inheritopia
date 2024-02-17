@@ -1,4 +1,4 @@
-[gd_scene load_steps=130 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=131 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
@@ -56,6 +56,7 @@
 [ext_resource type="Texture2D" uid="uid://c4sfxvjbugevo" path="res://images/icons/sw21.png" id="23_n4s1p"]
 [ext_resource type="Texture2D" uid="uid://b1nbfet7ko7gv" path="res://images/background/grass.png" id="25_eps6i"]
 [ext_resource type="LabelSettings" uid="uid://bxnmqgmytyu88" path="res://themes/dialog_text.tres" id="26_f4wy4"]
+[ext_resource type="Script" path="res://scripts/InfoScreen.gd" id="27_773bw"]
 [ext_resource type="Texture2D" uid="uid://c2b4jjv3h7pm" path="res://images/sprite_sheet/storm_sheet.png" id="28_tnrgv"]
 [ext_resource type="Texture2D" uid="uid://24lkx1ltp4we" path="res://images/icons/info.png" id="29_vwd6s"]
 [ext_resource type="Texture2D" uid="uid://cblkn27ajevb2" path="res://images/icons/breeding_cross.png" id="33_82x3w"]
@@ -681,7 +682,6 @@ transparent_bg = true
 title = "Settings"
 initial_position = 1
 size = Vector2i(700, 370)
-visible = true
 unresizable = true
 transparent = true
 theme = ExtResource("3_cey50")
@@ -749,6 +749,59 @@ focus_mode = 1
 max_value = 1.0
 step = 0.01
 value = 1.0
+
+[node name="InfoScreen" type="AcceptDialog" parent="PopupLayer"]
+unique_name_in_owner = true
+transparent_bg = true
+title = "Info"
+initial_position = 1
+size = Vector2i(850, 750)
+visible = true
+unresizable = true
+transparent = true
+theme = ExtResource("3_cey50")
+ok_button_text = "Okay"
+dialog_autowrap = true
+script = ExtResource("3_4kks3")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PopupLayer/InfoScreen"]
+offset_left = 50.0
+offset_top = 40.0
+offset_right = 800.0
+offset_bottom = 628.0
+theme = ExtResource("3_cey50")
+bbcode_enabled = true
+text = "Inheritopia is a strategy game designed by a group of students as part of a Biology project:
+
+[table=2]
+[cell][color=#FFAC1C]Lead Developer[/color][/cell][cell][indent]Vincent William Rodriguez[/indent][/cell]
+[cell][color=#FFAC1C]Graphic Artist[/color][/cell][cell][indent]Titus James Serrano[/indent][/cell]
+[cell][color=#FFAC1C]Additional Support[/color][/cell]
+[cell][indent]Bench Christian Ace Borja
+Lawrence Rocamora
+Samir Hanif
+Charleen Bacunawa
+Jomar Rimas
+[/indent][/cell]
+[/table]
+
+[center][font_size=48][outline_color=#284f1c][outline_size=12]Special Thanks To:[/outline_size][/outline_color][/font_size][/center]
+[font_size=10] [/font_size]
+[url=https://richarrest.itch.io/cozy-sim-music-pack-town-life][color=#94ebff]Ricardo Cuello[/color][/url] for the music
+[url=https://pixabay.com/sound-effects/][color=#94ebff]Pixabay[/color][/url] for the sound effects
+[url=https://www.flaticon.com][color=#94ebff]FlatIcon[/color][/url] for the icons
+[url=https://screamingbrainstudios.itch.io/tiny-texture-pack-2][color=#94ebff]Screaming Brain Studios[/color][/url] for the tiles
+[url=https://evskii.itch.io/simple-flower-drawings][color=#94ebff]Evan Williams[/color][/url] for the seeds
+[url=https://jellel.itch.io/beepixelart][color=#94ebff]Jellel[/color][/url] for Mellifera
+[url=https://admurin.itch.io/top-down-mobs-bee][color=#94ebff]Admurin[/color][/url] for the small bees
+[url=https://free-game-assets.itch.io/free-sky-with-clouds-background-pixel-art-set][color=#94ebff]Free Game Assets[/color][/url] for the sky
+[url=https://smallmak.itch.io/topdown-fence-posts][color=#94ebff]The Game Smith[/color][/url] for the fences
+[url=https://jeevo.itch.io/insect-enemies][color=#94ebff]Cheshire[/color][/url] for the pests
+[url=https://opengameart.org/content/seamless-grass-texture-ii][color=#94ebff]athile[/color][/url] for the grass background
+[url=https://opengameart.org/content/sparkles][color=#94ebff]Julien[/color][/url] for the sparkles
+[url=https://www.vecteezy.com/png/14295812-brown-wooden-sign-board-rectangular-hanging-simple-doodle-cartoon-drawing][color=#94ebff]Natsicha Wetchasart[/color][/url] for the sign
+[url=https://shaunjs.itch.io/shauns-nine-slice][color=#94ebff]ShaunJS[/color][/url] for the nine-slice boxes"
+script = ExtResource("27_773bw")
 
 [node name="LeftUI" type="Panel" parent="."]
 layout_mode = 1
@@ -1549,6 +1602,7 @@ expand_mode = 1
 stretch_mode = 4
 
 [node name="Shadow" type="Panel" parent="CenterUI/SignLayer/SignContainer/SignBody/Sign"]
+visible = false
 z_index = -1
 layout_mode = 1
 anchors_preset = 15
@@ -1838,7 +1892,12 @@ expand_icon = true
 [connection signal="value_changed" from="PopupLayer/SettingsScreen/VBoxContainer/Music/HSlider" to="." method="change_volume" binds= ["Music"]]
 [connection signal="value_changed" from="PopupLayer/SettingsScreen/VBoxContainer/Game SFX/HSlider" to="." method="change_volume" binds= ["GameSFX"]]
 [connection signal="value_changed" from="PopupLayer/SettingsScreen/VBoxContainer/UI SFX/HSlider" to="." method="change_volume" binds= ["UISFX"]]
+[connection signal="canceled" from="PopupLayer/InfoScreen" to="." method="hide_popup"]
+[connection signal="close_requested" from="PopupLayer/InfoScreen" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/InfoScreen" to="." method="hide_popup"]
+[connection signal="meta_clicked" from="PopupLayer/InfoScreen/RichTextLabel" to="PopupLayer/InfoScreen/RichTextLabel" method="_on_meta_clicked"]
 [connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/SettingsBtn" to="." method="show_popup" binds= ["SettingsScreen"]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/InfoBtn" to="." method="show_popup" binds= ["InfoScreen"]]
 [connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="show_popup" binds= ["RestartConfirmation"]]
 [connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]

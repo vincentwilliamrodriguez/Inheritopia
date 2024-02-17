@@ -12,3 +12,5 @@ res://scenes/game.tscn
 res://scenes/sunflower.tscn
 res://scripts/Sound.gd
 res://themes/dialog_text.tres
+res://themes/popup_bg.tres
+res://scripts/InfoScreen.gd

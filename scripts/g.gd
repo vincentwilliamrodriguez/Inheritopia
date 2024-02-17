@@ -8,6 +8,7 @@ const START_SPAWN_FACTOR = 0.5
 const SELECTED_PARENT_COLOR = Color("Yellow", 0.5)
 const PARENT_COLOR = Color("Green", 0.5)
 const PHASES = ["Event Phase", "Breeding Phase", "Transition Phase"]
+const SAVE_LOCATION = "user://savegame.save"
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var breed_lookup = []
@@ -59,6 +60,26 @@ var sw_tooltips = [
 
 var gameover_text = "Good job! You survived %s generations and got a score of %s.\n\nYour highscores are now %s generations and a score of %s."
 var counters_text = "[center][color=\"#ddd\"][font_size=24]Generation[/font_size][/color] %s\n[color=\"#ddd\"][font_size=24]Score[/font_size][/color] %s\n%s[/center]"
+
+var tutorial_lines = [
+	"Awaw",
+	"Welcome to the magical garden of Inheritopia, young apprentice! I'm Mellifera, the garden's Bee Guardian.",
+	"For ages have we been keeping its harmony, but the mysterious force known as \"The Mogusa\" seeks to disrupt the peace through calamities and events.",
+	"We'll need your help to save Inheritopia, and for that I am giving you the power of the bees to breed the last remaining sunflowers.",
+	"Hover over a sunflower to reveal its traits, including its flower color, stem height, and root depth.",
+	"This panel shows its phenotype and genotype for the three traits. This also shows its strengths and weaknesses against The Mogusa's disasters.",
+	"Now, click on these two sunflowers to select them for breeding. You can see them in the breeding panel on the right side. Right click to deselect, if needed.",
+	"This is the Punnett square. It shows you how the parents' traits combine during breeding. This will be useful to predict what the children will look like.",
+	"Click \"Breed\" or press space to confirm your breeding order. If you think you made a mistake, you may click the adjacent undo button.",
+	"Now, my apprentice, breed the remaining sunflowers. Let the magic of genetics happen in our garden.",
+	"Ready to progress? Click \"Next Generation\" or press Enter and see the majestic bees pollinate the sunflowers according to your commands.",
+	"Oh no, a storm approaches! Let's see how our sunflowers fare against it.",
+	"Notice how the shorter plants coped better against the storm? This is why it's important to adapt your plants' traits based on the events.",
+	"One last thing - keep an eye out for glowing sunflowers. They hold special powers that can help your sunflowers survive longer.",
+	"Select this and another sunflower to unlock Punnett square puzzles. Solve them to reveal its secret bonus.",
+	"Ta-da! Eight correct answers give you a new sunflower: a special one that you can breed when you're stuck with homozygous traits.",
+	"Good luck, dear apprentice! There are more events waiting, but I'll let you discover those by yourself. Goodbye!"
+]
 
 class Event:
 	var affected_map: int

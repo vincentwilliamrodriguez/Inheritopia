@@ -1,4 +1,4 @@
-res://scenes/bee.tscn
+res://scenes/game.tscn
 res://scripts/Game.gd
 res://themes/default_font.tres
 res://themes/controls_bg.tres
@@ -8,9 +8,11 @@ res://resources/score_particle.tres
 res://themes/strength.tres
 res://themes/popup_theme.tres
 res://themes/default_label.tres
-res://scenes/game.tscn
-res://scenes/sunflower.tscn
-res://scripts/Sound.gd
+res://themes/dialog_panel.tres
 res://themes/dialog_text.tres
-res://themes/popup_bg.tres
-res://scripts/InfoScreen.gd
+res://scripts/g.gd
+res://scenes/sunflower.tscn
+res://scenes/bee.tscn
+res://scripts/sign_interactive.gd
+res://scripts/TutorialLayer.gd
+res://scripts/Sound.gd

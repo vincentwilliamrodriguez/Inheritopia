@@ -1,4 +1,4 @@
-[gd_scene load_steps=131 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=153 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
@@ -54,6 +54,10 @@
 [ext_resource type="Texture2D" uid="uid://2rfypl4xjjym" path="res://images/icons/sw11.png" id="21_smkvr"]
 [ext_resource type="Texture2D" uid="uid://dn162vwl16mhb" path="res://images/icons/sw20.png" id="22_ydev2"]
 [ext_resource type="Texture2D" uid="uid://c4sfxvjbugevo" path="res://images/icons/sw21.png" id="23_n4s1p"]
+[ext_resource type="AudioStream" uid="uid://lk83bpqqo8x2" path="res://sounds/typing.mp3" id="24_38sem"]
+[ext_resource type="Texture2D" uid="uid://cptjvavc7n53h" path="res://images/sprite_sheet/bee-sheet.png" id="24_bt30l"]
+[ext_resource type="Script" path="res://scripts/TutorialLayer.gd" id="24_ottke"]
+[ext_resource type="StyleBox" uid="uid://djg725rawrmbk" path="res://themes/dialog_panel.tres" id="24_u3r5y"]
 [ext_resource type="Texture2D" uid="uid://b1nbfet7ko7gv" path="res://images/background/grass.png" id="25_eps6i"]
 [ext_resource type="LabelSettings" uid="uid://bxnmqgmytyu88" path="res://themes/dialog_text.tres" id="26_f4wy4"]
 [ext_resource type="Script" path="res://scripts/InfoScreen.gd" id="27_773bw"]
@@ -132,6 +136,133 @@ animation = &"Storm"
 "nodes/Animation 2/position" = Vector2(26.6667, 133.333)
 nodes/output/position = Vector2(480, 160)
 node_connections = [&"output", 0, &"Animation 2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lmkop"]
+font_size = 32
+font_color = Color(0.137621, 0.271184, 0.17281, 1)
+outline_size = 5
+outline_color = Color(0.0509804, 0.227451, 0.101961, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_580ie"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(0, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpw3n"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(167, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2kbt4"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(334, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q7l08"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(501, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdpy3"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(668, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fokqn"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(835, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lo055"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(1002, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0je7h"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(1169, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_libwl"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(1336, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k608n"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(1503, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h23m3"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(1670, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qul6k"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(1837, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_to8ag"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(2004, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdswe"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(2171, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6jn00"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(2338, 0, 167, 175)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cg4qo"]
+atlas = ExtResource("24_bt30l")
+region = Rect2(2505, 0, 167, 175)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_snbvs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_580ie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qpw3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2kbt4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q7l08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xdpy3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fokqn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lo055")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0je7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_libwl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k608n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h23m3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qul6k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_to8ag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdswe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6jn00")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cg4qo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [sub_resource type="InputEventKey" id="InputEventKey_1ys0g"]
 device = -1
@@ -602,6 +733,11 @@ stream = ExtResource("21_6f83w")
 volume_db = -22.0
 bus = &"UISFX"
 
+[node name="typing" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("24_38sem")
+volume_db = -15.0
+bus = &"UISFX"
+
 [node name="AnimationTree" type="AnimationTree" parent="."]
 unique_name_in_owner = true
 root_node = NodePath("%AnimationTree/..")
@@ -619,11 +755,90 @@ libraries = {
 }
 autoplay = "Storm"
 
+[node name="TutorialLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 3
+visible = false
+script = ExtResource("24_ottke")
+
+[node name="Shade" type="ColorRect" parent="TutorialLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.321569)
+
+[node name="DialoguePanel" type="Panel" parent="TutorialLayer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1000, 230)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -501.0
+offset_top = -242.0
+offset_right = 499.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_t6ejp")
+theme_override_styles/panel = ExtResource("24_u3r5y")
+
+[node name="Line" type="RichTextLabel" parent="TutorialLayer/DialoguePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 37.0
+offset_top = 25.0
+offset_right = -40.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_t6ejp")
+theme_override_colors/font_outline_color = Color(0.0470588, 0.223529, 0.0980392, 1)
+theme_override_fonts/normal_font = ExtResource("12_n1y4b")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw Awaw"
+scroll_active = false
+
+[node name="Label" type="Label" parent="TutorialLayer/DialoguePanel"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -253.0
+offset_top = -62.0
+offset_right = -20.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Continue..."
+label_settings = SubResource("LabelSettings_lmkop")
+horizontal_alignment = 2
+
+[node name="Mellifera" type="AnimatedSprite2D" parent="TutorialLayer"]
+modulate = Color(0.945098, 0.913725, 0.878431, 1)
+position = Vector2(1595, 823)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_snbvs")
+autoplay = "default"
+frame_progress = 0.240531
+
 [node name="PopupLayer" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 4
 
 [node name="Shade" type="ColorRect" parent="PopupLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -642,6 +857,20 @@ transparent = true
 theme = ExtResource("3_cey50")
 ok_button_text = "Yes"
 dialog_text = "Are you sure you want to restart the game?"
+dialog_autowrap = true
+cancel_button_text = "No"
+script = ExtResource("3_4kks3")
+
+[node name="TutorialConfirmation" type="ConfirmationDialog" parent="PopupLayer"]
+transparent_bg = true
+title = "Tutorial"
+initial_position = 1
+size = Vector2i(500, 250)
+unresizable = true
+transparent = true
+theme = ExtResource("3_cey50")
+ok_button_text = "Yes"
+dialog_text = "Would you like to do the tutorial again?"
 dialog_autowrap = true
 cancel_button_text = "No"
 script = ExtResource("3_4kks3")
@@ -756,7 +985,6 @@ transparent_bg = true
 title = "Info"
 initial_position = 1
 size = Vector2i(850, 750)
-visible = true
 unresizable = true
 transparent = true
 theme = ExtResource("3_cey50")
@@ -1628,7 +1856,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-mouse_filter = 2
+mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
 theme_override_constants/outline_size = 10
 theme_override_fonts/normal_font = ExtResource("12_n1y4b")
@@ -1874,10 +2102,17 @@ text = "Next Generation"
 icon_alignment = 2
 expand_icon = true
 
+[connection signal="finished" from="Sound/music_day" to="Sound" method="play" binds= ["music_day"]]
+[connection signal="finished" from="Sound/music_night" to="Sound" method="play" binds= ["music_night"]]
+[connection signal="gui_input" from="TutorialLayer/DialoguePanel" to="TutorialLayer" method="_on_dialogue_panel_gui_input"]
 [connection signal="canceled" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="restart_game"]
+[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
+[connection signal="canceled" from="PopupLayer/TutorialConfirmation" to="." method="hide_popup"]
+[connection signal="close_requested" from="PopupLayer/TutorialConfirmation" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/TutorialConfirmation" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/TutorialConfirmation" to="TutorialLayer" method="begin_tutorial"]
 [connection signal="canceled" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/NextConfirmation" to="." method="transition_phase"]
@@ -1897,9 +2132,11 @@ expand_icon = true
 [connection signal="confirmed" from="PopupLayer/InfoScreen" to="." method="hide_popup"]
 [connection signal="meta_clicked" from="PopupLayer/InfoScreen/RichTextLabel" to="PopupLayer/InfoScreen/RichTextLabel" method="_on_meta_clicked"]
 [connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/SettingsBtn" to="." method="show_popup" binds= ["SettingsScreen"]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/TutorialBtn" to="." method="show_popup" binds= ["TutorialConfirmation"]]
 [connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/InfoBtn" to="." method="show_popup" binds= ["InfoScreen"]]
 [connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="show_popup" binds= ["RestartConfirmation"]]
 [connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
+[connection signal="gui_input" from="CenterUI/SignLayer/SignContainer/SignBody/Sign/Counters" to="CenterUI/SignLayer/SignContainer/SignBody" method="_on_counters_gui_input"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/UndoBtn" to="." method="undo_breeding"]
 [connection signal="pressed" from="RightUI/VBoxContainer/HBoxContainer/NextBtn" to="." method="next_generation"]

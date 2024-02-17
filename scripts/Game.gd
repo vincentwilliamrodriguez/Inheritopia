@@ -37,7 +37,6 @@ var selected_parents: Array
 var soil_values: Array
 var events: Dictionary
 
-
 func _init_variables():
 	sunflowers = []
 	breeding_orders = []
@@ -96,6 +95,10 @@ func _ready():
 	update_traits_panel()
 	update_breeding_panel()
 	update_event_textures()
+	
+	# First time tutorial
+	if not load_scores():
+		%TutorialLayer.begin_tutorial()
 
 func _process(_delta):
 	# Updates counters
@@ -766,7 +769,7 @@ func save_scores():
 		hs_generation = past_data["HS_generation"]
 		hs_score = past_data["HS_score"]
 	
-	var save_game = FileAccess.open("user://savegame.save", FileAccess.WRITE)
+	var save_game = FileAccess.open(g.SAVE_LOCATION, FileAccess.WRITE)
 	var data = {
 		"HS_generation": max(hs_generation, generation_num),
 		"HS_score": max(hs_score, score)
@@ -777,10 +780,10 @@ func save_scores():
 
 
 func load_scores():
-	if not FileAccess.file_exists("user://savegame.save"):
+	if not FileAccess.file_exists(g.SAVE_LOCATION):
 		return null
 
-	var save_game = FileAccess.open("user://savegame.save", FileAccess.READ)
+	var save_game = FileAccess.open(g.SAVE_LOCATION, FileAccess.READ)
 	var json_string = save_game.get_line()
 	var json = JSON.new()
 	var parse_result = json.parse(json_string)
@@ -858,4 +861,3 @@ func get_sunflower_by_mouse():
 func change_volume(value: float, bus_name: String):
 	var bus_index = AudioServer.get_bus_index(bus_name)
 	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
-

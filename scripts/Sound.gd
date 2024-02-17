@@ -10,6 +10,9 @@ func _ready():
 func play(sound_name: String):
 	audio_player.get_node(sound_name).playing = true
 
+func stop_instantly(sound_name: String):
+	audio_player.get_node(sound_name).playing = false
+
 func stop(sound_name: String):
 	var effect = audio_player.get_node(sound_name)
 	var effect_volume = effect.volume_db
@@ -22,3 +25,4 @@ func stop_all_events():
 	for audio in audio_player.get_children():
 		if audio.bus == "GameSFX":
 			stop(audio.name)
+

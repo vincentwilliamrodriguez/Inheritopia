@@ -64,6 +64,7 @@ func _init_variables():
 func _ready():
 	_init_variables()
 	
+	sound.play("music_day")
 	sign_visuals.pivot_offset.x = sign_visuals.size.x / 2
 	
 	# Initialization of tiles
@@ -84,6 +85,10 @@ func _ready():
 	
 	# Initialize sound signals
 	for button: Button in get_tree().get_nodes_in_group("button"):
+		if button.name == "BreedBtn":
+			print("Awaw")
+			continue
+		
 		if not button.is_connected("pressed", sound.play):
 			button.pressed.connect(sound.play.bind("button"))
 	
@@ -159,6 +164,7 @@ func confirm_breeding():
 		selected_parents[1].modulate = Color("Green")
 		
 		breeding_orders.append(selected_parents)
+		sound.play("ping")
 		reset_selected_parents()
 
 func update_traits_panel():
@@ -415,6 +421,8 @@ func undo_breeding():
 
 func restart_game(is_gameover = false):	
 	if is_gameover or phase_num == 1:
+		sound.stop_all_events()
+		
 		for sunflower in sunflowers:
 			remove_sunflower(sunflower)
 		
@@ -561,8 +569,10 @@ func add_seed(parent: Sunflower, child_pos: int):
 	tween.tween_property(seed_single, "modulate:a", 1, 0.2) \
 		 .set_ease(Tween.EASE_IN_OUT)
 		
-	tween.tween_property(seed_single, "position", waypoint_2, 1) \
+	tween.tween_property(seed_single, "position", waypoint_2, 0.5) \
 		 .set_ease(Tween.EASE_IN_OUT)
+	
+	tween.tween_interval(0.5)
 	
 	tween.tween_property(seed_single, "modulate:a", 0, 1) \
 		 .set_ease(Tween.EASE_IN_OUT)
@@ -650,7 +660,10 @@ func event_phase():
 						event.hide()
 						sound.stop("storm")
 					"Night":
-						sound.stop("night")
+						#sound.stop("night")
+						sound.stop("music_night")
+						sound.play("music_day")
+						update_event_textures()
 					"Pest Invasion":
 						sound.stop("pests")
 					"Fertility":
@@ -687,7 +700,10 @@ func event_phase():
 						events["Waterlogging"].affected_map = 0b0  # drought removes waterlogging
 						events["Waterlogging"].active_num = 0
 					"Night":
-						sound.play("night")
+						#sound.play("night")
+						sound.stop("music_day")
+						sound.play("music_night")
+						update_event_textures()
 					"Fertility":
 						sound.play("shimmering")
 		
@@ -733,6 +749,8 @@ func compute_trait_scores():
 func check_game_over():
 	if len(sunflowers) == 0:
 		print("Awaw over!")
+		sound.stop("music_day")
+		sound.stop("music_night")
 		sound.play("gameover")
 		show_popup("GameoverScreen")
 		save_scores()
@@ -837,4 +855,3 @@ func get_sunflower_by_mouse():
 		return null
 	
 	return find_by_pos(g.to_1d_vector(map_pos))
-

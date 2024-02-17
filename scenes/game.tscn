@@ -1,4 +1,4 @@
-[gd_scene load_steps=128 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=129 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
@@ -9,20 +9,20 @@
 [ext_resource type="Script" path="res://scripts/Sound.gd" id="3_nxwbt"]
 [ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
 [ext_resource type="Texture2D" uid="uid://cc43p8f5recor" path="res://images/icons/home.png" id="4_6kj66"]
-[ext_resource type="AudioStream" uid="uid://rhj38dm0k55c" path="res://sounds/Better Days.mp3" id="4_ak07j"]
 [ext_resource type="Texture2D" uid="uid://45fbnxxqdelb" path="res://images/dirt/dirt_1.png" id="4_bcfba"]
-[ext_resource type="AudioStream" uid="uid://cdt4ofkv0qxf1" path="res://sounds/Blue Boi.mp3" id="5_4d83h"]
+[ext_resource type="AudioStream" uid="uid://dc4n6ywyjhols" path="res://sounds/1_new_life_master.mp3" id="4_mch0c"]
 [ext_resource type="Texture2D" uid="uid://ch83jfs02gx4d" path="res://images/icons/setting.png" id="5_enpai"]
 [ext_resource type="Texture2D" uid="uid://3v4rfcdcwq3s" path="res://images/dirt/dirt_2.png" id="5_fgwel"]
+[ext_resource type="AudioStream" uid="uid://bc7qw2isbtk04" path="res://sounds/2_cafe_avenue_master.mp3" id="5_ynfij"]
 [ext_resource type="Texture2D" uid="uid://ceb7q7q6iqqux" path="res://images/icons/restart.png" id="6_1bm8n"]
+[ext_resource type="AudioStream" uid="uid://v118nf81xcao" path="res://sounds/4_working_time_master.mp3" id="6_6oj6m"]
 [ext_resource type="Texture2D" uid="uid://daa4wn0q7v3mt" path="res://images/icons/help.png" id="6_60ds3"]
 [ext_resource type="Texture2D" uid="uid://6mr4p7ynu3cr" path="res://images/dirt/drought_1.png" id="6_cg2xk"]
-[ext_resource type="AudioStream" uid="uid://8ulksrr5kry2" path="res://sounds/Chill Day.mp3" id="6_oi46h"]
 [ext_resource type="Texture2D" uid="uid://qhr2g881xixa" path="res://images/dirt/drought_2.png" id="7_2xrdv"]
 [ext_resource type="Texture2D" uid="uid://dn2fgcisnb7d1" path="res://images/icons/undo.png" id="7_apkyq"]
-[ext_resource type="AudioStream" uid="uid://cr3otyflkaelk" path="res://sounds/City Of Angels.mp3" id="7_jfe6c"]
+[ext_resource type="AudioStream" uid="uid://dbbl6hoikgk53" path="res://sounds/3_fireflies_master.mp3" id="7_fpews"]
 [ext_resource type="Texture2D" uid="uid://sgjact2vc816" path="res://images/dirt/waterlogged_1.png" id="8_dfhwu"]
-[ext_resource type="AudioStream" uid="uid://csd3yo8x4vr2o" path="res://sounds/The Process.mp3" id="8_drw82"]
+[ext_resource type="AudioStream" uid="uid://ckwkqcmvjl6jp" path="res://sounds/5_frog_pond_master.mp3" id="8_ekx1e"]
 [ext_resource type="Texture2D" uid="uid://bpb3vyyb4l0j5" path="res://images/nine_patch_rect/white.png" id="8_r0diy"]
 [ext_resource type="Texture2D" uid="uid://bo0tml5kn3ks0" path="res://images/dirt/waterlogged_2.png" id="9_du1dr"]
 [ext_resource type="AudioStream" uid="uid://bb44uppsktlc6" path="res://sounds/bees.mp3" id="9_ya0dy"]
@@ -68,18 +68,21 @@
 [ext_resource type="Texture2D" uid="uid://dvu6q7ar0kx5k" path="res://images/sunflower/seed.png" id="38_3h8u3"]
 [ext_resource type="PackedScene" uid="uid://2dpi8ra4j88w" path="res://scenes/bee.tscn" id="38_citi5"]
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_n4mt6"]
-streams_count = 5
-stream_0/stream = ExtResource("4_ak07j")
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_rgcsw"]
+streams_count = 3
+stream_0/stream = ExtResource("4_mch0c")
 stream_0/weight = 1.0
-stream_1/stream = ExtResource("5_4d83h")
+stream_1/stream = ExtResource("5_ynfij")
 stream_1/weight = 1.0
-stream_2/stream = ExtResource("6_oi46h")
+stream_2/stream = ExtResource("6_6oj6m")
 stream_2/weight = 1.0
-stream_3/stream = ExtResource("7_jfe6c")
-stream_3/weight = 1.0
-stream_4/stream = ExtResource("8_drw82")
-stream_4/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_if0r6"]
+streams_count = 2
+stream_0/stream = ExtResource("7_fpews")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("8_ekx1e")
+stream_1/weight = 1.0
 
 [sub_resource type="Animation" id="Animation_jnj31"]
 length = 0.001
@@ -512,10 +515,15 @@ script = ExtResource("1_bmtli")
 unique_name_in_owner = true
 script = ExtResource("3_nxwbt")
 
-[node name="music" type="AudioStreamPlayer" parent="Sound"]
-stream = SubResource("AudioStreamRandomizer_n4mt6")
-volume_db = -28.0
-autoplay = true
+[node name="music_day" type="AudioStreamPlayer" parent="Sound"]
+stream = SubResource("AudioStreamRandomizer_rgcsw")
+volume_db = -24.0
+bus = &"Music"
+
+[node name="music_night" type="AudioStreamPlayer" parent="Sound"]
+stream = SubResource("AudioStreamRandomizer_if0r6")
+volume_db = -24.0
+bus = &"Music"
 
 [node name="bees" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("9_ya0dy")
@@ -579,7 +587,7 @@ bus = &"UISFX"
 
 [node name="ping" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("17_sd7r6")
-volume_db = -10.0
+volume_db = -15.0
 bus = &"UISFX"
 
 [node name="select_1" type="AudioStreamPlayer" parent="Sound"]
@@ -1739,8 +1747,8 @@ expand_icon = true
 
 [connection signal="canceled" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="restart_game"]
 [connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="restart_game"]
 [connection signal="canceled" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/NextConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/NextConfirmation" to="." method="transition_phase"]
@@ -1748,6 +1756,8 @@ expand_icon = true
 [connection signal="canceled" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="restart_game" binds= [true]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="show_popup" binds= ["RestartConfirmation"]]
 [connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/UndoBtn" to="." method="undo_breeding"]

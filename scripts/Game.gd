@@ -855,3 +855,9 @@ func get_sunflower_by_mouse():
 		return null
 	
 	return find_by_pos(g.to_1d_vector(map_pos))
+
+func change_volume(value: float, bus_name: String):
+	prints("Awaw", value, linear_to_db(value))
+	var bus_index = AudioServer.get_bus_index(bus_name)
+	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+

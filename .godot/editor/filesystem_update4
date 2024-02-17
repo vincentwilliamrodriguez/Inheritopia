@@ -11,3 +11,4 @@ res://themes/default_label.tres
 res://scenes/game.tscn
 res://scenes/sunflower.tscn
 res://scripts/Sound.gd
+res://themes/dialog_text.tres

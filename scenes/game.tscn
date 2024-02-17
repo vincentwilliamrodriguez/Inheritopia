@@ -1,4 +1,4 @@
-[gd_scene load_steps=129 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=130 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
@@ -8,7 +8,6 @@
 [ext_resource type="Theme" uid="uid://cgl0kr3l8h2w1" path="res://themes/popup_theme.tres" id="3_cey50"]
 [ext_resource type="Script" path="res://scripts/Sound.gd" id="3_nxwbt"]
 [ext_resource type="Texture2D" uid="uid://bf5nf1hlosgwm" path="res://icon.svg" id="3_tqvwn"]
-[ext_resource type="Texture2D" uid="uid://cc43p8f5recor" path="res://images/icons/home.png" id="4_6kj66"]
 [ext_resource type="Texture2D" uid="uid://45fbnxxqdelb" path="res://images/dirt/dirt_1.png" id="4_bcfba"]
 [ext_resource type="AudioStream" uid="uid://dc4n6ywyjhols" path="res://sounds/1_new_life_master.mp3" id="4_mch0c"]
 [ext_resource type="Texture2D" uid="uid://ch83jfs02gx4d" path="res://images/icons/setting.png" id="5_enpai"]
@@ -56,7 +55,9 @@
 [ext_resource type="Texture2D" uid="uid://dn162vwl16mhb" path="res://images/icons/sw20.png" id="22_ydev2"]
 [ext_resource type="Texture2D" uid="uid://c4sfxvjbugevo" path="res://images/icons/sw21.png" id="23_n4s1p"]
 [ext_resource type="Texture2D" uid="uid://b1nbfet7ko7gv" path="res://images/background/grass.png" id="25_eps6i"]
+[ext_resource type="LabelSettings" uid="uid://bxnmqgmytyu88" path="res://themes/dialog_text.tres" id="26_f4wy4"]
 [ext_resource type="Texture2D" uid="uid://c2b4jjv3h7pm" path="res://images/sprite_sheet/storm_sheet.png" id="28_tnrgv"]
+[ext_resource type="Texture2D" uid="uid://24lkx1ltp4we" path="res://images/icons/info.png" id="29_vwd6s"]
 [ext_resource type="Texture2D" uid="uid://cblkn27ajevb2" path="res://images/icons/breeding_cross.png" id="33_82x3w"]
 [ext_resource type="Texture2D" uid="uid://bcr20rj04p5se" path="res://images/misc/fences.png" id="33_tbnvj"]
 [ext_resource type="Texture2D" uid="uid://bs1kuvn7avfvh" path="res://images/misc/fences-hq.png" id="34_k3vff"]
@@ -622,7 +623,6 @@ unique_name_in_owner = true
 layer = 4
 
 [node name="Shade" type="ColorRect" parent="PopupLayer"]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -675,6 +675,81 @@ Your highscores are now %s generations and a score of %s."
 dialog_autowrap = true
 script = ExtResource("3_4kks3")
 
+[node name="SettingsScreen" type="AcceptDialog" parent="PopupLayer"]
+unique_name_in_owner = true
+transparent_bg = true
+title = "Settings"
+initial_position = 1
+size = Vector2i(700, 370)
+visible = true
+unresizable = true
+transparent = true
+theme = ExtResource("3_cey50")
+ok_button_text = "Done"
+dialog_autowrap = true
+script = ExtResource("3_4kks3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupLayer/SettingsScreen"]
+offset_left = 50.0
+offset_top = 40.0
+offset_right = 650.0
+offset_bottom = 248.0
+theme_override_constants/separation = 30
+
+[node name="Music" type="HBoxContainer" parent="PopupLayer/SettingsScreen/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PopupLayer/SettingsScreen/VBoxContainer/Music"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music"
+label_settings = ExtResource("26_f4wy4")
+
+[node name="HSlider" type="HSlider" parent="PopupLayer/SettingsScreen/VBoxContainer/Music"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="Game SFX" type="HBoxContainer" parent="PopupLayer/SettingsScreen/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PopupLayer/SettingsScreen/VBoxContainer/Game SFX"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Game SFX"
+label_settings = ExtResource("26_f4wy4")
+
+[node name="HSlider" type="HSlider" parent="PopupLayer/SettingsScreen/VBoxContainer/Game SFX"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
+[node name="UI SFX" type="HBoxContainer" parent="PopupLayer/SettingsScreen/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PopupLayer/SettingsScreen/VBoxContainer/UI SFX"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "UI SFX"
+label_settings = ExtResource("26_f4wy4")
+
+[node name="HSlider" type="HSlider" parent="PopupLayer/SettingsScreen/VBoxContainer/UI SFX"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_vertical = 4
+focus_mode = 1
+max_value = 1.0
+step = 0.01
+value = 1.0
+
 [node name="LeftUI" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 9
@@ -706,34 +781,6 @@ layout_mode = 2
 size_flags_vertical = 0
 theme = ExtResource("2_t6ejp")
 alignment = 1
-
-[node name="HomeBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-tooltip_text = "Home"
-focus_mode = 0
-mouse_default_cursor_shape = 2
-theme = ExtResource("2_t6ejp")
-shortcut_in_tooltip = false
-
-[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/HomeBtn"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = -30.0
-offset_right = 30.0
-offset_bottom = 30.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_6kj66")
-expand_mode = 1
-stretch_mode = 4
 
 [node name="SettingsBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
 custom_minimum_size = Vector2(100, 100)
@@ -788,6 +835,34 @@ offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_60ds3")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="InfoBtn" type="Button" parent="LeftUI/VBoxContainer/Buttons" groups=["button"]]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+tooltip_text = "Home"
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_t6ejp")
+shortcut_in_tooltip = false
+
+[node name="Icon" type="TextureRect" parent="LeftUI/VBoxContainer/Buttons/InfoBtn"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("29_vwd6s")
 expand_mode = 1
 stretch_mode = 4
 
@@ -1757,6 +1832,13 @@ expand_icon = true
 [connection signal="close_requested" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="restart_game" binds= [true]]
+[connection signal="canceled" from="PopupLayer/SettingsScreen" to="." method="hide_popup"]
+[connection signal="close_requested" from="PopupLayer/SettingsScreen" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/SettingsScreen" to="." method="hide_popup"]
+[connection signal="value_changed" from="PopupLayer/SettingsScreen/VBoxContainer/Music/HSlider" to="." method="change_volume" binds= ["Music"]]
+[connection signal="value_changed" from="PopupLayer/SettingsScreen/VBoxContainer/Game SFX/HSlider" to="." method="change_volume" binds= ["GameSFX"]]
+[connection signal="value_changed" from="PopupLayer/SettingsScreen/VBoxContainer/UI SFX/HSlider" to="." method="change_volume" binds= ["UISFX"]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/SettingsBtn" to="." method="show_popup" binds= ["SettingsScreen"]]
 [connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="show_popup" binds= ["RestartConfirmation"]]
 [connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]

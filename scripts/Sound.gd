@@ -4,7 +4,7 @@ var audio_player: Node
 
 func _ready():
 	# Initialize audio player
-	for node in get_tree().get_nodes_in_group("audio_player"):		
+	for node in get_tree().get_nodes_in_group("audio_player"):
 		audio_player = node
 		
 func play(sound_name: String):
@@ -22,7 +22,3 @@ func stop_all_events():
 	for audio in audio_player.get_children():
 		if audio.bus == "GameSFX":
 			stop(audio.name)
-
-func change_volume(bus_name: String, value: int):
-	var bus_index = AudioServer.get_bus_index(bus_name)
-	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))

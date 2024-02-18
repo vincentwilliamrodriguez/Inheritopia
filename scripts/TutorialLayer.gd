@@ -32,9 +32,9 @@ func _process(_delta):
 func begin_tutorial():
 	if visible:
 		return
-	
-	tutorial_num = 0
+		
 	visible = true
+	tutorial_num = 0
 	tutorial_started.emit()
 	next_tutorial_line()
 
@@ -45,6 +45,7 @@ func next_tutorial_line():
 		animation.play(str(tutorial_num)) # starting num
 		tutorial_tween = create_tween()
 		tutorial_tween.tween_property(line, "modulate:a", 0, 0.3)
+		
 		await animation.animation_finished
 	
 	tutorial_num += 1 # ending num

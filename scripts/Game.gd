@@ -16,6 +16,7 @@ extends Control
 @onready var bees = %Bees
 @onready var seeds_visuals = %Seeds
 @onready var tutorial = %TutorialLayer
+@onready var fade: ColorRect = $FadeLayer/Fade
 
 signal tutorial_continue
 
@@ -41,7 +42,15 @@ var soil_values: Array
 var events: Dictionary
 
 func _ready():
-	sound.play("music_day")
+	var tween = create_tween()
+	
+	# First time tutorial
+	if not load_scores():
+		tween.tween_property(fade, "self_modulate:a", 0, 0.5).from(1.0)
+		%TutorialLayer.begin_tutorial()
+	else:
+		tween.tween_property(fade, "self_modulate:a", 0, 2).from(1.0)
+		
 	initialize_game()
 
 func initialize_game():
@@ -100,9 +109,6 @@ func initialize_game():
 	update_breeding_panel()
 	update_event_textures()
 	
-	# First time tutorial
-	if not load_scores():
-		%TutorialLayer.begin_tutorial()
 
 func _process(_delta):
 	# Updates counters
@@ -963,4 +969,3 @@ func setup_tutorial():
 	
 	for sunflower in sunflowers:
 		sunflower.set_glow(false)
-	

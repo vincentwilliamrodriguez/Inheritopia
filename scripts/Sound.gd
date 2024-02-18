@@ -1,12 +1,7 @@
 extends Node
 
 var audio_player: Node
-
-func _ready():
-	# Initialize audio player
-	for node in get_tree().get_nodes_in_group("audio_player"):
-		audio_player = node
-		
+	
 func play(sound_name: String):
 	audio_player.get_node(sound_name).playing = true
 

@@ -40,7 +40,12 @@ var selected_parents: Array
 var soil_values: Array
 var events: Dictionary
 
-func _init_variables():
+func _ready():
+	sound.play("music_day")
+	initialize_game()
+
+func initialize_game():
+	# Initializing variables
 	sunflowers = []
 	breeding_orders = []
 	preview_map = 0
@@ -63,11 +68,7 @@ func _init_variables():
 	events["Storm"].storm_visuals = storm_visuals
 	events["Storm"].storm_player = %StormPlayer
 
-func _ready():
-	_init_variables()
-	
-	sound.play("music_day")
-	sign_visuals.pivot_offset.x = sign_visuals.size.x / 2
+	# Initializing misc.
 	
 	# Initialization of tiles
 	for i in 16:
@@ -122,6 +123,10 @@ func _input(event):
 					when_parent_selected(selected_parent)
 					
 			if event.button_index == MOUSE_BUTTON_RIGHT:
+				if tutorial.visible:
+					for sunflower in selected_parents:
+						tutorial.cur_stack.pop_back()
+					
 				reset_selected_parents()
 	
 	# Trait info
@@ -132,12 +137,16 @@ func _input(event):
 			(not hovered_sunflower or \
 			 not hovered_sunflower.pos == sunflower.pos):
 				
+				if tutorial.visible:
+					if tutorial.tutorial_num < 4:
+						return
+					else:
+						check_if_tutorial_goal_met(4, true)
+					
 				hovered_sunflower = sunflower
 				sound.play("pick")
 				update_traits_panel()
 				
-				if tutorial.visible:
-					check_if_tutorial_goal_met(4, true)
 
 func next_generation():
 	if phase_num == 1:
@@ -158,12 +167,17 @@ func when_parent_selected(parent: Sunflower):
 		selected_parents[0] = parent
 		sound.play("select_1")
 		
+		if tutorial.visible:
+			tutorial.check_stack(parent.pos)
+		
 	elif not selected_parents[1]:
 		selected_parents[1] = parent
 		parent.modulate = Color("Yellow")
 		sound.play("select_2")
 		
 		if tutorial.visible:
+			tutorial.check_stack(parent.pos)
+			
 			var condition = (selected_parents[0].pos == 5) and \
 							(selected_parents[1].pos == 6)
 			check_if_tutorial_goal_met(6, condition)
@@ -178,6 +192,7 @@ func reset_selected_parents():
 	for sunflower in selected_parents:
 		if sunflower and not sunflower.is_receiver:
 			sunflower.modulate = Color("White")
+			
 		
 	selected_parents = [null, null]
 	update_breeding_panel()
@@ -195,6 +210,8 @@ func confirm_breeding():
 							(selected_parents[1].pos == 6)
 			check_if_tutorial_goal_met(8, condition)
 			check_if_tutorial_goal_met(9, check_if_all_are_bred())
+			
+			tutorial.check_stack(selected_parents[1].pos)
 		
 		reset_selected_parents()
 		
@@ -444,12 +461,17 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 
 func undo_breeding():
 	if phase_num == 1:
+		if tutorial.visible:
+			for sunflower in selected_parents:
+				tutorial.cur_stack.pop_back()
+				
 		reset_selected_parents()
 		
 		if len(breeding_orders) > 0:
 			var last_order = breeding_orders.pop_back()[1]
 			last_order.is_receiver = false
 			last_order.modulate = Color("White")
+		
 
 func restart_game(is_gameover = false):	
 	if is_gameover or phase_num == 1:
@@ -461,8 +483,12 @@ func restart_game(is_gameover = false):
 		if is_event_active("Storm"):
 			events["Storm"].hide()
 		
+		if is_event_active("Night"):
+			sound.stop("music_night")
+			sound.play("music_day")
+		
 		save_scores()
-		_ready()
+		initialize_game()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -931,7 +957,7 @@ func check_if_tutorial_goal_met(line_num: int, condition: bool) -> void:
 		if condition:
 			tutorial_continue.emit()
 
-func setup_tutorial():
+func setup_tutorial():	
 	g.rng.set_seed(hash("Awaw"))
 	restart_game()
 	

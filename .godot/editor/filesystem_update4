@@ -14,3 +14,4 @@ res://scenes/sunflower.tscn
 res://scenes/bee.tscn
 res://scripts/TutorialLayer.gd
 res://scripts/g.gd
+res://scripts/Sound.gd

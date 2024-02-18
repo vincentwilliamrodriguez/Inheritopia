@@ -7,6 +7,8 @@ var continue_tween: Tween
 var is_tween_running := false
 var can_continue := true
 var debounce := true
+var needed_stack := []
+var cur_stack := []
 
 signal tutorial_started
 signal proceed
@@ -14,13 +16,23 @@ signal proceed
 @onready var line = $DialoguePanel/Line
 @onready var continue_label = $DialoguePanel/Continue
 @onready var animation = $TutorialAnimation
+@onready var arrow = $Arrow
 
 func _process(_delta):
+	if len(needed_stack) > 0 and len(cur_stack) < len(needed_stack):
+		arrow.visible = true
+		move_arrow(needed_stack[len(cur_stack)])
+	else:
+		arrow.visible = false
+		
 	if tutorial_tween:
 		is_tween_running = tutorial_tween.is_running()
 		debounce = true
 
 func begin_tutorial():
+	if visible:
+		return
+	
 	tutorial_num = 0
 	visible = true
 	tutorial_started.emit()
@@ -40,6 +52,17 @@ func next_tutorial_line():
 	can_continue = (tutorial_num not in [4, 6, 8, 9, 10, 11, 13, 14])
 	if continue_tween:
 		continue_tween.kill()
+	
+	match tutorial_num:
+		6:
+			needed_stack = [5, 6]
+		9:
+			needed_stack = [5, 10, 9, 5, 9, 9]
+		13:
+			needed_stack = [10, 6]
+		_:
+			cur_stack = []
+			needed_stack = []
 	
 	if tutorial_num < len(g.tutorial_lines):
 		line.modulate.a = 1
@@ -88,3 +111,13 @@ func _on_dialogue_panel_gui_input(event):
 				next_tutorial_line()
 	
 	debounce = false
+
+func move_arrow(aim):
+	if typeof(aim) == TYPE_INT:
+		arrow.position = g.to_2d_vector(aim) * g.SQUARE_SIZE + Vector2(560, 230) + Vector2(100, 50)
+
+func check_stack(attempt):
+	if len(cur_stack) < len(needed_stack) and \
+	   needed_stack[len(cur_stack)] == attempt:
+		
+		cur_stack.append(attempt)

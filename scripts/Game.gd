@@ -15,6 +15,9 @@ extends Control
 @onready var anim_tree = %AnimationTree
 @onready var bees = %Bees
 @onready var seeds_visuals = %Seeds
+@onready var tutorial = %TutorialLayer
+
+signal tutorial_continue
 
 @onready var SKY_IMAGES = [preload("res://images/sky/day.png"),
 						   preload("res://images/sky/night.png")]
@@ -128,18 +131,27 @@ func _input(event):
 		if sunflower and \
 			(not hovered_sunflower or \
 			 not hovered_sunflower.pos == sunflower.pos):
+				
 				hovered_sunflower = sunflower
 				sound.play("pick")
 				update_traits_panel()
+				
+				if tutorial.visible:
+					check_if_tutorial_goal_met(4, true)
 
 func next_generation():
 	if phase_num == 1:
-		for sunflower in sunflowers:
-			if not sunflower.is_receiver:
-				show_popup("NextConfirmation")
-				return
-		
-		transition_phase()
+		if not check_if_all_are_bred():
+			show_popup("NextConfirmation")
+		else:
+			transition_phase()
+
+func check_if_all_are_bred():
+	for sunflower in sunflowers:
+		if not sunflower.is_receiver:
+			return false
+	
+	return true
 
 func when_parent_selected(parent: Sunflower):
 	if not selected_parents[0]:
@@ -150,7 +162,16 @@ func when_parent_selected(parent: Sunflower):
 		selected_parents[1] = parent
 		parent.modulate = Color("Yellow")
 		sound.play("select_2")
-	
+		
+		if tutorial.visible:
+			var condition = (selected_parents[0].pos == 5) and \
+							(selected_parents[1].pos == 6)
+			check_if_tutorial_goal_met(6, condition)
+			
+			var condition_2 = (selected_parents[0].is_glowing) or \
+							  (selected_parents[1].is_glowing)
+			check_if_tutorial_goal_met(13, condition_2)
+				
 	update_breeding_panel()
 
 func reset_selected_parents():
@@ -168,7 +189,15 @@ func confirm_breeding():
 		
 		breeding_orders.append(selected_parents)
 		sound.play("ping")
+		
+		if tutorial.visible:
+			var condition = (selected_parents[0].pos == 5) and \
+							(selected_parents[1].pos == 6)
+			check_if_tutorial_goal_met(8, condition)
+			check_if_tutorial_goal_met(9, check_if_all_are_bred())
+		
 		reset_selected_parents()
+		
 
 func update_traits_panel():
 	var preview_panel = traits_panel.get_node("%SunflowerPreview")
@@ -328,7 +357,7 @@ func _on_puzzle_selected(id: int, correct: int, puzzle_btn: OptionButton):
 				sunflower.set_glow(false)
 		
 		update_breeding_panel()
-		
+		check_if_tutorial_goal_met(14, true)
 
 func _on_overlay_draw():
 	# For breeding phase overlay
@@ -378,13 +407,13 @@ func _on_overlay_draw():
 		if g.is_true_in_map(preview_map, i):
 			overlay.draw_rect(Rect2(g.to_2d_x(i) * g.SQUARE_SIZE, g.to_2d_y(i) * g.SQUARE_SIZE, g.SQUARE_SIZE, g.SQUARE_SIZE), Color("Red", 0.3))
 
-func add_sunflower(pos, genes, is_seed = false):
+func add_sunflower(pos, genes, is_seed = false, is_glowing = null):
 	var sunflower = sunflower_scene.instantiate()
 	sunflower.visible = true
 	sunflower.genes = genes
 	sunflower.pos = pos
 	
-	if g.rng.randf() < g.GLOWING_CHANCE:
+	if is_glowing or (g.rng.randf() < g.GLOWING_CHANCE):
 		sunflower.set_glow(true)
 	
 	sunflowers_panel.add_child.call_deferred(sunflower)
@@ -495,14 +524,27 @@ func transition_phase():
 		var rand_num = g.rng.randfn(1.2 + bonus - penalty, 0.3)
 		var num_of_seed = clampi(roundi(rand_num), 1, 3)
 		
+		if tutorial.visible:
+			num_of_seed = 2 if parent_2.pos in [5, 6] else 1
+		
 		for n in num_of_seed:
 			if len(seeds) >= 16:
 				break
 			
 			var seed_genes = breed(parent_1, parent_2)
 			var seed_pos = find_free_tile(parent_2.pos, seed_map)
-			var seed_instance = add_sunflower(seed_pos, seed_genes, true)
+			var is_glowing = null
 			
+			if tutorial.visible:
+				if n == 0 and parent_2.pos in [5, 6]:
+					seed_genes[1] = 0
+				elif n == 0 and seed_pos == 10:
+					is_glowing = true
+				elif n == 1:
+					seed_pos = 2 if parent_2.pos == 5 else 3
+					seed_genes[1] = 3
+			
+			var seed_instance = add_sunflower(seed_pos, seed_genes, true, is_glowing)
 			seeds.append(seed_instance)
 			seed_map |= 1 << seed_pos
 			
@@ -521,6 +563,11 @@ func transition_phase():
 	
 	sound.stop("bees")
 	await get_tree().create_timer(2).timeout
+	
+	if tutorial.visible:
+		check_if_tutorial_goal_met(10, true)
+		await tutorial.proceed
+	
 	event_phase()
 
 func find_free_tile(pos, map):
@@ -585,6 +632,15 @@ func add_seed(parent: Sunflower, child_pos: int):
 func event_phase():
 	phase_num = 0
 	
+	if tutorial.visible and generation_num == 2:
+		var event = events["Storm"]
+		event.active_num = 1
+		event.spawn_storm(true)
+		event.show()
+		sound.play("storm")
+		
+		await get_tree().create_timer(4).timeout
+	
 	var storm_tween = create_tween()
 	storm_tween.tween_property(storm_visuals, "self_modulate:a", 0.6, 0.2)
 	
@@ -612,6 +668,9 @@ func event_phase():
 				var is_dominant = sunflower.genes[event.affected_trait] > 0
 				var survival_chance = event.survival_chances[int(is_dominant)]
 				
+				if tutorial.visible:
+					survival_chance = 0 if (sunflower.genes[1] > 0) else 1
+				
 				if g.rng.randf() > survival_chance:
 					perished_sunflowers.append(sunflower)
 					sunflower.modulate = Color(1, 0.5, 0.5)
@@ -630,6 +689,10 @@ func event_phase():
 					event.move_storm()
 					await %StormPlayer.animation_finished
 					event.update_map()
+					
+					if tutorial.visible:
+						print("AWAW")
+						check_if_tutorial_goal_met(11, true)
 						
 				"Pest Invasion":
 					var white_sunflowers = 0b0
@@ -722,6 +785,7 @@ func event_phase():
 	
 	storm_tween = create_tween()
 	storm_tween.tween_property(storm_visuals, "self_modulate:a", 0.2, 0.2)
+	
 	
 	update_event_textures()
 	compute_trait_scores()
@@ -861,3 +925,16 @@ func get_sunflower_by_mouse():
 func change_volume(value: float, bus_name: String):
 	var bus_index = AudioServer.get_bus_index(bus_name)
 	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
+
+func check_if_tutorial_goal_met(line_num: int, condition: bool) -> void:
+	if tutorial.tutorial_num == line_num and not tutorial.can_continue:
+		if condition:
+			tutorial_continue.emit()
+
+func setup_tutorial():
+	g.rng.set_seed(hash("Awaw"))
+	restart_game()
+	
+	for sunflower in sunflowers:
+		sunflower.set_glow(false)
+	

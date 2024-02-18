@@ -75,10 +75,10 @@ var tutorial_lines = [
 	"Ready to progress? Click \"Next Generation\" or press Enter and see the majestic bees pollinate the sunflowers according to your commands.",
 	"Oh no, a storm approaches! Let's see how our sunflowers fare against it.",
 	"Notice how the shorter plants coped better against the storm? This is why it's important to adapt your plants' traits based on the events.",
-	"One last thing - keep an eye out for glowing sunflowers. They hold special powers that can help your sunflowers survive longer.",
-	"Select this and another sunflower to unlock Punnett square puzzles. Solve them to reveal its secret bonus.",
+	"One last thing - keep an eye out for glowing sunflowers. Select this and another sunflower to proceed.",
+	"As you can see, a glowing sunflower unlock puzzles in the Punnett Squares. Solve 8 of them to reveal its secret bonus.",
 	"Ta-da! Eight correct answers give you a new sunflower: a special one that you can breed when you're stuck with homozygous traits.",
-	"Good luck, dear apprentice! There are more events waiting, but I'll let you discover those by yourself. Goodbye!"
+	"Good luck, dear apprentice! There are more events looming, but I'll let you discover those by yourself. Goodbye!"
 ]
 
 class Event:
@@ -120,10 +120,13 @@ class Storm:
 	var storm_visuals: Node2D
 	var storm_player: AnimationPlayer
 	
-	func spawn_storm():
+	func spawn_storm(is_tutorial := false):
 		dir = Vector2i(g.rng.randi_range(-1, 1), g.rng.randi_range(-1, 1))
 		if dir == Vector2i(0, 0):
 			dir = Vector2i(1, 0)
+		
+		if is_tutorial:
+			dir = Vector2(-1, 1)
 		
 		match dir:
 			Vector2i(-1, -1):	eye_pos = Vector2i(3, 3)

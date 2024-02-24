@@ -66,7 +66,7 @@ func initialize_game():
 	selected_parents = [null, null]
 	soil_values = []
 	events = {
-		"Storm": 			g.Storm.new(1, [0.90, 0.70], 0.20, 4),
+		"Storm": 			g.Storm.new(1, [0.90, 0.70], 1.20, 4),
 		"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
 		"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
 		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
@@ -193,7 +193,7 @@ func when_parent_selected(parent: Sunflower):
 	update_breeding_panel()
 
 func reset_selected_parents(is_confirm_breeding := false):
-	var sunflower_anim_time = %Sunflower/Animation.current_animation_position
+	#var sunflower_anim_time = %Sunflower/Animation.current_animation_position
 	
 	for sunflower in selected_parents:
 		if sunflower:
@@ -504,6 +504,8 @@ func restart_game(is_gameover = false):
 		
 		if is_event_active("Night"):
 			sound.stop("music_night")
+		
+		if not sound.is_playing("music_day"):
 			sound.play("music_day")
 		
 		save_scores()
@@ -987,4 +989,3 @@ func setup_tutorial():
 	
 	for sunflower in sunflowers:
 		sunflower.set_glow(false)
-

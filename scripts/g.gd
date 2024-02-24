@@ -64,7 +64,7 @@ var counters_text = "[center][color=\"#ddd\"][font_size=24]Generation[/font_size
 var tutorial_lines = [
 	"Awaw",
 	"Welcome to the magical garden of Inheritopia, young apprentice! I'm Mellifera, the garden's Bee Guardian.",
-	"For ages have we been keeping its harmony, but the mysterious force known as \"The Mogusa\" seeks to disrupt the peace through calamities and events.",
+	"We have been keeping its harmony for ages, but the mysterious force known as \"The Mogusa\" seeks to disrupt the peace through calamities and events.",
 	"We'll need your help to save Inheritopia, and for that I am giving you the power of the bees to breed the last remaining sunflowers.",
 	"Hover over a sunflower to reveal its traits, including its flower color, stem height, and root depth.",
 	"This panel shows its phenotype and genotype for the three traits. This also shows its strengths and weaknesses against The Mogusa's disasters.",
@@ -76,7 +76,7 @@ var tutorial_lines = [
 	"Oh no, a storm approaches! Let's see how our sunflowers fare against it.",
 	"Notice how the shorter plants coped better against the storm? This is why it's important to adapt your plants' traits based on the events.",
 	"One last thing - keep an eye out for glowing sunflowers. Select this and another sunflower to proceed.",
-	"As you can see, a glowing sunflower unlock puzzles in the Punnett Squares. Solve 8 of them to reveal its secret bonus.",
+	"As you can see, a glowing sunflower unlocks puzzles in the Punnett Squares. Solve 8 of them to reveal its secret bonus.",
 	"Ta-da! Eight correct answers give you a new sunflower: a special one that you can breed when you're stuck with homozygous traits.",
 	"Good luck, dear apprentice! There are more events looming, but I'll let you discover those by yourself. Goodbye!"
 ]

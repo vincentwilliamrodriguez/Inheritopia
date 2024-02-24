@@ -21,3 +21,5 @@ func stop_all_events():
 		if audio.bus == "GameSFX":
 			stop(audio.name)
 
+func is_playing(sound_name: String):
+	return audio_player.get_node(sound_name).playing

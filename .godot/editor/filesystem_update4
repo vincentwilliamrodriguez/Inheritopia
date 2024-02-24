@@ -1,4 +1,4 @@
-res://scenes/sunflower.tscn
+res://scenes/game.tscn
 res://scripts/Game.gd
 res://themes/default_font.tres
 res://themes/controls_bg.tres
@@ -12,9 +12,7 @@ res://themes/dialog_panel.tres
 res://themes/dialog_text.tres
 res://resources/splash_screen_background.tres
 res://themes/splash_button.tres
-res://scenes/game.tscn
 res://scenes/splash_screen.tscn
-res://scenes/sound.tscn
+res://scenes/sunflower.tscn
 res://scenes/bee.tscn
-res://scripts/Sunflower.gd
-res://scripts/splash_screen.gd
+res://scripts/g.gd

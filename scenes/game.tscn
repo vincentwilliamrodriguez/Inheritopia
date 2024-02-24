@@ -2440,6 +2440,7 @@ expand_icon = true
 [connection signal="canceled" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="hide_popup"]
+[connection signal="confirmed" from="PopupLayer/GameoverScreen" to="." method="restart_game" binds= [true]]
 [connection signal="canceled" from="PopupLayer/SettingsScreen" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/SettingsScreen" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/SettingsScreen" to="." method="hide_popup"]

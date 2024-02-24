@@ -81,6 +81,16 @@ var tutorial_lines = [
 	"Good luck, dear apprentice! There are more events looming, but I'll let you discover those by yourself. Goodbye!"
 ]
 
+
+@onready var flower_images = [
+	preload("res://images/sunflower/sunflower_00.png"),
+	preload("res://images/sunflower/sunflower_01.png")
+]
+@onready var glow_images = [
+	preload("res://images/sunflower/sunflower_00_glow.png"),
+	preload("res://images/sunflower/sunflower_01_glow.png")
+]
+
 class Event:
 	var affected_map: int
 	var affected_trait: int

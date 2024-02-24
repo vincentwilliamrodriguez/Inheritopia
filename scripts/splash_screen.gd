@@ -3,6 +3,7 @@ extends Control
 var progress := []
 var scene_load_status := 0
 var has_loaded := false
+var is_button_pressed := false
 var main_game_path := "res://scenes/game.tscn"
 
 @onready var animation: AnimationPlayer = $Animation
@@ -31,6 +32,11 @@ func _process(_delta: float) -> void:
 		animation.play("Complete")
 
 func _on_button_pressed() -> void:
+	if is_button_pressed:
+		return
+	
+	is_button_pressed = true
+	
 	animation.play("Fade")
 	await animation.animation_finished
 	

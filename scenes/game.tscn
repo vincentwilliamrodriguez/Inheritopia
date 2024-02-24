@@ -1,4 +1,4 @@
-[gd_scene load_steps=148 format=3 uid="uid://bcwkumgg4hhny"]
+[gd_scene load_steps=150 format=3 uid="uid://bcwkumgg4hhny"]
 
 [ext_resource type="Script" path="res://scripts/Game.gd" id="1_bmtli"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_t6ejp"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://bo0tml5kn3ks0" path="res://images/dirt/waterlogged_2.png" id="9_du1dr"]
 [ext_resource type="LabelSettings" uid="uid://cnaya5cupl4tk" path="res://themes/default_label.tres" id="10_vtjxm"]
 [ext_resource type="Texture2D" uid="uid://8nlmqc1u7o4l" path="res://images/sprite_sheet/template.png" id="11_64jia"]
+[ext_resource type="FontFile" uid="uid://dnekuxniggtvh" path="res://fonts/Exo-VariableFont_wght.ttf" id="11_dgbc5"]
 [ext_resource type="Texture2D" uid="uid://dekrfcp64evr5" path="res://images/misc/wooden_sign.png" id="11_yinur"]
 [ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="12_n1y4b"]
 [ext_resource type="Texture2D" uid="uid://bmvhrxm2k47l3" path="res://images/icons/right_arrow.png" id="13_u3o63"]
@@ -636,6 +637,12 @@ tracks/0/keys = {
 _data = {
 "RESET": SubResource("Animation_peyvm"),
 "arrow_default": SubResource("Animation_ubpla")
+}
+
+[sub_resource type="FontVariation" id="FontVariation_ph2rj"]
+base_font = ExtResource("11_dgbc5")
+variation_opentype = {
+2003265652: 600
 }
 
 [sub_resource type="InputEventKey" id="InputEventKey_1ys0g"]
@@ -1293,7 +1300,7 @@ value = 1.0
 [node name="InfoScreen" type="AcceptDialog" parent="PopupLayer"]
 unique_name_in_owner = true
 transparent_bg = true
-title = "Info"
+title = "About"
 initial_position = 1
 size = Vector2i(850, 750)
 unresizable = true
@@ -1309,6 +1316,7 @@ offset_top = 40.0
 offset_right = 800.0
 offset_bottom = 628.0
 theme = ExtResource("3_cey50")
+theme_override_fonts/normal_font = SubResource("FontVariation_ph2rj")
 bbcode_enabled = true
 text = "Inheritopia is a strategy game designed by a group of students as part of a Biology project:
 
@@ -1329,6 +1337,7 @@ Jomar Rimas
 [url=https://richarrest.itch.io/cozy-sim-music-pack-town-life][color=#94ebff]Ricardo Cuello[/color][/url] for the music
 [url=https://pixabay.com/sound-effects/][color=#94ebff]Pixabay[/color][/url] for the sound effects
 [url=https://www.flaticon.com][color=#94ebff]FlatIcon[/color][/url] for the icons
+[url=https://www.freepik.com/free-vector/seamless-pattern-with-bees-sunflowers_15143236.htm][color=#94ebff]lesyaskripak[/color][/url] for the splash screen background
 [url=https://screamingbrainstudios.itch.io/tiny-texture-pack-2][color=#94ebff]Screaming Brain Studios[/color][/url] for the tiles
 [url=https://evskii.itch.io/simple-flower-drawings][color=#94ebff]Evan Williams[/color][/url] for the seeds
 [url=https://jellel.itch.io/beepixelart][color=#94ebff]Jellel[/color][/url] for Mellifera
@@ -1435,7 +1444,7 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-tooltip_text = "Home"
+tooltip_text = "About"
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_t6ejp")
@@ -2438,6 +2447,10 @@ expand_icon = true
 [connection signal="close_requested" from="PopupLayer/InfoScreen" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/InfoScreen" to="." method="hide_popup"]
 [connection signal="meta_clicked" from="PopupLayer/InfoScreen/RichTextLabel" to="PopupLayer/InfoScreen/RichTextLabel" method="_on_meta_clicked"]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/SettingsBtn" to="." method="show_popup" binds= ["SettingsScreen"]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/TutorialBtn" to="." method="show_popup" binds= ["TutorialConfirmation"]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/InfoBtn" to="." method="show_popup" binds= ["InfoScreen"]]
+[connection signal="pressed" from="LeftUI/VBoxContainer/Buttons/RestartBtn" to="." method="show_popup" binds= ["RestartConfirmation"]]
 [connection signal="draw" from="CenterUI/Garden/GardenContainer/OverlayLayer/Overlay" to="." method="_on_overlay_draw"]
 [connection signal="gui_input" from="CenterUI/SignLayer/SignContainer/SignBody/Sign/Counters" to="CenterUI/SignLayer/SignContainer/SignBody" method="_on_counters_gui_input"]
 [connection signal="pressed" from="RightUI/VBoxContainer/BreedingPanel/HBoxContainer/BreedBtn" to="." method="confirm_breeding"]

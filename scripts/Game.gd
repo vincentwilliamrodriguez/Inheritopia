@@ -128,11 +128,7 @@ func _input(event):
 				if selected_parent and not selected_parent.is_receiver:
 					when_parent_selected(selected_parent)
 					
-			if event.button_index == MOUSE_BUTTON_RIGHT:
-				if tutorial.visible:
-					for sunflower in selected_parents:
-						tutorial.cur_stack.pop_back()
-					
+			if event.button_index == MOUSE_BUTTON_RIGHT:					
 				reset_selected_parents()
 	
 	# Trait info
@@ -171,6 +167,7 @@ func check_if_all_are_bred():
 func when_parent_selected(parent: Sunflower):
 	if not selected_parents[0]:
 		selected_parents[0] = parent
+		#selected_parents[0].get_node("Animation").stop()
 		sound.play("select_1")
 		
 		if tutorial.visible:
@@ -178,7 +175,8 @@ func when_parent_selected(parent: Sunflower):
 		
 	elif not selected_parents[1]:
 		selected_parents[1] = parent
-		parent.modulate = Color("Yellow")
+		#selected_parents[1].get_node("Animation").stop()
+		selected_parents[1].modulate = Color(1.0, 1.0, 0.3)
 		sound.play("select_2")
 		
 		if tutorial.visible:
@@ -194,19 +192,28 @@ func when_parent_selected(parent: Sunflower):
 				
 	update_breeding_panel()
 
-func reset_selected_parents():
+func reset_selected_parents(is_confirm_breeding := false):
+	var sunflower_anim_time = %Sunflower/Animation.current_animation_position
+	
 	for sunflower in selected_parents:
-		if sunflower and not sunflower.is_receiver:
-			sunflower.modulate = Color("White")
+		if sunflower:
+			if not sunflower.is_receiver:
+				sunflower.modulate = Color("White")
 			
-		
+			if not is_confirm_breeding:
+				#sunflower.get_node("Animation").play("Idle")
+				#sunflower.get_node("Animation").seek(sunflower_anim_time)
+				
+				if tutorial.visible:
+					tutorial.cur_stack.pop_back()
+			
 	selected_parents = [null, null]
 	update_breeding_panel()
 
 func confirm_breeding():
 	if phase_num == 1 and selected_parents[0] and selected_parents[1]:
 		selected_parents[1].is_receiver = true
-		selected_parents[1].modulate = Color("Green")
+		selected_parents[1].modulate = Color(0.5, 1.0, 0.5)
 		
 		breeding_orders.append(selected_parents)
 		sound.play("ping")
@@ -219,7 +226,7 @@ func confirm_breeding():
 			
 			tutorial.check_stack(selected_parents[1].pos)
 		
-		reset_selected_parents()
+		reset_selected_parents(true)
 		
 
 func update_traits_panel():
@@ -343,6 +350,13 @@ func update_preview(node: Node, sunflower: Sunflower):
 	preview.get_node("ScoreParticle").visible = false
 	preview.scale = (200.0 / 250.0) * node.size / 200.0
 	
+	#if sunflower.get_node("Animation").is_playing():
+		#var cur_animation_time = sunflower.get_node("Animation").current_animation_position
+		#preview.get_node("Animation").play("Idle")
+		#preview.get_node("Animation").seek(cur_animation_time, true)
+	#else:
+	preview.get_node("Animation").play("RESET")
+	
 	var cur_size = Vector2(200, 200) * preview.scale
 	preview.position = (node.size - cur_size) / 2
 	preview.modulate = Color("White")
@@ -387,19 +401,22 @@ func _on_overlay_draw():
 	if (phase_num == 1):
 		# Selected parents
 		if selected_parents[0]:
-			var center_1 = selected_parents[0].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
+			var parent_1 = selected_parents[0]
+			var parent_2 = selected_parents[1]
+			
+			var center_1 = parent_1.position + parent_1.flower_center + parent_1.get_flower_offset()
 			var center_2 = overlay.to_local(get_viewport().get_mouse_position())
 			
-			if selected_parents[1]:
-				center_2 = selected_parents[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
+			if parent_2:
+				center_2 = parent_2.position + parent_2.flower_center + parent_2.get_flower_offset()
 			
 			overlay.draw_line(center_1, center_2, g.SELECTED_PARENT_COLOR, 5.0)
 			overlay.draw_circle(center_2, 10, g.SELECTED_PARENT_COLOR)
 		
 		# Already parents
 		for order in breeding_orders:
-			var center_1 = order[0].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
-			var center_2 = order[1].position + Vector2(g.SQUARE_SIZE / 2, g.SQUARE_SIZE / 2)
+			var center_1 = order[0].position + order[0].flower_center + order[0].get_flower_offset()
+			var center_2 = order[1].position + order[1].flower_center + order[1].get_flower_offset()
 			
 			overlay.draw_line(center_1, center_2, g.PARENT_COLOR, 5.0)
 			overlay.draw_circle(center_2, 10, g.PARENT_COLOR)
@@ -467,10 +484,6 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 
 func undo_breeding():
 	if phase_num == 1:
-		if tutorial.visible:
-			for sunflower in selected_parents:
-				tutorial.cur_stack.pop_back()
-				
 		reset_selected_parents()
 		
 		if len(breeding_orders) > 0:
@@ -518,6 +531,10 @@ func transition_phase():
 	selected_parents = [null, null]
 	correct_puzzles = 0
 	update_breeding_panel()
+	
+	# Stop sunflowers' idle animation
+	for sunflower in sunflowers:
+		sunflower.get_node("Animation").pause()
 	
 	# Skip when empty
 	if len(breeding_orders) == 0:
@@ -619,8 +636,9 @@ func add_bee(parent_1: Sunflower, parent_2: Sunflower):
 	var bee = preload("res://scenes/bee.tscn").instantiate()
 	bees.add_child.call_deferred(bee)
 	
-	var waypoint_1 = parent_1.position + parent_1.flower_center
-	var waypoint_2 = parent_2.position + parent_2.flower_center
+	var waypoint_1 = parent_1.position + parent_1.flower_center + parent_1.get_flower_offset() + Vector2(0, 16)
+	var waypoint_2 = parent_2.position + parent_2.flower_center + parent_2.get_flower_offset() + Vector2(0, 16)
+	
 	var tween = create_tween()
 	bee.position = Vector2(-70, clamp(g.rng.randfn(waypoint_1.y, 100), 0, 800))
 	
@@ -969,3 +987,4 @@ func setup_tutorial():
 	
 	for sunflower in sunflowers:
 		sunflower.set_glow(false)
+

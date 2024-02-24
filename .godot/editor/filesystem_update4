@@ -1,3 +1,4 @@
+res://scenes/sunflower.tscn
 res://scripts/Game.gd
 res://themes/default_font.tres
 res://themes/controls_bg.tres
@@ -9,9 +10,11 @@ res://themes/popup_theme.tres
 res://themes/default_label.tres
 res://themes/dialog_panel.tres
 res://themes/dialog_text.tres
-res://scenes/splash_screen.tscn
-res://scripts/splash_screen.gd
+res://resources/splash_screen_background.tres
+res://themes/splash_button.tres
 res://scenes/game.tscn
+res://scenes/splash_screen.tscn
 res://scenes/sound.tscn
-res://scripts/Sound.gd
-res://scripts/TutorialLayer.gd
+res://scenes/bee.tscn
+res://scripts/Sunflower.gd
+res://scripts/splash_screen.gd

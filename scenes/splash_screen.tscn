@@ -1,9 +1,52 @@
-[gd_scene load_steps=11 format=3 uid="uid://cu6jkeubho3kx"]
+[gd_scene load_steps=20 format=3 uid="uid://cu6jkeubho3kx"]
 
-[ext_resource type="LabelSettings" uid="uid://cnaya5cupl4tk" path="res://themes/default_label.tres" id="1_c11un"]
 [ext_resource type="Script" path="res://scripts/splash_screen.gd" id="1_lo2wg"]
 [ext_resource type="Theme" uid="uid://ddeymmf1elgc0" path="res://themes/default_theme.tres" id="2_efd1l"]
+[ext_resource type="Texture2D" uid="uid://chrlem71ai7r" path="res://images/art/splash_background.png" id="2_i5hah"]
+[ext_resource type="Shader" uid="uid://htp0bc3p1tjc" path="res://resources/splash_screen_background.tres" id="2_md860"]
 [ext_resource type="FontVariation" uid="uid://dm0il003r5dhb" path="res://themes/default_font.tres" id="2_r1wnq"]
+[ext_resource type="StyleBox" uid="uid://c5dw1jo4tvtl0" path="res://themes/splash_button.tres" id="3_borum"]
+[ext_resource type="FontFile" uid="uid://dnekuxniggtvh" path="res://fonts/Exo-VariableFont_wght.ttf" id="3_snidq"]
+[ext_resource type="Texture2D" uid="uid://crtxosniyycn2" path="res://images/art/splash_logo.png" id="4_vethw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4fbmc"]
+shader = ExtResource("2_md860")
+shader_parameter/direction = Vector2(1, 0)
+shader_parameter/speed_scale = 0.05
+
+[sub_resource type="FontVariation" id="FontVariation_v2a6j"]
+base_font = ExtResource("3_snidq")
+variation_opentype = {
+2003265652: 800
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5bh5r"]
+content_margin_top = 10.0
+bg_color = Color(1, 0.886275, 0.666667, 1)
+border_width_bottom = 10
+border_color = Color(0.572549, 0.498039, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_bottom = 10.0
+shadow_color = Color(0.0588235, 0.427451, 0.427451, 0.321569)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_caq0i"]
+content_margin_top = 10.0
+bg_color = Color(1, 0.8, 0.376471, 1)
+border_width_bottom = 10
+border_color = Color(0.572549, 0.498039, 0, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+expand_margin_bottom = 10.0
+shadow_color = Color(0.0588235, 0.427451, 0.427451, 0.321569)
+shadow_size = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sadmg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_78if8"]
 bg_color = Color(0, 0, 0, 0.352941)
@@ -31,7 +74,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0.5, 0.7),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(810, 1104), Vector2(810, 858)]
+"values": [Vector2(810, 1104), Vector2(810, 820)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -43,7 +86,22 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(560, 957), Vector2(560, 1113)]
+"values": [Vector2(560, 880), Vector2(560, 1113)]
+}
+
+[sub_resource type="Animation" id="Animation_4a6gr"]
+resource_name = "Fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("FadeColor:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_6kfp1"]
@@ -58,7 +116,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(560, 957)]
+"values": [Vector2(560, 880)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -85,21 +143,6 @@ tracks/2/keys = {
 "values": [Vector2(810, 1104)]
 }
 
-[sub_resource type="Animation" id="Animation_4a6gr"]
-resource_name = "Fade"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("FadeColor:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.1, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4rtvx"]
 _data = {
 "Complete": SubResource("Animation_jajqr"),
@@ -116,14 +159,25 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lo2wg")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="BGColor" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.8, 1, 0.780392, 1)
+color = Color(0.815686, 0.866667, 0.819608, 1)
+
+[node name="BGImage" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_4fbmc")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_i5hah")
+stretch_mode = 1
 
 [node name="FadeColor" type="ColorRect" parent="."]
 z_index = 1
@@ -134,23 +188,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0)
-
-[node name="ProgressLabel" type="Label" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -70.5
-offset_top = -151.0
-offset_right = 70.5
-offset_bottom = -78.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "AW%"
-label_settings = ExtResource("1_c11un")
 
 [node name="Button" type="Button" parent="."]
 custom_minimum_size = Vector2(300, 100)
@@ -166,8 +203,16 @@ offset_right = 1110.0
 offset_bottom = 1204.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_default_cursor_shape = 2
 theme = ExtResource("2_efd1l")
-text = "Play"
+theme_override_fonts/font = SubResource("FontVariation_v2a6j")
+theme_override_font_sizes/font_size = 54
+theme_override_styles/normal = ExtResource("3_borum")
+theme_override_styles/hover = SubResource("StyleBoxFlat_5bh5r")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_caq0i")
+theme_override_styles/disabled = ExtResource("3_borum")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sadmg")
+text = "PLAY"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 custom_minimum_size = Vector2(800, 50)
@@ -178,9 +223,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = 560.0
-offset_top = 957.0
+offset_top = 880.0
 offset_right = 1360.0
-offset_bottom = 1007.0
+offset_bottom = 930.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 0.901961)
@@ -196,5 +241,10 @@ max_value = 1.0
 libraries = {
 "": SubResource("AnimationLibrary_4rtvx")
 }
+
+[node name="SplashLogo" type="Sprite2D" parent="."]
+position = Vector2(960, 481)
+scale = Vector2(1.2087, 1.2087)
+texture = ExtResource("4_vethw")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

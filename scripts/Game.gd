@@ -66,11 +66,11 @@ func initialize_game():
 	selected_parents = [null, null]
 	soil_values = []
 	events = {
-		"Storm": 			g.Storm.new(1, [0.90, 0.70], 1.20, 4),
+		"Storm": 			g.Storm.new(1, [0.90, 0.50], 1.20, 4),
 		"Waterlogging": 	g.Waterlogging.new(2, [0.70, 0.50], 0.00, 2),
-		"Drought": 			g.Event.new(2, [0.80, 0.95], 0.25),
+		"Drought": 			g.Event.new(2, [0.70, 0.95], 0.25),
 		"Pest Invasion": 	g.Pest.new(0, [0.40, 0.40], 0.15, 2),
-		"Night": 			g.Event.new(1, [0.85, 0.95], 0.00),
+		"Night": 			g.Event.new(1, [0.75, 0.95], 0.00),
 		"Fertility": 		g.Event.new(0, [1.00, 1.00], 0.05)
 	}
 	

@@ -116,6 +116,8 @@ func _process(_delta):
 	counters.text = g.counters_text % [generation_num, score, phase_name]
 	
 	overlay.queue_redraw()
+	
+	
 
 func _input(event):	
 	# Breeding Phase control
@@ -128,7 +130,7 @@ func _input(event):
 				if selected_parent and not selected_parent.is_receiver:
 					when_parent_selected(selected_parent)
 					
-			if event.button_index == MOUSE_BUTTON_RIGHT:					
+			if event.button_index == MOUSE_BUTTON_RIGHT:
 				reset_selected_parents()
 	
 	# Trait info
@@ -151,6 +153,9 @@ func _input(event):
 				
 
 func next_generation():
+	if disabled_until(10):
+		return
+		
 	if phase_num == 1:
 		if not check_if_all_are_bred():
 			show_popup("NextConfirmation")
@@ -165,6 +170,9 @@ func check_if_all_are_bred():
 	return true
 
 func when_parent_selected(parent: Sunflower):
+	if disabled_until(6) or not did_press_arrow(parent.pos):
+		return
+	
 	if not selected_parents[0]:
 		selected_parents[0] = parent
 		#selected_parents[0].get_node("Animation").stop()
@@ -211,6 +219,9 @@ func reset_selected_parents(is_confirm_breeding := false):
 	update_breeding_panel()
 
 func confirm_breeding():
+	if disabled_until(8):
+		return
+	
 	if phase_num == 1 and selected_parents[0] and selected_parents[1]:
 		selected_parents[1].is_receiver = true
 		selected_parents[1].modulate = Color(0.5, 1.0, 0.5)
@@ -483,6 +494,9 @@ func breed(parent_1: Sunflower, parent_2: Sunflower):
 	return genes_seed
 
 func undo_breeding():
+	if disabled_until(8):
+		return
+	
 	if phase_num == 1:
 		reset_selected_parents()
 		
@@ -979,7 +993,7 @@ func change_volume(value: float, bus_name: String):
 	AudioServer.set_bus_volume_db(bus_index, linear_to_db(value))
 
 func check_if_tutorial_goal_met(line_num: int, condition: bool) -> void:
-	if tutorial.tutorial_num == line_num and not tutorial.can_continue:
+	if tutorial.visible and tutorial.tutorial_num == line_num and not tutorial.can_continue:
 		if condition:
 			tutorial_continue.emit()
 
@@ -989,3 +1003,15 @@ func setup_tutorial():
 	
 	for sunflower in sunflowers:
 		sunflower.set_glow(false)
+
+func disabled_until(threshold: int) -> bool:
+	return tutorial.visible and tutorial.tutorial_num < threshold
+
+func did_press_arrow(sunflower_pos: int):
+	var len_needed = len(tutorial.needed_stack)
+	var len_cur = len(tutorial.cur_stack)
+	
+	if tutorial.visible and len_needed > 0 and len_cur < len_needed:
+		return tutorial.needed_stack[len_cur] == sunflower_pos
+	else:
+		return true

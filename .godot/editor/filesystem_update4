@@ -12,3 +12,8 @@ res://themes/dialog_panel.tres
 res://themes/dialog_text.tres
 res://resources/splash_screen_background.tres
 res://themes/splash_button.tres
+res://scenes/splash_screen.tscn
+res://scenes/sunflower.tscn
+res://scenes/bee.tscn
+res://scripts/Sound.gd
+res://scenes/sound.tscn

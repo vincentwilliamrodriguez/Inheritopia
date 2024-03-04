@@ -1062,7 +1062,6 @@ visible = false
 script = ExtResource("24_ottke")
 
 [node name="Shade" type="Polygon2D" parent="TutorialLayer"]
-modulate = Color(1, 1, 1, 0)
 position = Vector2(-421.765, -247.623)
 scale = Vector2(1.51653, 1.55653)
 color = Color(0, 0, 0, 0.486275)
@@ -1078,10 +1077,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -501.0
-offset_top = 43.0
-offset_right = 499.0
-offset_bottom = 273.0
+offset_left = 459.0
+offset_top = 1123.0
+offset_right = 1459.0
+offset_bottom = 1353.0
 grow_horizontal = 2
 grow_vertical = 0
 focus_mode = 2
@@ -1146,6 +1145,7 @@ libraries = {
 autoplay = "arrow_default"
 
 [node name="Arrow" type="Sprite2D" parent="TutorialLayer"]
+modulate = Color(0.803922, 0.803922, 0.803922, 1)
 position = Vector2(661, 268)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("29_peoqy")
@@ -2429,8 +2429,8 @@ expand_icon = true
 [connection signal="gui_input" from="TutorialLayer/DialoguePanel" to="TutorialLayer" method="_on_dialogue_panel_gui_input"]
 [connection signal="canceled" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
-[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="restart_game"]
+[connection signal="confirmed" from="PopupLayer/RestartConfirmation" to="." method="hide_popup"]
 [connection signal="canceled" from="PopupLayer/TutorialConfirmation" to="." method="hide_popup"]
 [connection signal="close_requested" from="PopupLayer/TutorialConfirmation" to="." method="hide_popup"]
 [connection signal="confirmed" from="PopupLayer/TutorialConfirmation" to="." method="hide_popup"]
